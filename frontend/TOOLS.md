@@ -1,4 +1,4 @@
-logo : https://i.ibb.co/412P9mk/Group-30.png
+<!-- logo : https://i.ibb.co/412P9mk/Group-30.png
 ilustrasi signup : https://i.ibb.co/jGk9x4j/3d-flame-business-woman-using-a-phone-with-fingerprint-scanner.png
 ilustrasi sigin: https://i.ibb.co/wMpR7ty/3d-flame-man-standing-next-to-red-phone-with-project-statistics-on-screen.png
 ilustrasi css1 : https://i.ibb.co/p3457nC/3d-flame-man-in-suit-talking-to-artificial-intelligence-assistant.png
@@ -20,4 +20,4 @@ green
 success : #3FCD1B
 
 gray
-unfinished : #D9D9D9
+unfinished : #D9D9D9 -->
