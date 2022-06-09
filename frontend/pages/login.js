@@ -21,7 +21,7 @@ export default function Login() {
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
         <Stack spacing={4} w={"full"} maxW={"md"}>
           <Heading color={"#205375"} fontSize={"2xl"}>
-            Get's Started
+            Get Started
           </Heading>
           <FormControl color={"#205375"} id="username">
             <FormLabel>Username</FormLabel>

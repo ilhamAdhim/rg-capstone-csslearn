@@ -14,6 +14,7 @@ import Footer from "./Footer";
 const Layout = ({ children }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const bgColor = useColorModeValue("gray.100", "gray.900");
 
   if (router.pathname === "/login" || router.pathname === "/register")
     return (
@@ -24,7 +25,7 @@ const Layout = ({ children }) => {
   else
     return (
       <>
-        <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+        <Box minH="100vh" bg={bgColor}>
           <SidebarContent
             onClose={() => onClose}
             display={{ base: "none", md: "block" }}
