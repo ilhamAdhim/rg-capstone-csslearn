@@ -15,7 +15,7 @@ const Footer = () => {
       </Flex>
       <Text align="center" mt="6">
         <Link
-          href="https://www.github.com/ilhamadhim"
+          to="https://www.github.com/ilhamadhim"
           isExternal
           rel="noopener noreferrer"
         >

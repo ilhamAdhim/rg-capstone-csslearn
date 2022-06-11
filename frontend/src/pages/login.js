@@ -9,9 +9,9 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
-export default function Register() {
+export default function Login() {
   return (
     <Stack
       bg={"white"}
@@ -21,7 +21,7 @@ export default function Register() {
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
         <Stack spacing={4} w={"full"} maxW={"md"}>
           <Heading color={"#205375"} fontSize={"2xl"}>
-            Sign Up
+            Get Started
           </Heading>
           <FormControl color={"#205375"} id="username">
             <FormLabel>Username</FormLabel>
@@ -30,16 +30,6 @@ export default function Register() {
               variant="outline"
               color="teal"
               placeholder="username"
-              _placeholder={{ color: "inherit" }}
-            />
-          </FormControl>
-          <FormControl color={"#205375"} id="email">
-            <FormLabel>Email</FormLabel>
-            <Input
-              borderColor={"#205375"}
-              variant="outline"
-              color="teal"
-              placeholder="email"
               _placeholder={{ color: "inherit" }}
             />
           </FormControl>
@@ -60,25 +50,26 @@ export default function Register() {
               justify={"space-between"}
             ></Stack>
             <Button colorScheme={"blue"} variant={"solid"}>
-              Sign Up
+              Sign In
             </Button>
             <Text color={"#205375"} flex={"1"} align={"center"}>
-              Already have an account?
+              Not registered yet?
             </Text>
-            <Link href="/login" passHref>
+            <Link to="/register">
               <Button colorScheme={"blue"} variant={"solid"}>
-                Sign In
+                Sign Up
               </Button>
             </Link>
           </Stack>
         </Stack>
       </Flex>
       <Flex bg={"#205375"} flex={1}>
+        {/* <Image alt={"logo"} src="https://i.ibb.co/412P9mk/Group-30.png" /> */}
         <Image
           alt={"Login Image"}
           objectFit={"cover"}
           src={
-            "https://i.ibb.co/wMpR7ty/3d-flame-man-standing-next-to-red-phone-with-project-statistics-on-screen.png"
+            "https://i.ibb.co/jGk9x4j/3d-flame-business-woman-using-a-phone-with-fingerprint-scanner.png"
           }
         />
       </Flex>

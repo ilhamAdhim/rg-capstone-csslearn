@@ -6,17 +6,17 @@ import {
   DrawerContent,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import SidebarContent from "./Sidebar";
 import { MobileNav } from "./Navbar";
 import Footer from "./Footer";
+import { useLocation } from "react-router-dom";
 
 const Layout = ({ children }) => {
-  const router = useRouter();
+  const location = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue("gray.100", "gray.900");
 
-  if (router.pathname === "/login" || router.pathname === "/register")
+  if (location.pathname === "/login" || location.pathname === "/register")
     return (
       <Box margin="0 auto" transition="0.5s ease-out">
         {children}

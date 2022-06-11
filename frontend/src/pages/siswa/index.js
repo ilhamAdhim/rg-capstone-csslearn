@@ -1,7 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
+import Layout from "../../components/layout";
 
-function Home() {
+function HomeSiswa() {
   const [dataTopic, setDataTopic] = useState([]);
   const [isTopicLoaded, setIsTopicLoaded] = useState(false);
 
@@ -9,12 +10,7 @@ function Home() {
 
   useEffect(() => {}, []);
 
-  return (
-    <>
-      Ini home nya siswa
-      <Box>hello</Box>
-    </>
-  );
+  return <Layout>Hello ini halaman home siswa</Layout>;
 }
 
-export default Home;
+export default HomeSiswa;

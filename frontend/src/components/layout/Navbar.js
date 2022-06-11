@@ -8,22 +8,17 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
   Text,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
 } from "@chakra-ui/react";
-import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
+import { FiMenu, FiChevronDown } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
-import { useRouter } from "next/router";
+import { Link, useLocation } from "react-router-dom";
+import { ucfirst } from "../../common";
 
 export const NavItem = ({ icon, children, ...rest }) => {
   return (
     <Link
-      href="#"
+      to="#"
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
@@ -57,7 +52,8 @@ export const NavItem = ({ icon, children, ...rest }) => {
 };
 
 export const MobileNav = ({ onOpen, ...rest }) => {
-  const router = useRouter();
+  const location = useLocation();
+  console.log(location);
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -105,12 +101,9 @@ export const MobileNav = ({ onOpen, ...rest }) => {
           >
             <Text fontSize="sm">Justina Clark</Text>
             <Text fontSize="xs" color="gray.400">
-              {router.pathname.split("/")}
+              {ucfirst(location?.pathname?.split("/")[1])}
             </Text>
           </VStack>
-          <Box display={{ base: "none", md: "flex" }}>
-            <FiChevronDown />
-          </Box>
         </HStack>
       </Flex>
     </Flex>
