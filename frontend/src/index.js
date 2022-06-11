@@ -8,10 +8,15 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import { ChakraProvider } from "@chakra-ui/react";
 import NotFound from "./pages/NotFound";
-import HomeSiswa from "./pages/siswa";
 import HomeAdmin from "./pages/admin";
 import Latihan from "./pages/siswa/latihan";
 import Pertanyaan from "./pages/siswa/latihan/pertanyaan";
+import Materi from "./pages/siswa/materi";
+import ProfilSiswa from "./pages/siswa/ProfilSiswa";
+import LatihanAdminPage from "./pages/admin/latihan";
+import MateriAdminPage from "./pages/admin/materi";
+import ProfileAdminPage from "./pages/admin/profile";
+import DaftarSiswa from "./pages/admin/siswa";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -24,11 +29,34 @@ root.render(
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
 
-          <Route path="siswa" element={<HomeSiswa />} />
-          <Route path="siswa/pertanyaan" element={<Pertanyaan />} />
-          <Route path="siswa/latihan" element={<Latihan />} />
+          {/* Route Siswa */}
+          <Route path="siswa" element={<Materi />} />
 
-          <Route path="admin" element={<HomeAdmin />}></Route>
+          <Route path="siswa/pertanyaan" element={<Pertanyaan />} />
+          <Route path="siswa/pertanyaan" element={<Pertanyaan />} />
+
+          <Route path="siswa/latihan" element={<Latihan />} />
+          <Route path="siswa/materi" element={<Materi />} />
+          <Route path="siswa/profil" element={<ProfilSiswa />} />
+          {/* End Route Siswa */}
+
+          {/* Route Admin */}
+
+          <Route path="admin" element={<HomeAdmin />} />
+          <Route path="admin/latihan" element={<LatihanAdminPage />} />
+          <Route path="admin/materi" element={<MateriAdminPage />} />
+          <Route path="admin/profil" element={<ProfileAdminPage />} />
+
+          <Route path="admin/latihan" element={<LatihanAdminPage />} />
+          <Route
+            path="admin/latihan/:idLatihan"
+            element={<LatihanAdminPage />}
+          />
+
+          <Route path="admin/siswa" element={<DaftarSiswa />} />
+          {/* // TODO: Element komponennya diganti */}
+          <Route path="admin/siswa/:idMateri" element={<DaftarSiswa />} />
+          {/* End Route Admin */}
 
           {/* Not found page */}
           <Route path="*" element={<NotFound />} />

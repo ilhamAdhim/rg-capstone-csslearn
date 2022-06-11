@@ -10,15 +10,17 @@ import {
   useColorModeValue,
   Text,
 } from "@chakra-ui/react";
-import { FiMenu, FiChevronDown } from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
 import { Link, useLocation } from "react-router-dom";
 import { ucfirst } from "../../common";
 
-export const NavItem = ({ icon, children, ...rest }) => {
+export const NavItem = ({ icon, text, ...rest }) => {
+  const location = useLocation();
+
   return (
     <Link
-      to="#"
+      to={`/${localStorage.getItem("current_role")}/${text.toLowerCase()}`}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
@@ -30,9 +32,12 @@ export const NavItem = ({ icon, children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
+          bg: "cyan.800",
           color: "white",
         }}
+        bg={location.pathname.includes(text) ? "cyan.800" : "transparent"}
+        color={location.pathname.includes(text) ? "white" : "unset"}
+        fontWeight={location.pathname.includes(text) ? "bold" : "normal"}
         {...rest}
       >
         {icon && (
@@ -45,7 +50,7 @@ export const NavItem = ({ icon, children, ...rest }) => {
             as={icon}
           />
         )}
-        {children}
+        {ucfirst(text)}
       </Flex>
     </Link>
   );
@@ -53,7 +58,7 @@ export const NavItem = ({ icon, children, ...rest }) => {
 
 export const MobileNav = ({ onOpen, ...rest }) => {
   const location = useLocation();
-  console.log(location);
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -63,7 +68,7 @@ export const MobileNav = ({ onOpen, ...rest }) => {
       bg={useColorModeValue("white", "gray.900")}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-      justifyContent={{ base: "space-between", md: "flex-end" }}
+      justifyContent={{ base: "space-between", md: "space-between" }}
       {...rest}
     >
       <IconButton
@@ -74,6 +79,10 @@ export const MobileNav = ({ onOpen, ...rest }) => {
         icon={<FiMenu />}
       />
 
+      <Box display={{ base: "none", md: "block" }}>
+        Welcome to CSSLearn, Kelompok 70!
+      </Box>
+
       <Text
         display={{ base: "flex", md: "none" }}
         fontSize="2xl"
@@ -82,10 +91,8 @@ export const MobileNav = ({ onOpen, ...rest }) => {
       >
         CSS Learn
       </Text>
-
       <Flex gap="4">
         <ThemeToggle />
-
         <HStack>
           <Avatar
             size={"sm"}
