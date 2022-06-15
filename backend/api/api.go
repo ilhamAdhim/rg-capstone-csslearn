@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"*github.com/rg-km/final-project-engineering-70/backend/repository"
+	"github.com/rg-km/final-project-engineering-70/backend/repository"
 )
 
 type API struct {

@@ -28,61 +28,10 @@ func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 
 	}
 
-
-
-	func (api *API) AuthMiddleware (next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-			api.AllowOrigin(w, r)
-
-			//ambil token dari cookie yang dikirim ketika request
-			//return unauthorized ketika token kosong
-			//return bad request ketika field token tidak ada
-
-			c, err := r.Cookie("token")
-			if err != nil {
-				if err == http.ErrNoCookie{
-					w.WriteHeader(http.StatusUnauthorized)
-					return
-				}
-
-				w.WriteHeader(http.StatusBadRequest)
-				return
-			}
-
-			//mengambil value dari cookie token
-			tokenStr := c.Value
-			claims := &Claims{}
-
-		//1. parse JWT token ke dalam claim
-		//2. return unauthorized ketika signature invalid
-		//3. return bad request ketika field token tidak ada
-		//4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
-		tkn, err := jwt.ParseWithClaims(tokenStr, claims, func(t *jwt.Token) (interface{}, error){
-			return jwtkey, nil
-		})
-
-			if err != nil {
-				if err == jwt.ErrSignatureInvalid {
-					w.WriteHeader(http.StatusUnauthorized)
-					return
-				}
-			}
-
-			if !tkn.Valid {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
-		
-		//validasi
-		ctx := context.WithValue(r.Context(), "username", claims.Username)
-		next.ServeHTTP(w, r.WithContext(ctx))
-		return
-
-	})
 }
 
-func (api *API) AdminMiddleware (next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+func (api *API) AuthMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
 
 		//ambil token dari cookie yang dikirim ketika request
@@ -91,7 +40,7 @@ func (api *API) AdminMiddleware (next http.Handler) http.Handler {
 
 		c, err := r.Cookie("token")
 		if err != nil {
-			if err == http.ErrNoCookie{
+			if err == http.ErrNoCookie {
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
@@ -104,13 +53,13 @@ func (api *API) AdminMiddleware (next http.Handler) http.Handler {
 		tokenStr := c.Value
 		claims := &Claims{}
 
-	//1. parse JWT token ke dalam claim
-	//2. return unauthorized ketika signature invalid
-	//3. return bad request ketika field token tidak ada
-	//4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
-	tkn, err := jwt.ParseWithClaims(tokenStr, claims, func(t *jwt.Token) (interface{}, error){
-		return jwtkey, nil
-	})
+		//1. parse JWT token ke dalam claim
+		//2. return unauthorized ketika signature invalid
+		//3. return bad request ketika field token tidak ada
+		//4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
+		tkn, err := jwt.ParseWithClaims(tokenStr, claims, func(t *jwt.Token) (interface{}, error) {
+			return jwtkey, nil
+		})
 
 		if err != nil {
 			if err == jwt.ErrSignatureInvalid {
@@ -123,26 +72,77 @@ func (api *API) AdminMiddleware (next http.Handler) http.Handler {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
-	
-	//validasi
-	if claims.Role == "admin"{
 
+		//validasi
 		ctx := context.WithValue(r.Context(), "username", claims.Username)
 		next.ServeHTTP(w, r.WithContext(ctx))
 		return
 
-	}
+	})
+}
 
-	w.WriteHeader(http.StatusForbidden)	
+func (api *API) AdminMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		api.AllowOrigin(w, r)
+
+		//ambil token dari cookie yang dikirim ketika request
+		//return unauthorized ketika token kosong
+		//return bad request ketika field token tidak ada
+
+		c, err := r.Cookie("token")
+		if err != nil {
+			if err == http.ErrNoCookie {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		//mengambil value dari cookie token
+		tokenStr := c.Value
+		claims := &Claims{}
+
+		//1. parse JWT token ke dalam claim
+		//2. return unauthorized ketika signature invalid
+		//3. return bad request ketika field token tidak ada
+		//4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
+		tkn, err := jwt.ParseWithClaims(tokenStr, claims, func(t *jwt.Token) (interface{}, error) {
+			return jwtkey, nil
+		})
+
+		if err != nil {
+			if err == jwt.ErrSignatureInvalid {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+		}
+
+		if !tkn.Valid {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+
+		//validasi
+		if claims.Role == "admin" {
+
+			ctx := context.WithValue(r.Context(), "username", claims.Username)
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
+
+		}
+
+		w.WriteHeader(http.StatusForbidden)
 
 	})
 }
 
-func (api *API) GET(next http.Handler) http.Handler{
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+func (api *API) GET(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
 		encoder := json.NewEncoder(w)
-		if r.Method != http.MethodGet{
+		if r.Method != http.MethodGet {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			encoder.Encode(AuthErrorRespone{Error: "Need GET Method"})
 			return
@@ -152,17 +152,16 @@ func (api *API) GET(next http.Handler) http.Handler{
 	})
 }
 
-func (api *API) POST(next http.Handler) http.Handler{
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+func (api *API) POST(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
 		encoder := json.NewEncoder(w)
-		if r.Method != http.MethodPost{
+		if r.Method != http.MethodPost {
 			w.WriteHeader(http.StatusMethodNotAllowed)
-			encoder.Encode(AuthErrorRespone{Error: "Need GET Method"})
+			encoder.Encode(AuthErrorRespone{Error: "Need POST Method!"})
 			return
 		}
 
 		next.ServeHTTP(w, r)
 	})
 }
-
