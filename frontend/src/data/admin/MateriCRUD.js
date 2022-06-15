@@ -18,7 +18,12 @@ const deleteMateri = async (id) => {
 
 const getMateri = async () => {
   const response = await axios.get(MOCK_API_URL_MATERI);
-  console.log(response);
+
+  return response.data;
+};
+
+const mockGetMateriFromCourse = async () => {
+  const response = await axios.get(MOCK_API_URL_MATERI);
   return response.data;
 };
 
@@ -27,4 +32,11 @@ const getDetailMateri = async (id) => {
   return response.data;
 };
 
-export { createMateri, updateMateri, deleteMateri, getMateri, getDetailMateri };
+export {
+  createMateri,
+  updateMateri,
+  deleteMateri,
+  getMateri,
+  getDetailMateri,
+  mockGetMateriFromCourse,
+};

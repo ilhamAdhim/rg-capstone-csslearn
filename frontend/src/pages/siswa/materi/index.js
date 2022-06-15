@@ -13,30 +13,30 @@ import useDocumentTitle from "../../../hooks/useDocumentTitle";
 
 function Materi() {
   useDocumentTitle(`Materi`);
-  const [selectedTopic, setSelectedTopic] = useState({});
-  const [isTopicSelected, setIsTopicSelected] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState({});
+  const [isCourseSelected, setIsCourseSelected] = useState(false);
 
   return (
     <>
       <Layout>
         <Heading as="h1"> Let’s Pick The Course </Heading>
         <CourseList
-          setSelectedTopic={setSelectedTopic}
-          setIsTopicSelected={setIsTopicSelected}
+          setSelectedCourse={setSelectedCourse}
+          setIsCourseSelected={setIsCourseSelected}
         />
         <Box mt="8" mb="8" p="8">
           <Text
             textAlign="center"
-            fontSize={isTopicSelected ? "4xl" : "2xl"}
+            fontSize={isCourseSelected ? "4xl" : "2xl"}
             fontWeight="bold"
           >
             {" "}
-            {isTopicSelected
-              ? `${selectedTopic}`
+            {isCourseSelected
+              ? `${selectedCourse}`
               : "Harap pilih topik diatas terlebih dahulu"}{" "}
           </Text>
           {/* // TODO : Timeline / roadmap nya masih berupa design saja   */}
-          {isTopicSelected && <TimelineSection />}
+          {isCourseSelected && <TimelineSection />}
         </Box>
       </Layout>
     </>

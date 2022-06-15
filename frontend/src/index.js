@@ -18,6 +18,8 @@ import MateriAdminPage from "./pages/admin/materi";
 import ProfileAdminPage from "./pages/admin/profile";
 import DaftarSiswa from "./pages/admin/siswa";
 import PengerjaanSoal from "./pages/siswa/latihan/pertanyaan";
+import CourseAdminPage from "./pages/admin/course";
+import Logout from "./pages/logout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -41,6 +43,9 @@ root.render(
           <Route path="siswa/profil" element={<ProfilSiswa />} />
 
           <Route path="siswa/latihan/:idSoal" element={<PengerjaanSoal />} />
+
+          <Route path="siswa/logout" element={<Logout />} />
+
           {/* End Route Siswa */}
 
           {/* Route Admin */}
@@ -48,6 +53,7 @@ root.render(
           <Route path="admin" element={<HomeAdmin />} />
           <Route path="admin/latihan" element={<LatihanAdminPage />} />
           <Route path="admin/materi" element={<MateriAdminPage />} />
+          <Route path="admin/course" element={<CourseAdminPage />} />
           <Route path="admin/profil" element={<ProfileAdminPage />} />
 
           <Route path="admin/latihan" element={<LatihanAdminPage />} />
@@ -59,6 +65,9 @@ root.render(
           <Route path="admin/siswa" element={<DaftarSiswa />} />
           {/* // TODO: Element komponennya diganti */}
           <Route path="admin/siswa/:idMateri" element={<DaftarSiswa />} />
+
+          <Route path="admin/logout" element={<Logout />} />
+
           {/* End Route Admin */}
 
           {/* Not found page */}

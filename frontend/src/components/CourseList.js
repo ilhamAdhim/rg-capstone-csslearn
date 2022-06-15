@@ -1,39 +1,29 @@
 import { Box, Divider, Flex, Image, Skeleton, Text } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
-import { getMateri } from "../data/admin/MateriCRUD";
+import { mockGetCourse } from "../data/admin/CourseCRUD";
 
-function CourseList({ setSelectedTopic, setIsTopicSelected, ...props }) {
-  const [dataTopic, setDataTopic] = useState([]);
-  const [isTopicLoaded, setIsTopicLoaded] = useState(false);
+function CourseList({ setSelectedCourse, setIsCourseSelected, ...props }) {
+  const [dataCourse, setDataCourse] = useState([]);
+  const [isCourseLoaded, setisCourseLoaded] = useState(false);
 
   useEffect(() => {
-    getMateri().then((data) => {
-      let distinctData = [];
-
-      data.map(
-        (item) =>
-          !distinctData.includes(item.judul_course) &&
-          distinctData.push(item.judul_course)
-      );
-
-      console.log(distinctData);
-
-      setDataTopic(distinctData);
-      setIsTopicLoaded(true);
+    mockGetCourse().then((data) => {
+      setDataCourse(data);
+      setisCourseLoaded(true);
     });
   }, []);
 
   const onChangeTopic = (topic) => {
-    setIsTopicSelected(true);
-    setSelectedTopic(topic);
+    setIsCourseSelected(true);
+    setSelectedCourse(topic);
   };
 
   return (
     <>
-      {isTopicLoaded ? (
+      {isCourseLoaded ? (
         <Flex overflow="auto" gap="1em" mt="8" mb="8">
-          {dataTopic.map((topic, id) => (
+          {dataCourse.map((topic, id) => (
             <Box
               _active={{ bg: "teal.500" }}
               _focus={{ borderBottom: "3px solid red" }}

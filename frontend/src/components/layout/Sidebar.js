@@ -20,14 +20,16 @@ import { NavItem } from "./Navbar";
 import { useLocation } from "react-router";
 
 const linkItemsSiswa = [
-  { name: "materi", icon: FiCompass },
+  { name: "course", icon: FiCompass },
+  // { name: "materi", icon: FiStar },
   { name: "latihan", icon: FiStar },
   { name: "profil", icon: FiUser },
   { name: "logout", icon: FiSettings },
 ];
 
 const linkItemsAdmin = [
-  { name: "materi", icon: FiCompass },
+  { name: "course", icon: FiCompass },
+  { name: "materi", icon: FiStar },
   { name: "latihan", icon: FiStar },
   { name: "profil", icon: FiUser },
   { name: "siswa", icon: FiUsers },
