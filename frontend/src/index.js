@@ -17,6 +17,7 @@ import LatihanAdminPage from "./pages/admin/latihan";
 import MateriAdminPage from "./pages/admin/materi";
 import ProfileAdminPage from "./pages/admin/profile";
 import DaftarSiswa from "./pages/admin/siswa";
+import PengerjaanSoal from "./pages/siswa/latihan/pertanyaan";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -38,6 +39,8 @@ root.render(
           <Route path="siswa/latihan" element={<Latihan />} />
           <Route path="siswa/materi" element={<Materi />} />
           <Route path="siswa/profil" element={<ProfilSiswa />} />
+
+          <Route path="siswa/latihan/:idSoal" element={<PengerjaanSoal />} />
           {/* End Route Siswa */}
 
           {/* Route Admin */}

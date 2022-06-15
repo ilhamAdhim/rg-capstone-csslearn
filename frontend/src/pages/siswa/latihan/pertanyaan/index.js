@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import Layout from "../../../../components/layout";
 import useDocumentTitle from "../../../../hooks/useDocumentTitle";
 
-function Pertanyaan() {
+function PengerjaanSoal() {
   useDocumentTitle(`Pertanyaan`);
 
   useEffect(() => {}, []);
   return (
     <>
-      <Layout> Ini Pertanyaan</Layout>
+      <Layout> Ini Pengerjaan soal ya. Irsyat ngoding disini</Layout>
     </>
   );
 }
 
-export default Pertanyaan;
+export default PengerjaanSoal;
