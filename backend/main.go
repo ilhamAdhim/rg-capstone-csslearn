@@ -5,8 +5,6 @@ import (
 
 	"github.com/rg-km/final-project-engineering-70/backend/api"
 	"github.com/rg-km/final-project-engineering-70/backend/repository"
-
-	"github.com/mattn/go-sqlite3"
 )
 
 func main() {
