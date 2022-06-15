@@ -87,7 +87,7 @@ function MateriAdminPage() {
 
       mockGetMateriFromCourse().then((data) => {
         setDataMateri(
-          data.filter((item) => item.judul_Materi.includes(selectedMateri))
+          data?.filter((item) => item.judul_course.includes(selectedMateri))
         );
         setIsMateriLoaded(true);
       });
@@ -105,8 +105,8 @@ function MateriAdminPage() {
           Materi dari Materi
         </Text>
         <CourseList
-          setSelectedMateri={setSelectedMateri}
-          setIsMateriSelected={setIsMateriSelected}
+          setSelectedCourse={setSelectedMateri}
+          setIsCourseSelected={setIsMateriSelected}
         />
         <Box mt="8" mb="8" p="8">
           <Text
