@@ -25,10 +25,19 @@ const getCourse = async () => {
 const mockGetCourse = async () => {
   const response = await axios.get(MOCK_API_URL_COURSE);
   let distinctData = [];
+
+  // ? Sekarang kan mockapi nya kebalik antara endpoint course sama materi. Nanti kalo udah bener, langsung return response.data aja
+
   response.data.map(
-    (item) =>
-      !distinctData.includes(item.judul_course) &&
-      distinctData.push(item.judul_course)
+    (dataResponse) =>
+      !distinctData.some((item) =>
+        item.judul_course.includes(dataResponse.judul_course)
+      ) &&
+      distinctData.push({
+        judul_course: dataResponse.judul_course,
+        description:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+      })
   );
 
   return distinctData;

@@ -5,6 +5,8 @@ import {
   Skeleton,
   Stack,
   Text,
+  Tooltip,
+  useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -15,14 +17,15 @@ import { mockGetMateriFromCourse } from "../../../data/admin/MateriCRUD";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
 import { ucfirst } from "../../../common";
 import CourseList from "../../../components/CourseList";
+import { FaEye, FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function MateriAdminPage() {
   useDocumentTitle("Materi");
-
+  const boxMateriBg = useColorModeValue("gray.200", "gray.800");
   const toast = useToast();
   const modal = useDisclosure();
 
-  const [selectedCourse, setSelectedCourse] = useState({});
   const [isMateriSelected, setIsMateriSelected] = useState(false);
 
   const [dataMateri, setDataMateri] = useState([]);
@@ -86,8 +89,11 @@ function MateriAdminPage() {
       setIsMateriLoaded(false);
 
       mockGetMateriFromCourse().then((data) => {
+        // ? Ini kalau endpointnya gak terbalik, bisa langsung setDataMateri(data)
         setDataMateri(
-          data?.filter((item) => item.judul_course.includes(selectedMateri))
+          data?.filter((item) =>
+            item.judul_course.includes(selectedMateri.judul_course)
+          )
         );
         setIsMateriLoaded(true);
       });
@@ -102,7 +108,7 @@ function MateriAdminPage() {
     <>
       <Layout>
         <Text fontSize="xl" fontWeight="bold">
-          Materi dari Materi
+          Course dari Materi
         </Text>
         <CourseList
           setSelectedCourse={setSelectedMateri}
@@ -117,30 +123,56 @@ function MateriAdminPage() {
           >
             {" "}
             {isMateriSelected
-              ? `Materi untuk ${selectedMateri || "Materi"}`
+              ? `Materi untuk ${selectedMateri.judul_course || "Materi"}`
               : "Harap pilih topik diatas terlebih dahulu"}{" "}
           </Text>
 
           {isMateriLoaded ? (
             <Stack spacing={4}>
               {dataMateri.map((item, id) => (
-                <Box key={id} bg="gray.800" p="2em">
-                  <Flex justifyContent="space-between">
+                <Box key={id} bg={boxMateriBg} p="2em">
+                  <Flex
+                    gap="1em"
+                    justifyContent="space-between"
+                    flexDir={["column", "row"]}
+                  >
                     <Box width="80%">
                       <Text fontSize="xl" fontWeight="bold">
-                        {item.Materi}
+                        {item.course}
                       </Text>
                       <Text fontSize="md" mt="1em">
                         {item.materi}
                       </Text>
                     </Box>
-                    <Button
-                      m="auto 0"
-                      colorScheme="red"
-                      onClick={() => handleOpenModal("delete", item)}
-                    >
-                      Hapus{" "}
-                    </Button>
+                    <Flex m="auto 0" gap="1em">
+                      <Box>
+                        <Tooltip
+                          hasArrow
+                          placement="top"
+                          label="Preview Materi"
+                        >
+                          {/* // ! Masih mock lho ya */}
+                          <Link to={`${id + 1}`}>
+                            <Button
+                              flex={1}
+                              colorScheme="blue"
+                              // onClick={() => handleOpenModal("delete", item)}
+                              children={<FaEye />}
+                            />
+                          </Link>
+                        </Tooltip>
+                      </Box>
+                      <Box>
+                        <Tooltip hasArrow placement="top" label="Delete Materi">
+                          <Button
+                            flex={1}
+                            colorScheme="red"
+                            onClick={() => handleOpenModal("delete", item)}
+                            children={<FaTrash />}
+                          />
+                        </Tooltip>
+                      </Box>
+                    </Flex>
                   </Flex>
                 </Box>
               ))}
@@ -168,7 +200,7 @@ function MateriAdminPage() {
           selectedEntity={selectedMateri}
           title={ucfirst(
             modalRole !== "create"
-              ? `${modalRole} Materi ${selectedMateri}`
+              ? `${modalRole} Materi di ${selectedMateri.judul_course}`
               : `Tambah Materi baru`
           )}
         >

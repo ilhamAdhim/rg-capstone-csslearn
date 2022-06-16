@@ -1,9 +1,23 @@
-import { Box, Divider, Flex, Image, Skeleton, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  Flex,
+  Image,
+  Skeleton,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
 import { mockGetCourse } from "../data/admin/CourseCRUD";
 
 function CourseList({ setSelectedCourse, setIsCourseSelected, ...props }) {
+  const bgColorCourse = useColorModeValue("gray.200", "cyan.800");
+  const boxShadowColorCourse = useColorModeValue(
+    "1px 1px 8px gray",
+    "1px 1px 8px cyan"
+  );
+
   const [dataCourse, setDataCourse] = useState([]);
   const [isCourseLoaded, setisCourseLoaded] = useState(false);
 
@@ -22,18 +36,18 @@ function CourseList({ setSelectedCourse, setIsCourseSelected, ...props }) {
   return (
     <>
       {isCourseLoaded ? (
-        <Flex overflow="auto" gap="1em" mt="8" mb="8">
+        <Flex gap="1em" mt="8" mb="8">
           {dataCourse.map((topic, id) => (
             <Box
-              _active={{ bg: "teal.500" }}
               _focus={{ borderBottom: "3px solid red" }}
               onClick={() => onChangeTopic(topic)}
               as="button"
-              bg="cyan.800"
+              bg={bgColorCourse}
               p="4"
-              borderRadius="10"
+              // borderRadius="10"
               key={id}
               flex="1"
+              boxShadow={boxShadowColorCourse}
             >
               <Flex gap="4" p="4" justifyContent="space-around">
                 <Box flex="1">
@@ -46,7 +60,7 @@ function CourseList({ setSelectedCourse, setIsCourseSelected, ...props }) {
                   />
                 </Box>
                 <Box flex="1">
-                  {topic}
+                  <Text fontWeight="bold">{topic.judul_course}</Text>
                   <Divider my="4" />
                   <Text textAlign="justify">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -58,9 +72,9 @@ function CourseList({ setSelectedCourse, setIsCourseSelected, ...props }) {
         </Flex>
       ) : (
         <Flex gap="1em" justifyContent="center" mt="8" mb="8">
-          <Skeleton h="100px" w="200px" flex="1" />
-          <Skeleton h="100px" w="200px" flex="1" />
-          <Skeleton h="100px" w="200px" flex="1" />
+          <Skeleton h="10vw" w="20vw" flex="1" />
+          <Skeleton h="10vw" w="20vw" flex="1" />
+          <Skeleton h="10vw" w="20vw" flex="1" />
         </Flex>
       )}
     </>
