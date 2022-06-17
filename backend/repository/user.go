@@ -25,7 +25,7 @@ func (u *UserRepository) FetchUserByID(id int64) (User, error) {
 
 }
 
-func (u *UserRepository) login(username string, password string) (*string, error) {
+func (u *UserRepository) Login(username string, password string) (*string, error) {
 
 	var user User
 	err := u.db.QueryRow("SELECT username from tb_siswa WHERE username = ? AND password = ?", username, password).Scan(&user.Username)

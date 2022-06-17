@@ -4,19 +4,19 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/rg-km/final-project-engineering-70/backend/repository"
+	"github.com/rg-km/final-project-engineering-70/repository"
 )
 
 type API struct {
 	usersRepo repository.UserRepository
-	adminRepo repository.AdminRepository
-	mux       *http.ServeMux
+	// adminRepo repository.AdminRepository
+	mux *http.ServeMux
 }
 
-func NewAPI(usersRepo repository.UserRepository, adminRepo repository.AdminRepository) API {
+func NewAPI(usersRepo repository.UserRepository) API {
 	mux := http.NewServeMux()
 	api := API{
-		usersRepo, adminRepo, mux,
+		usersRepo, mux,
 	}
 
 	mux.Handle("/api/user/login", api.POST(http.HandlerFunc(api.login)))
