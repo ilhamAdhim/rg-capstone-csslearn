@@ -56,11 +56,11 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 	// Deklarasi expiry time untuk token jwt (time millisecond)
 	// claim menggunakan variable yang sudah didefinisikan diatas
-	expirationTime := time.Now().Add(60 * time.Minute)
+	expirationTime := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
 		Username: user.Username,
-		Role:     *userRoles,
+		Role:     userRoles,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
