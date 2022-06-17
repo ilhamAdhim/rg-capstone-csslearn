@@ -46,20 +46,8 @@ function JumbotronAdd({
             </Button>
           </Stack>
         </Stack>
-        <Flex
-          flex={1}
-          justify={"center"}
-          align={"center"}
-          position={"relative"}
-          w={"full"}
-        >
-          <Image
-            alt={"Add image"}
-            align={"center"}
-            w="200px"
-            src={customImage}
-          />
-        </Flex>
+
+        <Image alt={"Add image"} align={"center"} w="200px" src={customImage} />
       </Stack>
     </>
   );

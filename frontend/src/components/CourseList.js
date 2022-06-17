@@ -1,84 +1,126 @@
 import {
-  Box,
-  Divider,
+  Container,
+  Stack,
   Flex,
-  Image,
-  Skeleton,
+  Heading,
   Text,
+  Button,
+  Image,
   useColorModeValue,
 } from "@chakra-ui/react";
-
 import { useEffect, useState } from "react";
-import { mockGetCourse } from "../data/admin/CourseCRUD";
 
-function CourseList({ setSelectedCourse, setIsCourseSelected, ...props }) {
-  const bgColorCourse = useColorModeValue("gray.200", "cyan.800");
-  const boxShadowColorCourse = useColorModeValue(
-    "1px 1px 8px gray",
-    "1px 1px 8px cyan"
-  );
+export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
+  const colorModeStack = useColorModeValue("#D4EDF8", "gray.900");
+  const titleColorMode = useColorModeValue("gray.700", "gray.400");
 
-  const [dataCourse, setDataCourse] = useState([]);
-  const [isCourseLoaded, setisCourseLoaded] = useState(false);
+  const [role, setRole] = useState("");
 
   useEffect(() => {
-    mockGetCourse().then((data) => {
-      setDataCourse(data);
-      setisCourseLoaded(true);
-    });
+    setRole(localStorage.getItem("current_role"));
   }, []);
-
-  const onChangeTopic = (topic) => {
-    setIsCourseSelected(true);
-    setSelectedCourse(topic);
-  };
 
   return (
     <>
-      {isCourseLoaded ? (
-        <Flex gap="1em" mt="8" mb="8">
-          {dataCourse.map((topic, id) => (
-            <Box
-              _focus={{ borderBottom: "3px solid red" }}
-              onClick={() => onChangeTopic(topic)}
-              as="button"
-              bg={bgColorCourse}
-              p="4"
-              // borderRadius="10"
-              key={id}
-              flex="1"
-              boxShadow={boxShadowColorCourse}
+      {/* Ini UI Per course */}
+      {dataCourse?.map((course, id) => (
+        <Stack
+          key={id}
+          borderWidth="1px"
+          borderRadius="lg"
+          w={{ sm: "100%", md: "100%" }}
+          height={{ sm: "100%", md: "20rem" }}
+          direction={{ base: "column", md: "row" }}
+          bg={colorModeStack}
+          boxShadow={"2xl"}
+          padding={4}
+          my="6"
+        >
+          <Flex flex={1} bg="blue.200">
+            <Image
+              // borderRadius="full"
+              objectFit="contain"
+              boxSize="100%"
+              src={
+                "https://www.linkpicture.com/q/3d-flame-man-in-suit-talking-to-artificial-intelligence-assistant.png"
+              }
+            />
+          </Flex>
+          <Stack
+            flex={1}
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            p={1}
+            pt={2}
+          >
+            <Heading fontSize={"2xl"} fontFamily={"body"}>
+              {course.judul_course || course || "Ini title"}
+            </Heading>
+
+            <Text color={titleColorMode} px={3}>
+              {course.deskripsi_course ||
+                `Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry`}
+            </Text>
+
+            <Stack
+              width={"100%"}
+              mt={"2rem"}
+              direction={"row"}
+              padding={2}
+              justifyContent={"space-between"}
+              alignItems={"center"}
             >
-              <Flex gap="4" p="4" justifyContent="space-around">
-                <Box flex="1">
-                  <Image
-                    alt={"Login Image"}
-                    objectFit={"cover"}
-                    src={
-                      "https://i.ibb.co/jGk9x4j/3d-flame-business-woman-using-a-phone-with-fingerprint-scanner.png"
-                    }
-                  />
-                </Box>
-                <Box flex="1">
-                  <Text fontWeight="bold">{topic.judul_course}</Text>
-                  <Divider my="4" />
-                  <Text textAlign="justify">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </Text>
-                </Box>
-              </Flex>
-            </Box>
-          ))}
-        </Flex>
-      ) : (
-        <Flex gap="1em" justifyContent="center" mt="8" mb="8">
-          <Skeleton h="10vw" w="20vw" flex="1" />
-          <Skeleton h="10vw" w="20vw" flex="1" />
-          <Skeleton h="10vw" w="20vw" flex="1" />
-        </Flex>
-      )}
+              <Button
+                flex={1}
+                fontSize={"sm"}
+                rounded={"full"}
+                bg={"blue.500"}
+                color={"white"}
+                boxShadow={
+                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+                }
+                _hover={{
+                  bg: "blue.500",
+                }}
+                _focus={{
+                  bg: "blue.600",
+                }}
+                onClick={() =>
+                  role === "siswa"
+                    ? props.handlePilihTopik(course)
+                    : handleOpenModal("update", course)
+                }
+              >
+                {role === "siswa" ? "Pilih Topik" : "Update Course"}
+              </Button>
+
+              {role === "admin" && (
+                <Button
+                  flex={1}
+                  fontSize={"sm"}
+                  rounded={"full"}
+                  bg={"red.500"}
+                  color={"white"}
+                  boxShadow={
+                    "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+                  }
+                  _hover={{
+                    bg: "red.500",
+                  }}
+                  _focus={{
+                    bg: "red.600",
+                  }}
+                  onClick={() => handleOpenModal("delete", course)}
+                >
+                  Delete course
+                </Button>
+              )}
+            </Stack>
+          </Stack>
+        </Stack>
+      ))}
     </>
   );
 }
-
-export default CourseList;

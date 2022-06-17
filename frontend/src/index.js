@@ -49,6 +49,11 @@ root.render(
           <Route path="siswa/pertanyaan" element={<Pertanyaan />} />
 
           <Route path="siswa/latihan" element={<Latihan />} />
+          <Route
+            path="siswa/latihan/:exerciseCourse/:idSoal"
+            element={<PengerjaanSoal />}
+          />
+
           <Route path="siswa/course" element={<Materi />} />
           <Route path="siswa/materi" element={<Materi />} />
           <Route
@@ -56,8 +61,6 @@ root.render(
             element={<MateriDetailSiswa />}
           />
           <Route path="siswa/profil" element={<ProfilSiswa />} />
-
-          <Route path="siswa/latihan/:idSoal" element={<PengerjaanSoal />} />
 
           <Route path="siswa/logout" element={<Logout />} />
 

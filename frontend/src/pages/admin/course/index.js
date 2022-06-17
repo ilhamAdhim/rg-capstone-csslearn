@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../../../components/layout";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
-import AdminCourse from "./AdminCourse";
 
 import {
   Container,
@@ -18,7 +17,7 @@ import JumbotronAdd from "../../../components/JumbotronAdd";
 import ModalCourseUpdate from "../../../components/ModalCourseContent/ModalCourseUpdate";
 import ModalCourseDelete from "../../../components/ModalCourseContent/ModalCourseDelete";
 import ModalCourseCreate from "../../../components/ModalCourseContent/ModalCourseCreate";
-import ModalPertanyaanUpdate from "../../../components/ModalLatihanContent/ModalPertanyaanUpdate";
+import CourseList from "../../../components/CourseList";
 
 function CourseAdminPage() {
   useDocumentTitle(`Course`);
@@ -89,7 +88,6 @@ function CourseAdminPage() {
   return (
     <>
       <Layout>
-        <ModalPertanyaanUpdate />
         <Container maxW={"7xl"}>
           <JumbotronAdd
             text="Tambahkan Course CSS Baru untuk diikuti"
@@ -99,7 +97,7 @@ function CourseAdminPage() {
 
           <Heading color={"#FF6905"}>List Course </Heading>
           {isCourseLoaded ? (
-            <AdminCourse
+            <CourseList
               dataCourse={dataCourse}
               handleOpenModal={handleOpenModal}
             />

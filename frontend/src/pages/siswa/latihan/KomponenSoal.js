@@ -7,8 +7,18 @@ import {
   useColorModeValue,
   Container,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
-function PengerjaanSoal() {
+function KomponenSoal() {
+  const { exerciseCourse, idSoal } = useParams();
+
+  useEffect(() => {
+    // TODO : Setiap ada perubahan page, fetch data dari detail pertanyaan /api/latihan/:id
+    // ...
+  }, [idSoal]);
+
   return (
     <Container maxW={"6xl"} px={20}>
       <Flex justifyContent={"flex-end"} mr={-24}>
@@ -57,6 +67,7 @@ function PengerjaanSoal() {
             <Heading>No.1</Heading>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry
+            {/* {dataPertanyaan?.teksSoal} */}
           </Text>
         </Stack>
       </Stack>
@@ -68,31 +79,49 @@ function PengerjaanSoal() {
       <Stack ml={12} mr={20} spacing={5} pl={1}>
         <Button colorScheme={"blue"} variant={"outline"}>
           A. Lorem Ipsum is simply dummy text of the printing
+          {/* {dataPertanyaan?.optionA} */}
         </Button>
 
         <Button colorScheme={"blue"} variant={"outline"}>
           B. Lorem Ipsum is simply dummy text of the printing
+          {/* {dataPertanyaan?.optionB} */}
         </Button>
 
         <Button colorScheme={"blue"} variant={"outline"}>
           C. Lorem Ipsum is simply dummy text of the printing
+          {/* {dataPertanyaan?.optionC} */}
         </Button>
 
         <Button colorScheme={"blue"} variant={"outline"}>
           D. Lorem Ipsum is simply dummy text of the printing
+          {/* {dataPertanyaan?.optionD} */}
         </Button>
       </Stack>
 
       <Stack mr={18} mt={8} justifyContent={"space-between"} direction={"row"}>
-        <Button rounded={"md"} colorScheme="blue" size="md">
-          Previous
-        </Button>
+        <Link to={`/siswa/latihan/${exerciseCourse}/${parseInt(idSoal) - 1}`}>
+          <Button
+            size="md"
+            rounded={"md"}
+            colorScheme="blue"
+            disabled={parseInt(idSoal) === 1 ? true : false}
+          >
+            Previous
+          </Button>
+        </Link>
 
-        <Button rounded={"md"} colorScheme="blue" size="md">
-          Next
-        </Button>
+        <Link to={`/siswa/latihan/${exerciseCourse}/${parseInt(idSoal) + 1}`}>
+          <Button
+            size="md"
+            rounded={"md"}
+            colorScheme="blue"
+            disabled={parseInt(idSoal) === 5 ? true : false}
+          >
+            {parseInt(idSoal) === 5 ? "Submit" : "Next"}
+          </Button>
+        </Link>
       </Stack>
     </Container>
   );
 }
-export default PengerjaanSoal;
+export default KomponenSoal;

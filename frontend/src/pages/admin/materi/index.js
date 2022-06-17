@@ -16,16 +16,16 @@ import ModalCustom from "../../../components/ModalCustom";
 import { mockGetMateriFromCourse } from "../../../data/admin/MateriCRUD";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
 import { ucfirst } from "../../../common";
-import CourseList from "../../../components/CourseList";
+import CourseListFilter from "../../../components/CourseListFilter";
 import { FaEye, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 function MateriAdminPage() {
   useDocumentTitle("Materi");
-  const boxMateriBg = useColorModeValue("gray.200", "gray.800");
   const toast = useToast();
   const modal = useDisclosure();
 
+  const boxMateriBg = useColorModeValue("gray.200", "gray.800");
   const [isMateriSelected, setIsMateriSelected] = useState(false);
 
   const [dataMateri, setDataMateri] = useState([]);
@@ -110,7 +110,7 @@ function MateriAdminPage() {
         <Text fontSize="xl" fontWeight="bold">
           Course dari Materi
         </Text>
-        <CourseList
+        <CourseListFilter
           setSelectedCourse={setSelectedMateri}
           setIsCourseSelected={setIsMateriSelected}
         />
@@ -200,7 +200,7 @@ function MateriAdminPage() {
           selectedEntity={selectedMateri}
           title={ucfirst(
             modalRole !== "create"
-              ? `${modalRole} Materi di ${selectedMateri.judul_course}`
+              ? `${modalRole} Materi di ${selectedMateri?.judul_course}`
               : `Tambah Materi baru`
           )}
         >

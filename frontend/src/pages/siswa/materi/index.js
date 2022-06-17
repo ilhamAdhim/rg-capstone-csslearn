@@ -6,7 +6,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import CourseList from "../../../components/CourseList";
+import CourseListFilter from "../../../components/CourseListFilter";
 import Layout from "../../../components/layout";
 import TimelineSection from "../../../components/TimelineSection";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
@@ -20,7 +20,7 @@ function Materi() {
     <>
       <Layout>
         <Heading as="h1"> Let’s Pick The Course </Heading>
-        <CourseList
+        <CourseListFilter
           setSelectedCourse={setSelectedCourse}
           setIsCourseSelected={setIsCourseSelected}
         />

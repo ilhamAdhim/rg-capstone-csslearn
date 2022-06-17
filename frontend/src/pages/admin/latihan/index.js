@@ -85,7 +85,6 @@ function LatihanAdminPage() {
   return (
     <>
       <Layout>
-        <ModalPertanyaanUpdate />
         <Container maxW={"7xl"}>
           <JumbotronAdd
             text="Tambahkan Latihan CSS Baru untuk diikuti"
@@ -121,7 +120,7 @@ function LatihanAdminPage() {
             selectedEntity={selectedLatihan}
             title={ucfirst(
               modalRole !== "create"
-                ? `${modalRole} Latihan ${selectedLatihan.judul_Latihan}`
+                ? `${modalRole} Latihan ${selectedLatihan?.judul_Latihan}`
                 : `Tambah Latihan baru`
             )}
           >
