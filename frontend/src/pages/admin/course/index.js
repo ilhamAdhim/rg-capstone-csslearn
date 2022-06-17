@@ -18,7 +18,7 @@ import JumbotronAdd from "../../../components/JumbotronAdd";
 import ModalCourseUpdate from "../../../components/ModalCourseContent/ModalCourseUpdate";
 import ModalCourseDelete from "../../../components/ModalCourseContent/ModalCourseDelete";
 import ModalCourseCreate from "../../../components/ModalCourseContent/ModalCourseCreate";
-import ModalPertanyaanUpdate from "../../../components/ModalPertanyaanContent/ModalPertanyaanUpdate";
+import ModalPertanyaanUpdate from "../../../components/ModalLatihanContent/ModalPertanyaanUpdate";
 
 function CourseAdminPage() {
   useDocumentTitle(`Course`);
