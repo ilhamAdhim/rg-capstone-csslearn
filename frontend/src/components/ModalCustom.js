@@ -28,18 +28,11 @@ function ModalCustom({
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
 
-          <ModalBody>
-            {role === "delete" ? (
-              <Text align="center">
-                Yakin ingin menghapus {selectedEntity} ?
-              </Text>
-            ) : (
-              children
-            )}
-          </ModalBody>
+          <ModalBody>{children}</ModalBody>
 
           <ModalFooter display="flex" gap="1em" justifyContent="center">
             <Button
+              flex={1}
               onClick={onHandleSubmit}
               colorScheme={role === "delete" ? "red" : "teal"}
             >
@@ -49,7 +42,9 @@ function ModalCustom({
                 ? "Ubah"
                 : "Tambah"}
             </Button>
-            <Button onClick={onClose}>Close</Button>
+            <Button flex={1} onClick={onClose}>
+              Close
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

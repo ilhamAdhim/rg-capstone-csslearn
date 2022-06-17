@@ -3,10 +3,10 @@ import {
   Box,
   chakra,
   Container,
-  Link,
   Text,
   HStack,
   VStack,
+  Link as LinkChakra,
   Flex,
   Icon,
   useColorModeValue,
@@ -14,7 +14,7 @@ import {
 // Here we have used react-icons package for the icons
 import { FaRegNewspaper } from "react-icons/fa";
 import { BsGithub } from "react-icons/bs";
-import { IconType } from "react-icons";
+import { Link, useLocation } from "react-router-dom";
 
 const milestones = [
   {
@@ -48,7 +48,7 @@ const TimelineSection = () => {
   );
 };
 
-const Card = ({ title, categories, description, icon, date }) => {
+const Card = ({ title, categories, description, icon, date, id }) => {
   return (
     <HStack
       p={{ base: 3, sm: 6 }}
@@ -73,31 +73,34 @@ const Card = ({ title, categories, description, icon, date }) => {
       }}
     >
       <Icon as={icon} w={12} h={12} color="teal.400" />
-      <Box>
-        <HStack spacing={2} mb={1}>
-          {categories.map((cat) => (
-            <Text fontSize="sm" key={cat}>
-              {cat}
+      <Link to={`/${localStorage.getItem("current_role")}/materi/${id}`}>
+        <Box>
+          <HStack spacing={2} mb={1}>
+            {categories.map((cat) => (
+              <Text fontSize="sm" key={cat}>
+                {cat}
+              </Text>
+            ))}
+          </HStack>
+          <VStack spacing={2} mb={3} textAlign="left">
+            <chakra.h1
+              as={LinkChakra}
+              _hover={{ color: "teal.400" }}
+              fontSize="2xl"
+              lineHeight={1.2}
+              fontWeight="bold"
+              w="100%"
+            >
+              {title}
+            </chakra.h1>
+
+            <Text fontSize="md" noOfLines={2}>
+              {description}
             </Text>
-          ))}
-        </HStack>
-        <VStack spacing={2} mb={3} textAlign="left">
-          <chakra.h1
-            as={Link}
-            _hover={{ color: "teal.400" }}
-            fontSize="2xl"
-            lineHeight={1.2}
-            fontWeight="bold"
-            w="100%"
-          >
-            {title}
-          </chakra.h1>
-          <Text fontSize="md" noOfLines={2}>
-            {description}
-          </Text>
-        </VStack>
-        <Text fontSize="sm">{date}</Text>
-      </Box>
+          </VStack>
+          <Text fontSize="sm">{date}</Text>
+        </Box>
+      </Link>
     </HStack>
   );
 };
