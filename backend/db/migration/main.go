@@ -74,14 +74,6 @@ func main() {
 			FOREIGN KEY (id_latihan) REFERENCES tb_latihan(id_latihan),
 			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category)
 		);
-
-		CREATE TABLE IF NOT EXISTS tb_roadmap(
-			id_roadmap INTEGER not null PRIMARY KEY AUTOINCREMENT,
-			id_course_category INT(11) not null,
-			nama VARCHAR(45),
-			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category)
-		);
-
 		
 	INSERT INTO tb_admin(username, password) VALUES('admin70', '1234');`)
 
