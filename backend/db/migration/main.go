@@ -34,16 +34,15 @@ func main() {
 		CREATE TABLE  IF NOT EXISTS tb_course_css (
 			id_course INTEGER  not null PRIMARY KEY AUTOINCREMENT,
 			id_course_category INT(11) not null,
-			id_latihan INT(11) not null,
 			nama_course VARCHAR(50) not null,
 			content TEXT not null,
-			FOREIGN KEY (id_latihan) REFERENCES tb_latihan(id_latihan),
 			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category)
 		);
 
 		CREATE TABLE  IF NOT EXISTS tb_latihan (
 			id_latihan INT(11) not null,
 			id_course_category INT(11) not null,
+			id_course INT(11) not null,
 			question VARCHAR(255) not null,
 			answer1 VARCHAR(255) not null,
 			answer2 VARCHAR(255) not null,
@@ -51,7 +50,8 @@ func main() {
 			answer4 VARCHAR(255) not null,
 			answer5 VARCHAR(255) not null,
 			key_answer VARCHAR(255) not null,
-			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category)
+			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category),
+			FOREIGN KEY (id_course) REFERENCES tb_course(id_course)
 		);
 
 		CREATE TABLE  IF NOT EXISTS tb_course_category (
@@ -72,6 +72,13 @@ func main() {
 			score INT(11) not null,
 			FOREIGN KEY (id_siswa) REFERENCES tb_siswa(id_siswa),
 			FOREIGN KEY (id_latihan) REFERENCES tb_latihan(id_latihan),
+			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category)
+		);
+
+		CREATE TABLE IF NOT EXISTS tb_roadmap(
+			id_roadmap INTEGER not null PRIMARY KEY AUTOINCREMENT,
+			id_course_category INT(11) not null,
+			nama VARCHAR(45),
 			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category)
 		);
 
