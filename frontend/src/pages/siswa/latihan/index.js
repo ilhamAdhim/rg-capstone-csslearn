@@ -1,12 +1,15 @@
 import Layout from "../../../components/layout";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
+import PengerjaanSoal from "./PengerjaanSoal";
 
 function Latihan() {
   useDocumentTitle(`Latihan`);
 
   return (
     <>
-      <Layout> ini latihan page </Layout>
+      <Layout>
+        <PengerjaanSoal></PengerjaanSoal>
+      </Layout>
     </>
   );
 }
