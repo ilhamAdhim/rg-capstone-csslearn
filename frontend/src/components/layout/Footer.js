@@ -1,11 +1,4 @@
-import {
-  Divider,
-  Flex,
-  Link,
-  Text,
-  chakra,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Link, Text, chakra, useColorModeValue } from "@chakra-ui/react";
 
 const Footer = () => {
   return (

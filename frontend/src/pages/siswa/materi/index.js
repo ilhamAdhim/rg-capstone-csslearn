@@ -1,10 +1,4 @@
-import {
-  Box,
-  Heading,
-  Text,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import CourseListFilter from "components/CourseListFilter";
 import Layout from "components/layout";

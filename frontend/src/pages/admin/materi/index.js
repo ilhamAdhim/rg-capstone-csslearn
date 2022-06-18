@@ -5,8 +5,6 @@ import {
   Skeleton,
   Stack,
   Text,
-  Tooltip,
-  useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -17,8 +15,7 @@ import { mockGetMateriFromCourse } from "data/admin/MateriCRUD";
 import useDocumentTitle from "hooks/useDocumentTitle";
 import { ucfirst } from "common";
 import CourseListFilter from "components/CourseListFilter";
-import { FaEye, FaTrash } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BoxItem from "components/BoxItem";
 
 function MateriAdminPage() {
@@ -27,7 +24,6 @@ function MateriAdminPage() {
   const modal = useDisclosure();
   const navigate = useNavigate();
 
-  const boxMateriBg = useColorModeValue("gray.200", "gray.800");
   const [isMateriSelected, setIsMateriSelected] = useState(false);
 
   const [dataMateri, setDataMateri] = useState([]);

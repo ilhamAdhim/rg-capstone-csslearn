@@ -14,7 +14,7 @@ import {
 // Here we have used react-icons package for the icons
 import { FaRegNewspaper } from "react-icons/fa";
 import { BsGithub } from "react-icons/bs";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const milestones = [
   {

@@ -16,7 +16,6 @@ import Register from "./pages/register";
 import NotFound from "./pages/NotFound";
 
 // Admins
-import HomeAdmin from "./pages/admin";
 import DaftarSiswa from "./pages/admin/siswa";
 import CourseAdminPage from "./pages/admin/course";
 import MateriAdminPage from "./pages/admin/materi";

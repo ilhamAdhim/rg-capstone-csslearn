@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import { Button, Heading, Image, Stack, Text } from "@chakra-ui/react";
 
 function JumbotronAdd({
   text,

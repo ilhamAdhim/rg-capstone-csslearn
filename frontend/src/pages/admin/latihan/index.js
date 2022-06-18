@@ -80,7 +80,7 @@ function LatihanAdminPage() {
 
   useEffect(() => {
     setIsLatihanLoaded(true);
-  });
+  }, []);
 
   return (
     <>

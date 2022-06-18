@@ -1,4 +1,4 @@
-import { useDisclosure, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
 import Layout from "components/layout";
 import useDocumentTitle from "hooks/useDocumentTitle";
@@ -17,7 +17,7 @@ function PengerjaanSoal() {
       duration: 3000,
       position: "top",
     });
-  }, []);
+  }, [toast]);
 
   return (
     <>
