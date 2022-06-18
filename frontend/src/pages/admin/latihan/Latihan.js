@@ -1,16 +1,16 @@
 import {
   Container,
   Stack,
-  Flex,
   Heading,
   Text,
   Button,
-  Image,
   useColorModeValue,
   Select,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 
 export default function Latihan() {
+  const buttonSize = useBreakpointValue(["lg", "md"]);
   return (
     <Container maxW={"5xl"}>
       <Stack
@@ -33,44 +33,43 @@ export default function Latihan() {
       <Stack
         borderWidth="1px"
         borderRadius="lg"
-        w={1000}
-        height={200}
+        height={[300, 200]}
         bg={useColorModeValue("#D4EDF8", "gray.900")}
         boxShadow={"2xl"}
-        mb={20}
-        mt={20}
+        mb={8}
+        mt={8}
         ml={6}
       >
         <Stack
           flex={1}
           flexDirection="column"
-          justifyContent="space-between"
+          justifyContent="space-around  "
           alignItems="center"
           p={1}
           pr={20}
           pl={12}
           pt={2}
         >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 1
-          </Heading>
-
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
+          <Text color={useColorModeValue("gray.700", "gray.400")}>
+            <Heading>No.1</Heading>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry
+            {/* {dataPertanyaan?.teksSoal} */}
           </Text>
 
           <Stack
             width={"100%"}
             mt={"2rem"}
-            direction={"row"}
+            direction={{ base: "column", md: "row" }}
             padding={2}
             justifyContent={"space-between"}
             alignItems={"center"}
+            mb={20}
           >
             <Button
-              flex={1}
-              fontSize={"sm"}
+              size={buttonSize}
+              flex={[0, 1]}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"blue.500"}
               color={"white"}
@@ -87,8 +86,9 @@ export default function Latihan() {
               Update course
             </Button>
             <Button
+              size={buttonSize}
               flex={1}
-              fontSize={"sm"}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"red.500"}
               color={"white"}
@@ -111,44 +111,43 @@ export default function Latihan() {
       <Stack
         borderWidth="1px"
         borderRadius="lg"
-        w={1000}
-        height={200}
+        height={[300, 200]}
         bg={useColorModeValue("#D4EDF8", "gray.900")}
         boxShadow={"2xl"}
-        mb={20}
-        mt={20}
+        mb={8}
+        mt={8}
         ml={6}
       >
         <Stack
           flex={1}
           flexDirection="column"
-          justifyContent="space-between"
+          justifyContent="space-around  "
           alignItems="center"
           p={1}
           pr={20}
           pl={12}
           pt={2}
         >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 2
-          </Heading>
-
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
+          <Text color={useColorModeValue("gray.700", "gray.400")}>
+            <Heading>No.2</Heading>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry
+            {/* {dataPertanyaan?.teksSoal} */}
           </Text>
 
           <Stack
             width={"100%"}
             mt={"2rem"}
-            direction={"row"}
+            direction={{ base: "column", md: "row" }}
             padding={2}
             justifyContent={"space-between"}
             alignItems={"center"}
+            mb={20}
           >
             <Button
-              flex={1}
-              fontSize={"sm"}
+              size={buttonSize}
+              flex={[0, 1]}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"blue.500"}
               color={"white"}
@@ -165,8 +164,9 @@ export default function Latihan() {
               Update course
             </Button>
             <Button
+              size={buttonSize}
               flex={1}
-              fontSize={"sm"}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"red.500"}
               color={"white"}
@@ -189,44 +189,43 @@ export default function Latihan() {
       <Stack
         borderWidth="1px"
         borderRadius="lg"
-        w={1000}
-        height={200}
+        height={[300, 200]}
         bg={useColorModeValue("#D4EDF8", "gray.900")}
         boxShadow={"2xl"}
-        mb={20}
-        mt={20}
+        mb={8}
+        mt={8}
         ml={6}
       >
         <Stack
           flex={1}
           flexDirection="column"
-          justifyContent="space-between"
+          justifyContent="space-around  "
           alignItems="center"
           p={1}
           pr={20}
           pl={12}
           pt={2}
         >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 3
-          </Heading>
-
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
+          <Text color={useColorModeValue("gray.700", "gray.400")}>
+            <Heading>No.3</Heading>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry
+            {/* {dataPertanyaan?.teksSoal} */}
           </Text>
 
           <Stack
             width={"100%"}
             mt={"2rem"}
-            direction={"row"}
+            direction={{ base: "column", md: "row" }}
             padding={2}
             justifyContent={"space-between"}
             alignItems={"center"}
+            mb={20}
           >
             <Button
-              flex={1}
-              fontSize={"sm"}
+              size={buttonSize}
+              flex={[0, 1]}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"blue.500"}
               color={"white"}
@@ -243,8 +242,9 @@ export default function Latihan() {
               Update course
             </Button>
             <Button
+              size={buttonSize}
               flex={1}
-              fontSize={"sm"}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"red.500"}
               color={"white"}
@@ -267,44 +267,43 @@ export default function Latihan() {
       <Stack
         borderWidth="1px"
         borderRadius="lg"
-        w={1000}
-        height={200}
+        height={[300, 200]}
         bg={useColorModeValue("#D4EDF8", "gray.900")}
         boxShadow={"2xl"}
-        mb={20}
-        mt={20}
+        mb={8}
+        mt={8}
         ml={6}
       >
         <Stack
           flex={1}
           flexDirection="column"
-          justifyContent="space-between"
+          justifyContent="space-around  "
           alignItems="center"
           p={1}
           pr={20}
           pl={12}
           pt={2}
         >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 4
-          </Heading>
-
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
+          <Text color={useColorModeValue("gray.700", "gray.400")}>
+            <Heading>No.4</Heading>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry
+            {/* {dataPertanyaan?.teksSoal} */}
           </Text>
 
           <Stack
             width={"100%"}
             mt={"2rem"}
-            direction={"row"}
+            direction={{ base: "column", md: "row" }}
             padding={2}
             justifyContent={"space-between"}
             alignItems={"center"}
+            mb={20}
           >
             <Button
-              flex={1}
-              fontSize={"sm"}
+              size={buttonSize}
+              flex={[0, 1]}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"blue.500"}
               color={"white"}
@@ -321,8 +320,9 @@ export default function Latihan() {
               Update course
             </Button>
             <Button
+              size={buttonSize}
               flex={1}
-              fontSize={"sm"}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"red.500"}
               color={"white"}
@@ -345,44 +345,43 @@ export default function Latihan() {
       <Stack
         borderWidth="1px"
         borderRadius="lg"
-        w={1000}
-        height={200}
+        height={[300, 200]}
         bg={useColorModeValue("#D4EDF8", "gray.900")}
         boxShadow={"2xl"}
-        mb={20}
-        mt={20}
+        mb={8}
+        mt={8}
         ml={6}
       >
         <Stack
           flex={1}
           flexDirection="column"
-          justifyContent="space-between"
+          justifyContent="space-around  "
           alignItems="center"
           p={1}
           pr={20}
           pl={12}
           pt={2}
         >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 5
-          </Heading>
-
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
+          <Text color={useColorModeValue("gray.700", "gray.400")}>
+            <Heading>No.5</Heading>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry
+            {/* {dataPertanyaan?.teksSoal} */}
           </Text>
 
           <Stack
             width={"100%"}
             mt={"2rem"}
-            direction={"row"}
+            direction={{ base: "column", md: "row" }}
             padding={2}
             justifyContent={"space-between"}
             alignItems={"center"}
+            mb={20}
           >
             <Button
-              flex={1}
-              fontSize={"sm"}
+              size={buttonSize}
+              flex={[0, 1]}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"blue.500"}
               color={"white"}
@@ -399,8 +398,9 @@ export default function Latihan() {
               Update course
             </Button>
             <Button
+              size={buttonSize}
               flex={1}
-              fontSize={"sm"}
+              fontSize={["xs", "sm"]}
               rounded={"full"}
               bg={"red.500"}
               color={"white"}
