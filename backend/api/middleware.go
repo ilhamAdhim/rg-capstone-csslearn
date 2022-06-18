@@ -125,15 +125,10 @@ func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 		}
 
 		//validasi
-		if claims.Role == "admin" {
 
-			ctx := context.WithValue(r.Context(), "username", claims.Username)
-			next.ServeHTTP(w, r.WithContext(ctx))
-			return
-
-		}
-
-		w.WriteHeader(http.StatusForbidden)
+		ctx := context.WithValue(r.Context(), "username", claims.Username)
+		next.ServeHTTP(w, r.WithContext(ctx))
+		return
 
 	})
 }

@@ -13,27 +13,27 @@ type Admin struct {
 	Password string `json:"password"`
 }
 
-type LoginSuccesResponse struct {
+type LoginSuccesResponseAdmin struct {
 	Username string `json:"username"`
 	Token    string `json:"token"`
 }
 
-type AuthErrorRespone struct {
+type AdminErrorRespone struct {
 	Error string `json:"error"`
 }
 
 //jwtkey untuk membuat signature
-var jwtkey = []byte("key")
+var jwtKey = []byte("key")
 
 // Struct claim sebagai object yang akan diencode oleh jwt
 // jwt.StandardClaims sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
-type Claims struct {
+type ClaimsAdmin struct {
 	Username string
-	Role     string
+	// Role     string
 	jwt.StandardClaims
 }
 
-func (api *API) login(w http.ResponseWriter, req *http.Request) {
+func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 	var admin Admin
 	err := json.NewDecoder(req.Body).Decode(&admin)
@@ -42,17 +42,17 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	res, err := api.adminsRepo.Login(admin.Username, admin.Password)
+	res, err := api.adminsRepo.Loginadmin(admin.Username, admin.Password)
 
 	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
 	if err != nil {
-		w.WriteHeader(http.StatusUnadmin)
+		w.WriteHeader(http.StatusUnauthorized)
 		encoder.Encode(AdminErrorRespone{Error: err.Error()})
 		return
 	}
 
-	adminRoles, err := api.adminsRepo.GetAdminRole(*res)
+	// adminRoles, err := api.adminsRepo.GetAdminRole(*res)
 
 	// Deklarasi expiry time untuk token jwt (time millisecond)
 	// claim menggunakan variable yang sudah didefinisikan diatas
@@ -60,7 +60,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 	claims := &Claims{
 		Username: admin.Username,
-		Role:     adminRoles,
+		// Role:     adminRoles,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
@@ -90,7 +90,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
 }
 
-func (api *API) logout(w http.ResponseWriter, req *http.Request) {
+func (api *API) logoutadmin(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 
 	token, err := req.Cookie("token")
@@ -119,4 +119,3 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Logout succes"))
 }
-
