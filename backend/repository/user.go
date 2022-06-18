@@ -9,6 +9,8 @@ type UserRepository interface {
 	FetchUserByID(id int64) (User, error)
 	Login(username string, password string) (*string, error)
 	GetUserRole(username string) (string, error)
+	Register(username string, password string) (*string, error)
+	GetAllUser(user, error)
 }
 
 type userRepository struct {
@@ -51,3 +53,27 @@ func (u *userRepository) GetUserRole(username string) (string, error) {
 
 	return role, nil
 }
+
+func (u *userRepository) Register(username string, password string) (*string, error) {
+
+	var user User
+	err := u.db.QueryRow("SELECT username from tb_siswa WHERE username = ? AND password = ?", username, password).Scan(&user.Username)
+	if err != nil {
+		return nil, errors.New("Register Failed")
+
+	}
+
+	return &user.Username, nil
+}
+
+func (u *userRepository) GetAllUserData(User, error) {
+	var user User
+	err := u.db.QueryRow("SELECT tb_siswa", tb_siswa).Scan(&user.ID, &user.Password, &user.Token)
+	if err != nil {
+		return user, err
+
+	}
+
+	return user, nil
+}
+//sisa edit codingan perlu di cek kembali dan di register perlu menambahkan email dan jenis kelamin
