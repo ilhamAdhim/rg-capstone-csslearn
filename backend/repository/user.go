@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"errors"
 )
 
 type UserRepository interface {
@@ -30,16 +29,12 @@ func (u *userRepository) FetchUserByID(id int64) (User, error) {
 	return user, nil
 }
 
-<<<<<<< HEAD
-func (u *UserRepository) Login(username string, password string) (*string, error) {
-=======
 func (u *userRepository) Login(username string, password string) (*string, error) {
->>>>>>> cf91618c520000875814da66d502018ad8b0169b
 
 	var user User
 	err := u.db.QueryRow("SELECT username from tb_siswa WHERE username = ? AND password = ?", username, password).Scan(&user.Username)
 	if err != nil {
-		return nil, errors.New("Login Failed")
+		return err, nil
 
 	}
 
