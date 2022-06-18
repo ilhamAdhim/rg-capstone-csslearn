@@ -13,14 +13,12 @@ import {
 } from "@chakra-ui/react";
 import ModalCustom from "../../../components/ModalCustom";
 import { ucfirst } from "../../../common";
-// import { mockGetLatihan } from "../../../data/admin/PertanyaanCRUD";
-import JumbotronAdd from "../../../components/JumbotronAdd";
 import ModalPertanyaanUpdate from "../../../components/ModalLatihanContent/ModalPertanyaanUpdate";
 import ModalPertanyaanCreate from "../../../components/ModalLatihanContent/ModalPertanyaanCreate";
 import ModalPertanyaanDelete from "../../../components/ModalLatihanContent/ModalPertanyaanDelete";
 
 function LatihanAdminPage() {
-  useDocumentTitle(`latihan`);
+  useDocumentTitle(`Latihan`);
   const toast = useToast();
   const modal = useDisclosure();
 
@@ -30,11 +28,11 @@ function LatihanAdminPage() {
   const [isLatihanLoaded, setIsLatihanLoaded] = useState(false);
   const [selectedLatihan, setSelectedLatihan] = useState({});
 
-  const handleOpenModal = (role, Latihan = {}) => {
+  const handleOpenModal = (role, latihan = {}) => {
     modal.onOpen();
-    setSelectedLatihan(Latihan);
+    setSelectedLatihan(latihan);
     setModalRole(role);
-    console.log("Current Latihan ", Latihan, " role : ", role);
+    console.log("Current Latihan ", latihan, " role : ", role);
   };
 
   const handleCreateLatihan = () => {
@@ -114,7 +112,7 @@ function LatihanAdminPage() {
             selectedEntity={selectedLatihan}
             title={ucfirst(
               modalRole !== "create"
-                ? `${modalRole} Latihan ${selectedLatihan?.judul_Latihan}`
+                ? `${modalRole} Latihan ${selectedLatihan?.judul_latihan}`
                 : `Tambah Latihan baru`
             )}
           >

@@ -12,13 +12,15 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-export default function profile() {
+export default function Profile() {
+  const bgColor = useColorModeValue("#FFE0CB");
+
   return (
     <Center py={6}>
       <Box
         maxW={"872px"}
         w={"full"}
-        bg={useColorModeValue("#FFE0CB")}
+        bg={bgColor}
         boxShadow={"2xl"}
         rounded={"lg"}
         p={6}

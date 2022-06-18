@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   useColorModeValue,
@@ -15,6 +15,10 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue("gray.100", "gray.900");
+
+  useEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
 
   if (location.pathname === "/login" || location.pathname === "/register")
     return (
