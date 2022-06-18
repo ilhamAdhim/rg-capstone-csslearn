@@ -6,10 +6,10 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import CourseListFilter from "../../../components/CourseListFilter";
-import Layout from "../../../components/layout";
-import TimelineSection from "../../../components/TimelineSection";
-import useDocumentTitle from "../../../hooks/useDocumentTitle";
+import CourseListFilter from "components/CourseListFilter";
+import Layout from "components/layout";
+import TimelineSection from "components/TimelineSection";
+import useDocumentTitle from "hooks/useDocumentTitle";
 
 function Materi() {
   useDocumentTitle(`Materi`);

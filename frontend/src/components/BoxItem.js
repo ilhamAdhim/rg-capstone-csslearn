@@ -13,6 +13,8 @@ function BoxItem({
   item,
   entity,
   hasPreview = false,
+  isEditOpenNewPage = false,
+  isPreviewOpenNewPage = false,
   hasDelete = false,
   hasEdit = false,
   handleOpenModal,
@@ -38,10 +40,11 @@ function BoxItem({
             fontWeight="bold"
             textAlign={["center", "justify"]}
           >
-            {item.course}
+            {item.course || `Pertanyaan ${item.id}`}
           </Text>
           <Text mt="1em" fontSize="md" textAlign={["justify"]}>
-            {item.materi}
+            {item.materi ||
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry"}
           </Text>
         </Box>
         <Flex m="auto 0" gap="1em" justifyContent="center">
@@ -49,14 +52,18 @@ function BoxItem({
             <Box>
               <Tooltip hasArrow placement="top" label={`Edit ${entity}`}>
                 {/* // ! Masih mock lho ya */}
-                <Link to={`${item.id + 1}`}>
+                {isEditOpenNewPage ? (
+                  <Link to={`${item.id + 1}`}>
+                    <Button flex={1} colorScheme="blue" children={<FaPen />} />
+                  </Link>
+                ) : (
                   <Button
                     flex={1}
                     colorScheme="blue"
-                    // onClick={() => handleOpenModal("delete", item)}
+                    onClick={() => handleOpenModal("update", item)}
                     children={<FaPen />}
                   />
-                </Link>
+                )}
               </Tooltip>
             </Box>
           )}
@@ -65,14 +72,24 @@ function BoxItem({
             <Box>
               <Tooltip hasArrow placement="top" label={`Preview ${entity}`}>
                 {/* // ! Masih mock lho ya */}
-                <Link to={`${item.id + 1}`}>
+
+                {isPreviewOpenNewPage ? (
+                  <Link to={`${item.id + 1}`}>
+                    <Button
+                      flex={1}
+                      colorScheme="blue"
+                      // onClick={() => handleOpenModal("delete", item)}
+                      children={<FaEye />}
+                    />
+                  </Link>
+                ) : (
                   <Button
                     flex={1}
                     colorScheme="blue"
-                    // onClick={() => handleOpenModal("delete", item)}
+                    onClick={() => handleOpenModal("delete", item)}
                     children={<FaEye />}
                   />
-                </Link>
+                )}
               </Tooltip>
             </Box>
           )}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MOCK_API_URL_COURSE } from "../api";
+import { MOCK_API_URL_COURSE } from "data/api";
 
 const createCourse = async (values) => {
   const response = axios.post(`${MOCK_API_URL_COURSE}`, values);

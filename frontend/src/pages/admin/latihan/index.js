@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Layout from "../../../components/layout";
-import useDocumentTitle from "../../../hooks/useDocumentTitle";
+import Layout from "components/layout";
+import useDocumentTitle from "hooks/useDocumentTitle";
 import Latihan from "./Latihan";
 
 import {
@@ -11,13 +11,13 @@ import {
   Skeleton,
   useToast,
 } from "@chakra-ui/react";
-import ModalCustom from "../../../components/ModalCustom";
-import { ucfirst } from "../../../common";
-// import { mockGetLatihan } from "../../../data/admin/PertanyaanCRUD";
-import JumbotronAdd from "../../../components/JumbotronAdd";
-import ModalPertanyaanUpdate from "../../../components/ModalLatihanContent/ModalPertanyaanUpdate";
-import ModalPertanyaanCreate from "../../../components/ModalLatihanContent/ModalPertanyaanCreate";
-import ModalPertanyaanDelete from "../../../components/ModalLatihanContent/ModalPertanyaanDelete";
+import ModalCustom from "components/ModalCustom";
+import { ucfirst } from "common";
+// import { mockGetLatihan } from "data/admin/PertanyaanCRUD";
+import JumbotronAdd from "components/JumbotronAdd";
+import ModalPertanyaanUpdate from "components/ModalLatihanContent/ModalPertanyaanUpdate";
+import ModalPertanyaanCreate from "components/ModalLatihanContent/ModalPertanyaanCreate";
+import ModalPertanyaanDelete from "components/ModalLatihanContent/ModalPertanyaanDelete";
 
 function LatihanAdminPage() {
   useDocumentTitle(`latihan`);

@@ -11,14 +11,15 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import Layout from "../../../components/layout";
-import ModalCustom from "../../../components/ModalCustom";
-import { mockGetMateriFromCourse } from "../../../data/admin/MateriCRUD";
-import useDocumentTitle from "../../../hooks/useDocumentTitle";
-import { ucfirst } from "../../../common";
-import CourseListFilter from "../../../components/CourseListFilter";
+import Layout from "components/layout";
+import ModalCustom from "components/ModalCustom";
+import { mockGetMateriFromCourse } from "data/admin/MateriCRUD";
+import useDocumentTitle from "hooks/useDocumentTitle";
+import { ucfirst } from "common";
+import CourseListFilter from "components/CourseListFilter";
 import { FaEye, FaTrash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import BoxItem from "components/BoxItem";
 
 function MateriAdminPage() {
   useDocumentTitle("Materi");
@@ -42,38 +43,10 @@ function MateriAdminPage() {
     console.log("Current Materi ", entity, " role : ", role);
   };
 
-  const handleCreateMateri = () => {
-    // TODO : connect endpoint CreateMateri
-    // ...
-
-    toast({
-      title: "Materi baru telah dibuat",
-      variant: "solid",
-      status: "success",
-      isClosable: true,
-      duration: 3000,
-      position: "top",
-    });
-  };
-
   const goCreateMateriPage = () => {
     navigate({
       pathname: "/admin/materi/tambah",
       search: `?courseId=${selectedMateri?.id}`,
-    });
-  };
-
-  const handleUpdateMateri = () => {
-    // TODO : connect endpoint UpdateMateri
-    // ...
-
-    toast({
-      title: `Materi ${selectedMateri} berhasil diubah`,
-      variant: "solid",
-      status: "success",
-      isClosable: true,
-      duration: 3000,
-      position: "top",
     });
   };
 
@@ -108,10 +81,6 @@ function MateriAdminPage() {
     }
   }, [selectedMateri]);
 
-  useEffect(() => {
-    console.log(dataMateri);
-  }, [dataMateri]);
-
   return (
     <>
       <Layout>
@@ -141,51 +110,15 @@ function MateriAdminPage() {
           {isMateriLoaded ? (
             <Stack spacing={4}>
               {dataMateri.map((item, id) => (
-                <Box key={id} bg={boxMateriBg} p="2em">
-                  <Flex
-                    gap="1em"
-                    justifyContent="space-between"
-                    flexDir={["column", "row"]}
-                  >
-                    <Box width="80%">
-                      <Text fontSize="xl" fontWeight="bold">
-                        {item.course}
-                      </Text>
-                      <Text fontSize="md" mt="1em">
-                        {item.materi}
-                      </Text>
-                    </Box>
-                    <Flex m="auto 0" gap="1em">
-                      <Box>
-                        <Tooltip
-                          hasArrow
-                          placement="top"
-                          label="Preview Materi"
-                        >
-                          {/* // ! Masih mock lho ya */}
-                          <Link to={`${id + 1}`}>
-                            <Button
-                              flex={1}
-                              colorScheme="blue"
-                              // onClick={() => handleOpenModal("delete", item)}
-                              children={<FaEye />}
-                            />
-                          </Link>
-                        </Tooltip>
-                      </Box>
-                      <Box>
-                        <Tooltip hasArrow placement="top" label="Delete Materi">
-                          <Button
-                            flex={1}
-                            colorScheme="red"
-                            onClick={() => handleOpenModal("delete", item)}
-                            children={<FaTrash />}
-                          />
-                        </Tooltip>
-                      </Box>
-                    </Flex>
-                  </Flex>
-                </Box>
+                <BoxItem
+                  hasPreview
+                  hasDelete
+                  key={id}
+                  item={item}
+                  entity="Materi"
+                  isPreviewOpenNewPage
+                  handleOpenModal={handleOpenModal}
+                />
               ))}
             </Stack>
           ) : (
@@ -198,16 +131,10 @@ function MateriAdminPage() {
         </Box>
 
         <ModalCustom
+          role={modalRole}
           isOpen={modal.isOpen}
           onClose={modal.onClose}
-          role={modalRole}
-          onHandleSubmit={
-            modalRole === "create"
-              ? handleCreateMateri
-              : modalRole === "update"
-              ? handleUpdateMateri
-              : handleDeleteMateri
-          }
+          onHandleSubmit={modalRole === "delete" && handleDeleteMateri}
           selectedEntity={selectedMateri}
           title={ucfirst(
             modalRole !== "create"

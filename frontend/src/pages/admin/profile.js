@@ -1,5 +1,5 @@
-import Layout from "../../components/layout";
-import useDocumentTitle from "../../hooks/useDocumentTitle";
+import Layout from "components/layout";
+import useDocumentTitle from "hooks/useDocumentTitle";
 import {
   chakra,
   Avatar,

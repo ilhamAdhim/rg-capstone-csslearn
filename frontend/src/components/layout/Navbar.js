@@ -13,7 +13,7 @@ import {
 import { FiMenu } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
 import { Link, useLocation } from "react-router-dom";
-import { ucfirst } from "../../common";
+import { ucfirst } from "common";
 
 export const NavItem = ({ icon, text, ...rest }) => {
   const location = useLocation();

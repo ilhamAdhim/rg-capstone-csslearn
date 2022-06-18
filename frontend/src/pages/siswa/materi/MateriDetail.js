@@ -1,8 +1,8 @@
 import { Text } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Layout from "../../../components/layout";
-import useDocumentTitle from "../../../hooks/useDocumentTitle";
+import Layout from "components/layout";
+import useDocumentTitle from "hooks/useDocumentTitle";
 
 function MateriDetailSiswa() {
   useDocumentTitle("Materi");
