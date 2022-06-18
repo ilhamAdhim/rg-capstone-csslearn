@@ -29,7 +29,7 @@ var jwtkey = []byte("key")
 // jwt.StandardClaims sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
 type Claims struct {
 	Username string
-	Role     string
+	// Role     string
 	jwt.StandardClaims
 }
 
@@ -52,7 +52,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	userRoles, err := api.usersRepo.GetUserRole(*res)
+	// userRoles, err := api.usersRepo.GetUserRole(*res)
 
 	// Deklarasi expiry time untuk token jwt (time millisecond)
 	// claim menggunakan variable yang sudah didefinisikan diatas
@@ -60,7 +60,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 	claims := &Claims{
 		Username: user.Username,
-		Role:     userRoles,
+		// Role:     userRoles,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},

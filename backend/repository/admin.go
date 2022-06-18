@@ -7,17 +7,17 @@ import (
 
 type AdminRepository interface {
 	FetchAdminByID(id int64) (Admin, error)
-	Login(username string, password string) (*string, error)
-	GetAdminRole(username string) (string, error)
-	Register(username string, password string) (*string, error)
-	GetAllAdminData(admin, error)
+	Loginadmin(username string, password string) (*string, error)
+	// GetAdminRole(username string) (string, error)
+	Registeradmin(username string, password string) (*string, error)
+	GetAllAdminData(Admin, error)
 }
 
 type adminRepository struct {
 	db *sql.DB
 }
 
-func NewAdminRepository(db *sql.DB) AdminRepository {
+func NewAdminRepository(db *sql.DB) *adminRepository {
 	return &adminRepository{db: db}
 }
 
@@ -32,7 +32,7 @@ func (u *adminRepository) FetchAdminByID(id int64) (Admin, error) {
 	return admin, nil
 }
 
-func (u *adminRepository) Login(username string, password string) (*string, error) {
+func (u *adminRepository) Loginadmin(username string, password string) (*string, error) {
 
 	var admin Admin
 	err := u.db.QueryRow("SELECT username from tb_admin WHERE username = ? AND password = ?", username, password).Scan(&admin.Username)
@@ -44,20 +44,19 @@ func (u *adminRepository) Login(username string, password string) (*string, erro
 	return &admin.Username, nil
 }
 
-func (u *adminRepository) GetAdminRole(username string) (string, error) {
-	var role string
-	err := u.db.QueryRow("SELECT role from tb_admin WHERE username = ?", username).Scan(&role)
-	if err != nil {
-		return "", err
-	}
+// func (u *adminRepository) GetAdminRole(username string) (string, error) {
+// 	var role string
+// 	err := u.db.QueryRow("SELECT role from tb_admin WHERE username = ?", username).Scan(&role)
+// 	if err != nil {
+// 		return "", err
+// 	}
 
-	return role, nil
-}
+// 	return role, nil
+// }
 
-func (u *adminRepository) Register(username string, password string) (*string, error) {
-
+func (u *adminRepository) Registeradmin(username string, password string) (*string, error) {
 	var admin Admin
-	err := u.db.QueryRow("SELECT username from tb_admin WHERE username = ? AND password = ?", username, password).Scan(&admin.Username)
+	_, err := u.db.Exec("INSERT username, password from tb_admin VALUES ( ?, ? )", username, password)
 	if err != nil {
 		return nil, errors.New("Register Failed")
 
@@ -66,14 +65,26 @@ func (u *adminRepository) Register(username string, password string) (*string, e
 	return &admin.Username, nil
 }
 
-func (u *AdminRepository) GetAllAdminData(Admin, error) {
-	var admin Admin
-	err := u.db.QueryRow("SELECT tb_admin", tb_admin).Scan(&admin.ID, &admin.Password, &admin.Token)
-	if err != nil {
-		return admin, err
+// func (u *adminRepository) GetAllAdminData([]Admin, error) {
+// 	var admin Admin
+// 	rows, err := u.db.Query("SELECT *FROM tb_admin")
+// 	if err != nil {
+// 		return admin, err
 
-	}
+// 	}
 
-	return admin, nil
-}
+// 	defer rows.Close()
+// 	for rows.Next() {
+// 		var admins Admin
+
+// 		if err := rows.Scan(&admins.Username, &admins.Password); err != nil {
+// 			return admin, nil
+// 		}
+// 		admin = append(admin, admins)
+// 	}
+
+// 	return admin, nil
+
+// }
+
 //sisa edit codingan perlu di cek kembali
