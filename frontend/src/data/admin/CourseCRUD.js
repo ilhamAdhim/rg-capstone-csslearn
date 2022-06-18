@@ -34,6 +34,7 @@ const mockGetCourse = async () => {
         item.judul_course.includes(dataResponse.judul_course)
       ) &&
       distinctData.push({
+        id: dataResponse.id,
         judul_course: dataResponse.judul_course,
         description:
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry",

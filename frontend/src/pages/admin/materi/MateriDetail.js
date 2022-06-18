@@ -4,6 +4,7 @@ import Layout from "../../../components/layout";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
 
 function MateriDetailAdminPage() {
+  // ? Ini untuk preview materi dan edit materi
   useDocumentTitle("Materi Detail Admin");
   const { idMateri } = useParams();
 

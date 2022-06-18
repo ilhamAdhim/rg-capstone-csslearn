@@ -86,12 +86,6 @@ function LatihanAdminPage() {
     <>
       <Layout>
         <Container maxW={"7xl"}>
-          <JumbotronAdd
-            text="Tambahkan Latihan CSS Baru untuk diikuti"
-            buttonText="Tambah Latihan Baru"
-            handleOpenModal={handleOpenModal}
-          />
-
           <Heading color={"#FF6905"}>List Latihan </Heading>
           {isLatihanLoaded ? (
             <Latihan

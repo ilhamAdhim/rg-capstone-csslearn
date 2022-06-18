@@ -30,10 +30,9 @@ function JumbotronAdd({
             direction={{ base: "column", sm: "row" }}
           >
             <Button
-              rounded={"full"}
-              size={"lg"}
-              fontWeight={"normal"}
               px={40}
+              size={"lg"}
+              rounded={"full"}
               colorScheme={"green"}
               bg={"#3FCD1B"}
               boxShadow={
@@ -41,6 +40,7 @@ function JumbotronAdd({
               }
               _hover={{ bg: "green.300" }}
               onClick={() => handleOpenModal("create")}
+              fontWeight={"bold"}
             >
               {buttonText}
             </Button>

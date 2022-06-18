@@ -18,12 +18,13 @@ import useDocumentTitle from "../../../hooks/useDocumentTitle";
 import { ucfirst } from "../../../common";
 import CourseListFilter from "../../../components/CourseListFilter";
 import { FaEye, FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function MateriAdminPage() {
   useDocumentTitle("Materi");
   const toast = useToast();
   const modal = useDisclosure();
+  const navigate = useNavigate();
 
   const boxMateriBg = useColorModeValue("gray.200", "gray.800");
   const [isMateriSelected, setIsMateriSelected] = useState(false);
@@ -36,7 +37,7 @@ function MateriAdminPage() {
 
   const handleOpenModal = (role, entity = {}) => {
     modal.onOpen();
-    setSelectedMateri(entity);
+    if (role !== "create") setSelectedMateri(entity);
     setModalRole(role);
     console.log("Current Materi ", entity, " role : ", role);
   };
@@ -52,6 +53,13 @@ function MateriAdminPage() {
       isClosable: true,
       duration: 3000,
       position: "top",
+    });
+  };
+
+  const goCreateMateriPage = () => {
+    navigate({
+      pathname: "/admin/materi/tambah",
+      search: `?courseId=${selectedMateri?.id}`,
     });
   };
 
@@ -108,24 +116,27 @@ function MateriAdminPage() {
     <>
       <Layout>
         <Text fontSize="xl" fontWeight="bold">
-          Course dari Materi
+          Materi dari Course
         </Text>
         <CourseListFilter
           setSelectedCourse={setSelectedMateri}
           setIsCourseSelected={setIsMateriSelected}
         />
         <Box mt="8" mb="8" p="8">
-          <Text
-            textAlign="center"
-            fontSize={isMateriSelected ? "4xl" : "2xl"}
-            fontWeight="bold"
-            mb="4"
-          >
-            {" "}
-            {isMateriSelected
-              ? `Materi untuk ${selectedMateri.judul_course || "Materi"}`
-              : "Harap pilih topik diatas terlebih dahulu"}{" "}
-          </Text>
+          {!isMateriSelected ? (
+            <Text mb="4" fontWeight="bold" textAlign="center" fontSize="2xl">
+              Harap pilih topik diatas terlebih dahulu
+            </Text>
+          ) : (
+            <Flex justifyContent="space-between">
+              <Text mb="4" fontWeight="bold" fontSize="2xl">
+                Materi untuk {selectedMateri.judul_course || "Materi"}
+              </Text>
+              <Button colorScheme="cyan" onClick={() => goCreateMateriPage()}>
+                Tambah Materi
+              </Button>
+            </Flex>
+          )}
 
           {isMateriLoaded ? (
             <Stack spacing={4}>
