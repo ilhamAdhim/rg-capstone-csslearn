@@ -5,17 +5,8 @@ import {
   Flex,
   useColorModeValue,
   Text,
-  chakra,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiUser,
-  FiUsers,
-} from "react-icons/fi";
+import { FiCompass, FiStar, FiSettings, FiUser, FiUsers } from "react-icons/fi";
 import { NavItem } from "./Navbar";
 import { useLocation } from "react-router";
 

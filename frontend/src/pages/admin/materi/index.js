@@ -5,20 +5,20 @@ import {
   Skeleton,
   Stack,
   Text,
-  Tooltip,
   useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+
 import { useEffect, useState } from "react";
-import Layout from "../../../components/layout";
-import ModalCustom from "../../../components/ModalCustom";
 import { mockGetMateriFromCourse } from "../../../data/admin/MateriCRUD";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
 import { ucfirst } from "../../../common";
+import { useNavigate } from "react-router-dom";
+import Layout from "../../../components/layout";
 import CourseListFilter from "../../../components/CourseListFilter";
-import { FaEye, FaTrash } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import ModalCustom from "../../../components/ModalCustom";
+import BoxItem from "../../../components/BoxItem";
 
 function MateriAdminPage() {
   useDocumentTitle("Materi");
@@ -26,12 +26,13 @@ function MateriAdminPage() {
   const modal = useDisclosure();
   const navigate = useNavigate();
 
-  const boxMateriBg = useColorModeValue("gray.200", "gray.800");
-  const [isMateriSelected, setIsMateriSelected] = useState(false);
+  const textTambahMateriColor = useColorModeValue("white", "black");
+  const [selectedCourse, setSelectedCourse] = useState({});
 
   const [dataMateri, setDataMateri] = useState([]);
-  const [isMateriLoaded, setIsMateriLoaded] = useState(false);
   const [selectedMateri, setSelectedMateri] = useState({});
+  const [isMateriSelected, setIsMateriSelected] = useState(false);
+  const [isMateriLoaded, setIsMateriLoaded] = useState(false);
 
   const [modalRole, setModalRole] = useState("");
 
@@ -42,24 +43,10 @@ function MateriAdminPage() {
     console.log("Current Materi ", entity, " role : ", role);
   };
 
-  const handleCreateMateri = () => {
-    // TODO : connect endpoint CreateMateri
-    // ...
-
-    toast({
-      title: "Materi baru telah dibuat",
-      variant: "solid",
-      status: "success",
-      isClosable: true,
-      duration: 3000,
-      position: "top",
-    });
-  };
-
   const goCreateMateriPage = () => {
     navigate({
       pathname: "/admin/materi/tambah",
-      search: `?courseId=${selectedMateri?.id}`,
+      search: `?courseId=${selectedCourse?.id}`,
     });
   };
 
@@ -68,7 +55,7 @@ function MateriAdminPage() {
     // ...
 
     toast({
-      title: `Materi ${selectedMateri} berhasil diubah`,
+      title: `Materi ${selectedCourse} berhasil diubah`,
       variant: "solid",
       status: "success",
       isClosable: true,
@@ -81,7 +68,7 @@ function MateriAdminPage() {
     // TODO : connect endpoint DeleteMateri
     // ...
     toast({
-      title: `Materi ${selectedMateri} berhasil dihapus`,
+      title: `Materi ${selectedCourse} berhasil dihapus`,
       variant: "solid",
       status: "success",
       isClosable: true,
@@ -93,20 +80,20 @@ function MateriAdminPage() {
   useEffect(() => {
     // TODO : Consume data materi ketika ada perubahan Materi yang dipilih
     // ...
-    if (selectedMateri !== undefined) {
+    if (selectedCourse !== undefined) {
       setIsMateriLoaded(false);
 
       mockGetMateriFromCourse().then((data) => {
         // ? Ini kalau endpointnya gak terbalik, bisa langsung setDataMateri(data)
         setDataMateri(
           data?.filter((item) =>
-            item.judul_course.includes(selectedMateri.judul_course)
+            item.judul_course.includes(selectedCourse.judul_course)
           )
         );
         setIsMateriLoaded(true);
       });
     }
-  }, [selectedMateri]);
+  }, [selectedCourse]);
 
   useEffect(() => {
     console.log(dataMateri);
@@ -119,7 +106,7 @@ function MateriAdminPage() {
           Materi dari Course
         </Text>
         <CourseListFilter
-          setSelectedCourse={setSelectedMateri}
+          setSelectedCourse={setSelectedCourse}
           setIsCourseSelected={setIsMateriSelected}
         />
         <Box mt="8" mb="8" p="8">
@@ -129,10 +116,14 @@ function MateriAdminPage() {
             </Text>
           ) : (
             <Flex justifyContent="space-between">
-              <Text mb="4" fontWeight="bold" fontSize="2xl">
-                Materi untuk {selectedMateri.judul_course || "Materi"}
+              <Text mb="4" fontWeight="bold" fontSize={["lg", "2xl"]}>
+                Materi untuk {selectedCourse.judul_course || "Materi"}
               </Text>
-              <Button colorScheme="cyan" onClick={() => goCreateMateriPage()}>
+              <Button
+                colorScheme="cyan"
+                color={textTambahMateriColor}
+                onClick={() => goCreateMateriPage()}
+              >
                 Tambah Materi
               </Button>
             </Flex>
@@ -141,51 +132,13 @@ function MateriAdminPage() {
           {isMateriLoaded ? (
             <Stack spacing={4}>
               {dataMateri.map((item, id) => (
-                <Box key={id} bg={boxMateriBg} p="2em">
-                  <Flex
-                    gap="1em"
-                    justifyContent="space-between"
-                    flexDir={["column", "row"]}
-                  >
-                    <Box width="80%">
-                      <Text fontSize="xl" fontWeight="bold">
-                        {item.course}
-                      </Text>
-                      <Text fontSize="md" mt="1em">
-                        {item.materi}
-                      </Text>
-                    </Box>
-                    <Flex m="auto 0" gap="1em">
-                      <Box>
-                        <Tooltip
-                          hasArrow
-                          placement="top"
-                          label="Preview Materi"
-                        >
-                          {/* // ! Masih mock lho ya */}
-                          <Link to={`${id + 1}`}>
-                            <Button
-                              flex={1}
-                              colorScheme="blue"
-                              // onClick={() => handleOpenModal("delete", item)}
-                              children={<FaEye />}
-                            />
-                          </Link>
-                        </Tooltip>
-                      </Box>
-                      <Box>
-                        <Tooltip hasArrow placement="top" label="Delete Materi">
-                          <Button
-                            flex={1}
-                            colorScheme="red"
-                            onClick={() => handleOpenModal("delete", item)}
-                            children={<FaTrash />}
-                          />
-                        </Tooltip>
-                      </Box>
-                    </Flex>
-                  </Flex>
-                </Box>
+                <BoxItem
+                  item={item}
+                  hasDelete
+                  hasPreview
+                  entity="materi"
+                  handleOpenModal={handleOpenModal}
+                />
               ))}
             </Stack>
           ) : (
@@ -208,10 +161,10 @@ function MateriAdminPage() {
               ? handleUpdateMateri
               : handleDeleteMateri
           }
-          selectedEntity={selectedMateri}
+          selectedEntity={selectedCourse}
           title={ucfirst(
             modalRole !== "create"
-              ? `${modalRole} Materi di ${selectedMateri?.judul_course}`
+              ? `${modalRole} Materi di ${selectedCourse?.judul_course}`
               : `Tambah Materi baru`
           )}
         >
