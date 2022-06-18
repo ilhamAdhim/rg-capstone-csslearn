@@ -8,44 +8,41 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
-  FormControl,
-  Input,
-  FormLabel,
   Text,
+  Box,
   Select,
-  Stack,
 } from "@chakra-ui/react";
 
 import React from "react";
 
-export default function ModalPertanyaanUpdate() {
+export default function ModalMulaiLatihan() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-  const [size, setSize] = React.useState("xl");
+  const [size] = React.useState("xl");
 
   return (
     <>
-      <Text> INI UNTUK MODAL EDIT PERTANYAAN , COBA DIKLIK</Text>
+      <Text> INI UNTUK MODAL PILIH TOPIK , COBA DIKLIK</Text>
       <Button
         onClick={onOpen}
         flex={1}
         fontSize={"sm"}
         rounded={"md"}
-        bg={"blue.500"}
+        bg={"red.500"}
         color={"white"}
         boxShadow={
           "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
         }
         _hover={{
-          bg: "blue.500",
+          bg: "red.500",
         }}
         _focus={{
-          bg: "blue.600",
+          bg: "red.600",
         }}
       >
-        Edit Question
+        Pilih topik
       </Button>
 
       <Modal
@@ -64,66 +61,38 @@ export default function ModalPertanyaanUpdate() {
             p="4"
             rounded="sm"
           >
-            Edit question
+            Delete topik
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl mt={4}>
-              <FormLabel>Question text</FormLabel>
-              <Input
-                borderColor={"#33A9DC"}
-                variant="outline"
-                color="black"
-                height={40}
-              />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Option A</FormLabel>
-              <Input borderColor={"#33A9DC"} variant="outline" color="black" />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Option B</FormLabel>
-              <Input borderColor={"#33A9DC"} variant="outline" color="black" />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Option C</FormLabel>
-              <Input borderColor={"#33A9DC"} variant="outline" color="black" />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Option D</FormLabel>
-              <Input borderColor={"#33A9DC"} variant="outline" color="black" />
-            </FormControl>
-
-            <Stack
-              width={"100%"}
-              direction={"row"}
-              justifyContent={"space-between"}
-              mt={8}
-              alignItems={"center"}
+            <Box
+              flex={1}
+              ml={3}
+              mt={3}
+              mb={3}
+              fontSize={"lg"}
+              rounded={"sm"}
+              bg={"white"}
+              color={"black"}
+              width={500}
+              height={40}
+              boxShadow={
+                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+              }
             >
-              <Text>Right answer</Text>
+              <Text mt={10} textAlign="center" py={6}>
+                Pilih Daftar Topik
+              </Text>
               <Select
                 borderColor={"#33A9DC"}
                 variant="outline"
                 color="gray.400"
-                placeholder="Right answer"
+                placeholder="Topik 1"
                 size="md"
-                width={40}
+                ml={8}
+                width={80}
               />
-              <Text>Input to</Text>
-              <Select
-                borderColor={"#33A9DC"}
-                variant="outline"
-                color="gray.400"
-                placeholder="Choose course"
-                size="md"
-                width={40}
-              />
-            </Stack>
+            </Box>
           </ModalBody>
 
           <ModalFooter>
@@ -144,7 +113,7 @@ export default function ModalPertanyaanUpdate() {
                 bg: "blue.600",
               }}
             >
-              Edit
+              Start
             </Button>
             <Button
               onClick={onClose}
