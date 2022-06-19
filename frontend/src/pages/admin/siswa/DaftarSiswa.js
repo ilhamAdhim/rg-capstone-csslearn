@@ -1,25 +1,17 @@
-import { Flex, useDisclosure, useToast } from "@chakra-ui/react";
+import { Flex, useDisclosure } from "@chakra-ui/react";
 import BoxItem from "components/BoxItem";
-import ModalCustom from "components/ModalCustom";
-import ModalSiswaPreview from "components/ModalSiswaContent/ModalSiswaPreview";
 import { useEffect, useState } from "react";
 
-export default function DaftarSiswa() {
-  const modal = useDisclosure();
-  const toast = useToast();
-
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [modalRole, setModalRole] = useState("");
-
+export default function DaftarSiswa({ handleOpenModal }) {
   const [dataUser, setDataUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
 
   useEffect(() => {
-    if (selectedCourse !== " ") {
+    if (selectedUser !== " ") {
       // TODO : Fetch data DaftarSiswa by category ID
       // ...
     }
-    console.log(selectedCourse);
+    console.log(selectedUser);
     setDataUser([
       {
         useravatar:
@@ -28,31 +20,19 @@ export default function DaftarSiswa() {
         useremail: "emaillala@rocketmail.com",
       },
       {
-        useravatar: "",
+        useravatar:
+          "https://static.wikia.nocookie.net/telletubbies/images/7/79/Dipsy_intro.PNG/revision/latest?cb=20200422222253",
         username: "dipsy",
         useremail: "emaildipsy@rocketmail.com",
       },
-      { vusername: "poo", useremail: "emailpoo@rocketmail.com" },
+      {
+        useravatar:
+          "https://static.wikia.nocookie.net/telletubbies/images/7/79/Dipsy_intro.PNG/revision/latest?cb=20200422222253",
+        username: "poo",
+        useremail: "emailpoo@rocketmail.com",
+      },
     ]);
-  }, [selectedCourse]);
-
-  const handleOpenModal = (role, course = {}) => {
-    console.log(role);
-    modal.onOpen();
-    setSelectedUser(course);
-    setModalRole(role);
-  };
-
-  const handleSiswaPreview = () => {
-    // TODO : connect endpoint DeleteUser
-    // ...
-    toast({
-      variant: "solid",
-      status: "success",
-      isClosable: true,
-      position: "top",
-    });
-  };
+  }, [selectedUser]);
 
   return (
     <>
@@ -60,25 +40,13 @@ export default function DaftarSiswa() {
         {dataUser?.map((item) => (
           <BoxItem
             hasPreview
+            entity="user"
             item={item}
             key={item.username}
             handleOpenModal={handleOpenModal}
-            entity="user"
           />
         ))}
       </Flex>
-
-      <ModalCustom
-        isOpen={modal.isOpen}
-        onClose={modal.onClose}
-        role={modalRole}
-        onHandleSubmit={(modalRole === "preview") === handleSiswaPreview}
-        selectedEntity={selectedUser}
-      >
-        {modalRole === "preview" && (
-          <ModalSiswaPreview currentUser={selectedUser} />
-        )}
-      </ModalCustom>
     </>
   );
 }

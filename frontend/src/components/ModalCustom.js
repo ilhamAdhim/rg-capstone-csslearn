@@ -30,7 +30,7 @@ function ModalCustom({
           <ModalFooter>
             <Button
               onClick={onClose}
-              variantColor="blue"
+              colorScheme="blue"
               mr={3}
               variant="outline"
               size="md"

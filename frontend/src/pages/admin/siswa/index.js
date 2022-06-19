@@ -22,15 +22,13 @@ function DaftarSiswaAdminPage() {
 
   const [modalRole, setModalRole] = useState("");
 
-  const [dataDaftarSiswa, setDataDaftarSiswa] = useState([]);
   const [isDaftarSiswaLoaded, setIsDaftarSiswaLoaded] = useState(false);
   const [selectedDaftarSiswa, setSelectedDaftarSiswa] = useState({});
 
-  const handleOpenModal = (role, DaftarSiswa = {}) => {
+  const handleOpenModal = (role, siswa = {}) => {
     modal.onOpen();
-    setSelectedDaftarSiswa(DaftarSiswa);
+    setSelectedDaftarSiswa(siswa);
     setModalRole(role);
-    console.log("Current DaftarSiswa ", DaftarSiswa, " role : ", role);
   };
 
   const handleSiswaPreview = () => {
@@ -51,12 +49,9 @@ function DaftarSiswaAdminPage() {
     <>
       <Layout>
         <Container maxW={"7xl"}>
-          <Heading color={"#FF6905"}>List DaftarSiswa </Heading>
+          <Heading color={"#FF6905"}>Daftar Siswa </Heading>
           {isDaftarSiswaLoaded ? (
-            <DaftarSiswa
-              dataDaftarSiswa={dataDaftarSiswa}
-              handleOpenModal={handleOpenModal}
-            />
+            <DaftarSiswa handleOpenModal={handleOpenModal} />
           ) : (
             <Stack spacing={6} mt={6}>
               <Skeleton h="300px" />
@@ -69,11 +64,11 @@ function DaftarSiswaAdminPage() {
             isOpen={modal.isOpen}
             onClose={modal.onClose}
             role={modalRole}
-            onHandleSubmit={"preview" === modalRole ? handleSiswaPreview : null}
+            onHandleSubmit={modalRole === "preview" ? handleSiswaPreview : null}
             selectedEntity={selectedDaftarSiswa}
           >
             {modalRole === "preview" && (
-              <ModalSiswaPreview currentDaftarSiswa={selectedDaftarSiswa} />
+              <ModalSiswaPreview currentSiswa={selectedDaftarSiswa} />
             )}
           </ModalCustom>
         </Container>
