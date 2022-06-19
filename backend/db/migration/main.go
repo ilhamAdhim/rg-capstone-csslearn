@@ -8,7 +8,7 @@ import (
 
 // Run This Script for migration db
 func main() {
-	db, err := sql.Open("sqlite3", "../css-learn.db")
+	db, err := sql.Open("sqlite3", "db/css-learn.db")
 	if err != nil {
 		panic(err)
 	}
@@ -25,7 +25,6 @@ func main() {
 		CREATE TABLE IF NOT EXISTS  tb_siswa (
 			id_siswa INTEGER not null PRIMARY KEY AUTOINCREMENT,
 			username VARCHAR(11) not null,
-			jenis_kelamin TEXT CHECK( jenis_kelamin IN ('P','L')) not null DEFAULT 'P',
 			email VARCHAR(50) not null,
 			password VARCHAR(11) not null
 
@@ -56,26 +55,29 @@ func main() {
 
 		CREATE TABLE  IF NOT EXISTS tb_course_category (
 			id_course_category INTEGER not null PRIMARY KEY AUTOINCREMENT,
-			id_siswa INT(11) not null,
+			id_siswa INT(11),
 			nama_materi VARCHAR(100),
 			materi TEXT,
 			start_date DATETIME,
-			end_date TIMESTAMP,
+			end_date DATETIME,
 			FOREIGN KEY (id_siswa) REFERENCES tb_siswa(id_siswa)
+				ON UPDATE RESTRICT
+      		 	ON DELETE RESTRICT
 		);
 
 		CREATE TABLE IF NOT EXISTS  tb_nilai (
 			id_nilai INTEGER not null PRIMARY KEY AUTOINCREMENT,
-			id_siswa INT(11) not null,
-			id_latihan INT(11) not null,
-			id_course_category INT(11) not null,
+			id_siswa INT(11),
+			id_latihan INT(11),
+			id_course INT(11),
 			score INT(11) not null,
 			FOREIGN KEY (id_siswa) REFERENCES tb_siswa(id_siswa),
 			FOREIGN KEY (id_latihan) REFERENCES tb_latihan(id_latihan),
-			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category)
+			FOREIGN KEY (id_course) REFERENCES tb_course(id_course)
 		);
 		
-	INSERT INTO tb_admin(username, password) VALUES('admin70', '1234');`)
+	INSERT INTO tb_admin(username, password) VALUES('admin70', '1234');
+	INSERT INTO tb_siswa(username, password,email) VALUES('widatii', 'wida12','widati@gmail.com');`)
 
 	if err != nil {
 		panic(err)
