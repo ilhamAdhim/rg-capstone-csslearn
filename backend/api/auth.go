@@ -42,7 +42,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	res, err := api.usersRepo.Login(user.Username, user.Password)
+	// res, err := api.usersRepo.Login(user.Username, user.Password)
 
 	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
@@ -87,7 +87,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		Expires: expirationTime,
 	})
 
-	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
+	encoder.Encode(LoginSuccesResponse{Token: tokenStr})
 }
 
 func (api *API) logout(w http.ResponseWriter, req *http.Request) {

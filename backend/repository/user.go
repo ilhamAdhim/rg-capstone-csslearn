@@ -2,10 +2,10 @@ package repository
 
 import (
 	"database/sql"
-	"errors"
+	"fmt"
 )
 
-type UserRepository interface {
+type userRepository interface {
 	FetchUserByID(id int64) (User, error)
 	Login(username string, password string) (*string, error)
 	// GetUserRole(username string) (string, error)
@@ -13,15 +13,15 @@ type UserRepository interface {
 	GetAllUserData(User, error)
 }
 
-type userRepository struct {
+type UserRepository struct {
 	db *sql.DB
 }
 
-func NewUserRepository(db *sql.DB) *userRepository {
-	return &userRepository{db: db}
+func NewUserRepository(db *sql.DB) *UserRepository {
+	return &UserRepository{db: db}
 }
 
-func (u *userRepository) FetchUserByID(id int64) (User, error) {
+func (u *UserRepository) FetchUserByID(id int64) (User, error) {
 	var user User
 	err := u.db.QueryRow("SELECT *from tb_siswa WHERE id_siswa = ?", id).Scan(&user.ID, &user.Username, &user.Password, &user.Email)
 	if err != nil {
@@ -42,47 +42,54 @@ func (u *userRepository) FetchUserByID(id int64) (User, error) {
 // 	return role, nil
 // }
 
-func (u *userRepository) Register(username string, password string, email string) (*string, error) {
+func (u *UserRepository) Register([]User) (*string, error) {
 	var user User
-	_, err := u.db.Exec("INSERT username, password, email from tb_siswa VALUES ( ?, ?, ?)", username, password, email)
-	if err != nil {
-		return nil, errors.New("Register Failed")
 
+	SqlStatement := `INSERT INTO (username, email, password) from tb_siswa VALUES ( ?, ?, ?)`
+	_, err := u.db.Exec(SqlStatement, &user.Username, &user.Email, &user.Password)
+	if err != nil {
+		return nil, err
 	}
 
 	return &user.Username, nil
+
 }
 
-// func (u *userRepository) GetAllUserData(User, error) {
-// 	var users []User
+func (u *UserRepository) GetAllUserData() ([]User, error) {
+	sqlStatement := `SELECT *FROM tb_siswa`
+	var users []User
 
-// 	rows, err := u.db.Query("SELECT *FROM tb_siswa")
-// 	if err != nil {
-// 		return users, err
-// 	}
-// 	defer rows.Close()
-
-// 	for rows.Next() {
-// 		var user User
-// 		if err := rows.Scan(&user.Username, &user.Email, &user.Password); err != nil {
-// 			return users, nil
-// 		}
-// 		users = append(users, user)
-// 	}
-
-// 	return users, nil
-// }
-
-func (u *userRepository) Login(username string, password string) (*string, error) {
-
-	var user User
-	err := u.db.QueryRow("SELECT username from tb_siswa WHERE username = ? AND password = ?", username, password).Scan(&user.Username)
+	rows, err := u.db.Query(sqlStatement)
 	if err != nil {
-		return nil, errors.New("Login Failed")
+		return users, err
+	}
+	defer rows.Close()
 
+	for rows.Next() {
+		var user User
+		if err := rows.Scan(&user.Username, &user.Email, &user.Password); err != nil {
+			return users, nil
+		}
+		users = append(users, user)
 	}
 
-	return &user.Username, nil
+	return users, nil
+}
+
+func (u *UserRepository) Login(username string, password string) (*string, error) {
+
+	users, err := u.GetAllUserData()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, user := range users {
+		if user.Username == username && user.Password == password {
+			return &user.Username, nil
+		}
+	}
+	return nil, fmt.Errorf("Login Failed")
 }
 
 //sisa edit codingan perlu di cek kembali dan di register perlu menambahkan email dan jenis kelamin
