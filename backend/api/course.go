@@ -41,7 +41,7 @@ func (api *API) course(w http.ResponseWriter, req *http.Request) {
 
 	for _, course := range course {
 		respone.Course = append(respone.Course, Course{
-			Title:   course.Title_content,
+			Title:  course.Title_content,
 			Content: course.Content,
 		})
 	}

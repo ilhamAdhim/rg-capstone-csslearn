@@ -2,7 +2,7 @@ import { FormControl, Input, FormLabel } from "@chakra-ui/react";
 
 import React from "react";
 
-export default function ModalPertanyaanCreate({ currentPertanyaan, formObj }) {
+export default function ModalPertanyaanCreate() {
   //   TODO : Set Form & Validation
   // ...
   return (

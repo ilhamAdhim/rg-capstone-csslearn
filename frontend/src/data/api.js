@@ -8,7 +8,7 @@ export const MOCK_API_URL_SISWA = `${MOCK_BASE_URL}/siswa`;
 export const MOCK_API_URL_COURSE = `${MOCK_BASE_URL}/course`;
 
 // ? Belum ada untuk mockapi materi
-export const MOCK_API_URL_MATERI = `${MOCK_BASE_URL}/course`;
+export const MOCK_API_URL_MATERI = `${MOCK_BASE_URL}/materi`;
 
 export const axiosWithBearer = (bearerToken) =>
   axios.create({

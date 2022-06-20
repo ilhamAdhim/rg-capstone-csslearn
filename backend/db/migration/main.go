@@ -30,7 +30,7 @@ func main() {
 
 		);
 
-		CREATE TABLE  IF NOT EXISTS tb_course_css (
+		CREATE TABLE  IF NOT EXISTS tb_course (
 			id_course INTEGER  not null PRIMARY KEY AUTOINCREMENT,
 			id_course_category INT(11) not null,
 			nama_course VARCHAR(50) not null,

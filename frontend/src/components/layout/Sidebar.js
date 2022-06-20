@@ -5,17 +5,8 @@ import {
   Flex,
   useColorModeValue,
   Text,
-  chakra,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiUser,
-  FiUsers,
-} from "react-icons/fi";
+import { FiCompass, FiStar, FiSettings, FiUser, FiUsers } from "react-icons/fi";
 import { NavItem } from "./Navbar";
 import { useLocation } from "react-router";
 
@@ -42,7 +33,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     let role = location.pathname.split("/")[1];
     if (location.pathname !== undefined)
       localStorage.setItem("current_role", role);
-  }, []);
+  }, [location.pathname]);
 
   return (
     <Box

@@ -1,15 +1,18 @@
-import { Text } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Layout from "../../../components/layout";
-import useDocumentTitle from "../../../hooks/useDocumentTitle";
+import Layout from "components/layout";
+import useDocumentTitle from "hooks/useDocumentTitle";
+import MDEditor from "@uiw/react-md-editor";
 
 function MateriDetailSiswa() {
   useDocumentTitle("Materi");
   const { idMateri } = useParams();
+  const [valueMarkdownEditor, setValueMarkdownEditor] = useState(
+    "**Ini data materi dari Backend. Untuk role siswa hanya bisa preview materi**"
+  );
 
   useEffect(() => {
-    // TODO : fetch detail materi
+    // TODO : fetch detail materi by ID
     // ...
   }, [idMateri]);
 
@@ -17,7 +20,14 @@ function MateriDetailSiswa() {
     <>
       <Layout>
         <h1>Materi Detail Siswa</h1>
-        <Text>Ini Materi ke {idMateri}</Text>
+        <MDEditor.Markdown
+          source={valueMarkdownEditor}
+          style={{
+            whiteSpace: "pre-wrap",
+            padding: "1em",
+            marginTop: "1em",
+          }}
+        />
       </Layout>
     </>
   );
