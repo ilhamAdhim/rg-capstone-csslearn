@@ -110,10 +110,11 @@ function BoxItem({
               fontWeight="bold"
               textAlign={["center", "justify"]}
             >
-              {item.course || `Materi ${item.id}`}
+              {item.category_course || `Materi ${item.id}`}
             </Text>
             <Text mt="1em" fontSize="md" textAlign={["justify"]}>
               {item.materi ||
+                item.description ||
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry"}
             </Text>
           </Box>

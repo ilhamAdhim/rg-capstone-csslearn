@@ -69,7 +69,7 @@ function MateriAdminPage() {
         // ? Ini kalau endpointnya gak terbalik, bisa langsung setDataMateri(data)
         setDataMateri(
           data?.filter((item) =>
-            item.judul_course.includes(selectedMateri.judul_course)
+            item.course.includes(selectedMateri.judul_course)
           )
         );
         setIsMateriLoaded(true);
