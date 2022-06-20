@@ -1,51 +1,140 @@
 package api
 
-// import (
-// 	"encoding/json"
-// 	"net/http"
-// )
+import (
+	"encoding/json"
+	"net/http"
+	"time"
+)
 
-// type CourseCategoryErrorRespone struct {
-// 	Error string `json:"error"`
-// }
+type CourseCategoryErrorRespone struct {
+	Error string `json:"error"`
+}
 
-// type Category struct {
-// 	Title  string `json:"nama_materi"`
-// 	Materi string `json:"materi"`
-// 	// Start_date *time.Time `json:"start_date"`
-// 	// End_date   *time.Time `json:"end_date"`
-// }
+type Category struct {
+	ID         int64      `json:"id_course_category"`
+	Title      string     `json:"nama_materi"`
+	Materi     string     `json:"materi"`
+	Start_date *time.Time `json:"start_date"`
+	End_date   *time.Time `json:"end_date"`
+}
 
-// type CourseCategorySuccesRespone struct {
-// 	CategoryCourse []Category `json:"category"`
-// }
+type CourseCategorySuccesRespone struct {
+	CategoryCourse []Category `json:"category"`
+}
 
-// func (api *API) coursecategory(w http.ResponseWriter, req *http.Request) {
-// 	api.AllowOrigin(w, req)
-// 	encoder := json.NewEncoder(w)
+func (api *API) getcoursecategory(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	encoder := json.NewEncoder(w)
 
-// 	respone := CourseCategorySuccesRespone{}
-// 	respone.CategoryCourse = make([]Category, 0)
+	respone := CourseCategorySuccesRespone{}
+	respone.CategoryCourse = make([]Category, 0)
 
-// 	category, err := api.categorycourseRepo.FecthCategoryCourse()
-// 	defer func() {
-// 		if err != nil {
-// 			w.WriteHeader(http.StatusBadRequest)
-// 			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
-// 			return
-// 		}
-// 	}()
+	category, err := api.categorycourseRepo.FecthCategoryCourse()
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
+			return
+		}
+	}()
 
-// 	if err != nil {
-// 		return
-// 	}
+	if err != nil {
+		return
+	}
 
-// 	for _, coursecategory := range category {
-// 		respone.CategoryCourse = append(respone.CategoryCourse, Category{
-// 			Title:  coursecategory.Title_Materi,
-// 			Materi: coursecategory.Materi,
-// 		})
-// 	}
+	for _, coursecategory := range category {
+		respone.CategoryCourse = append(respone.CategoryCourse, Category{
+			Title:  coursecategory.Title_Materi,
+			Materi: coursecategory.Materi,
+		})
+	}
 
-// 	encoder.Encode(respone)
-// }
+	encoder.Encode(respone)
+}
+
+func (api *API) getcoursecategorybyid(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	encoder := json.NewEncoder(w)
+	var course Category
+
+	respone := CourseCategorySuccesRespone{}
+	respone.CategoryCourse = make([]Category, 0)
+
+	_, err := api.categorycourseRepo.FecthCategoryCourseByID(course.ID)
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
+			return
+		}
+	}()
+
+	if err != nil {
+		return
+	}
+	var courses []Category
+	for _, coursecategory := range courses {
+		respone.CategoryCourse = append(respone.CategoryCourse, Category{
+			Title:  coursecategory.Title,
+			Materi: coursecategory.Materi,
+		})
+	}
+
+	encoder.Encode(respone)
+}
+
+func (api *API) insertCourseCategory(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var course Category
+	err := json.NewDecoder(req.Body).Decode(&course)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	_, err = api.categorycourseRepo.CreateCourseCategory(course.Title, course.Materi)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Insert course category Failed"))
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Insert course category successful"))
+
+}
+
+func (api *API) updateCourseCategory(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var course Category
+	err := json.NewDecoder(req.Body).Decode(&course)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	_, err = api.categorycourseRepo.UpdateCourseCategory(course.ID)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Update course category Failed"))
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Update course category successful"))
+
+}
+
+func (api *API) deleteCourseCategory(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var course Category
+	err := api.categorycourseRepo.DeleteCourseCategoryByID(course.ID)
+	encoder := json.NewEncoder(w)
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
+		}
+	}()
+
+	w.WriteHeader(http.StatusOK)
+}

@@ -1,121 +1,175 @@
 package api
 
-// import (
-// 	"encoding/json"
-// 	"net/http"
-// 	"time"
+import (
+	"encoding/json"
+	"net/http"
+	"time"
 
-// 	"github.com/golang-jwt/jwt/v4"
-// )
+	"github.com/golang-jwt/jwt/v4"
+)
 
-// type Admin struct {
-// 	Username string `json:"username"`
-// 	Password string `json:"password"`
-// }
+type Admin struct {
+	ID       int64  `json:"id_admin"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Token    string `json:"token"`
+}
 
-// type LoginSuccesResponseAdmin struct {
-// 	Username string `json:"username"`
-// 	Token    string `json:"token"`
-// }
+type LoginSuccesResponseAdmin struct {
+	Username string `json:"username"`
+	Token    string `json:"token"`
+}
 
-// type AdminErrorRespone struct {
-// 	Error string `json:"error"`
-// }
+type AdminErrorRespone struct {
+	Error string `json:"error"`
+}
 
-// //jwtkey untuk membuat signature
-// var jwtKey = []byte("key")
+type GetAdminSuccesRespone struct {
+	Admins []Admin `json:"admins"`
+}
 
-// // Struct claim sebagai object yang akan diencode oleh jwt
-// // jwt.StandardClaims sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
-// type ClaimsAdmin struct {
-// 	Username string
-// 	// Role     string
-// 	jwt.StandardClaims
-// }
+//jwtkey untuk membuat signature
+var jwtKey = []byte("key")
 
-// func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
-// 	api.AllowOrigin(w, req)
-// 	var admin Admin
-// 	err := json.NewDecoder(req.Body).Decode(&admin)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		return
-// 	}
+// Struct claim sebagai object yang akan diencode oleh jwt
+// jwt.StandardClaims sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
+type ClaimsAdmin struct {
+	Username string
+	// Role     string
+	jwt.StandardClaims
+}
 
-// 	res, err := api.adminsRepo.Loginadmin(admin.Username, admin.Password)
+func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var admin Admin
+	err := json.NewDecoder(req.Body).Decode(&admin)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-// 	w.Header().Set("Content-Type", "application/json")
-// 	encoder := json.NewEncoder(w)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusUnauthorized)
-// 		encoder.Encode(AdminErrorRespone{Error: err.Error()})
-// 		return
-// 	}
+	res, err := api.adminsRepo.LoginAdmin(admin.Username, admin.Password)
 
-// 	// adminRoles, err := api.adminsRepo.GetAdminRole(*res)
+	w.Header().Set("Content-Type", "application/json")
+	encoder := json.NewEncoder(w)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		encoder.Encode(AdminErrorRespone{Error: err.Error()})
+		return
+	}
 
-// 	// Deklarasi expiry time untuk token jwt (time millisecond)
-// 	// claim menggunakan variable yang sudah didefinisikan diatas
-// 	expirationTime := time.Now().Add(24 * time.Hour)
+	// adminRoles, err := api.adminsRepo.GetAdminRole(*res)
 
-// 	claims := &Claims{
-// 		Username: admin.Username,
-// 		// Role:     adminRoles,
-// 		StandardClaims: jwt.StandardClaims{
-// 			ExpiresAt: expirationTime.Unix(),
-// 		},
-// 	}
+	// Deklarasi expiry time untuk token jwt (time millisecond)
+	// claim menggunakan variable yang sudah didefinisikan diatas
+	expirationTime := time.Now().Add(24 * time.Hour)
 
-// 	//token encoded claim dengan salah satu algoritma yang dipakai
-// 	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	claims := &Claims{
+		Username: *res,
+		// Role:     adminRoles,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
 
-// 	//jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
-// 	//return internal error ketika ada kesalahan ketika pembuatan JWT string
+	//token encoded claim dengan salah satu algoritma yang dipakai
+	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
 
-// 	tokenStr, err := token.SignedString(jwtkey)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		return
-// 	}
+	//jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
+	//return internal error ketika ada kesalahan ketika pembuatan JWT string
 
-// 	//Set token string kedalam cookie response
-// 	//Return response berupa username dan token JWT yang sudah login
+	tokenStr, err := token.SignedString(jwtkey)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
-// 	http.SetCookie(w, &http.Cookie{
-// 		Name:    "token",
-// 		Value:   tokenStr,
-// 		Expires: expirationTime,
-// 	})
+	//Set token string kedalam cookie response
+	//Return response berupa username dan token JWT yang sudah login
 
-// 	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
-// }
+	http.SetCookie(w, &http.Cookie{
+		Name:    "token",
+		Value:   tokenStr,
+		Expires: expirationTime,
+	})
 
-// func (api *API) logoutadmin(w http.ResponseWriter, req *http.Request) {
-// 	api.AllowOrigin(w, req)
+	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
+}
 
-// 	token, err := req.Cookie("token")
-// 	if err != nil {
-// 		if err == http.ErrNoCookie {
-// 			// return unauthorized ketika token kosong
-// 			w.WriteHeader(http.StatusBadRequest)
-// 			return
-// 		}
-// 		// return bad request ketika field token tidak ada
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		return
-// 	}
+func (api *API) registeradmin(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var admins Admin
+	err := json.NewDecoder(req.Body).Decode(&admins)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-// 	if token.Value == "" {
-// 		w.WriteHeader(http.StatusUnauthorized)
-// 		return
-// 	}
+	_, err = api.adminsRepo.RegisterAdmin(admins.Username, admins.Password)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Registration Failed"))
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Registration successful"))
 
-// 	c := http.Cookie{
-// 		Name:   "token",
-// 		MaxAge: -1,
-// 	}
-// 	http.SetCookie(w, &c)
+}
 
-// 	w.WriteHeader(http.StatusOK)
-// 	w.Write([]byte("Logout succes"))
-// }
+func (api *API) getadmins(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	encoder := json.NewEncoder(w)
+
+	response := GetAdminSuccesRespone{}
+	response.Admins = make([]Admin, 0)
+
+	admins, err := api.adminsRepo.GetAllAdminData()
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(UserErrorRespone{Error: err.Error()})
+			return
+		}
+	}()
+	if err != nil {
+		return
+	}
+
+	for _, list := range admins {
+		response.Admins = append(response.Admins, Admin{
+			Username: list.Username,
+		})
+	}
+	encoder.Encode(response)
+
+}
+
+func (api *API) logoutadmin(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+
+	token, err := req.Cookie("token")
+	if err != nil {
+		if err == http.ErrNoCookie {
+			// return unauthorized ketika token kosong
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		// return bad request ketika field token tidak ada
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if token.Value == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	c := http.Cookie{
+		Name:   "token",
+		MaxAge: -1,
+	}
+	http.SetCookie(w, &c)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Logout succes"))
+}

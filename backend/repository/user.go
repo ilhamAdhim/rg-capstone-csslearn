@@ -42,11 +42,11 @@ func (u *UserRepository) FetchUserByID(id int64) (User, error) {
 // 	return role, nil
 // }
 
-func (u *UserRepository) Register([]User) (*string, error) {
+func (u *UserRepository) Register(username string, email string, password string) (*string, error) {
 	var user User
 
 	SqlStatement := `INSERT INTO (username, email, password) from tb_siswa VALUES ( ?, ?, ?)`
-	_, err := u.db.Exec(SqlStatement, &user.Username, &user.Email, &user.Password)
+	_, err := u.db.Exec(SqlStatement, username, email, password)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (u *UserRepository) Register([]User) (*string, error) {
 }
 
 func (u *UserRepository) GetAllUserData() ([]User, error) {
-	sqlStatement := `SELECT *FROM tb_siswa`
+	sqlStatement := `SELECT username, email *FROM tb_siswa`
 	var users []User
 
 	rows, err := u.db.Query(sqlStatement)
