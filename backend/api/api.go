@@ -8,20 +8,20 @@ import (
 )
 
 type API struct {
-	usersRepo          repository.UserRepository
-	adminsRepo         repository.AdminRepository
-	categorycourseRepo repository.CourseCategoryRepository
-	scoreRepo          repository.ScoreRepository
-	mux                *http.ServeMux
+	usersRepo repository.UserRepository
+	// adminsRepo         repository.AdminRepository
+	// categorycourseRepo repository.CourseCategoryRepository
+	// scoreRepo          repository.ScoreRepository
+	mux *http.ServeMux
 }
 
 func NewAPI(usersRepo repository.UserRepository) API {
 	mux := http.NewServeMux()
 	api := API{
-		usersRepo, adminsRepo, categorycourseRepo, scoreRepo, mux,
+		usersRepo, mux,
 	}
 
-	mux.Handle("/api/user/login", api.GET(http.HandlerFunc(api.login)))
+	mux.Handle("/api/user/login", api.POST(http.HandlerFunc(api.login)))
 	mux.Handle("/api/user/logout", api.POST(http.HandlerFunc(api.logout)))
 	// mux.Handle("/api/user/register", api.POST(http.HandlerFunc(api.register)))
 	// mux.Handle("/api/admin/loginadmin", api.POST(http.HandlerFunc(api.loginadmin)))

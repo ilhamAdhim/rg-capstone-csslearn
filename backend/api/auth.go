@@ -42,7 +42,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// res, err := api.usersRepo.Login(user.Username, user.Password)
+	res, err := api.usersRepo.Login(user.Username, user.Password)
 
 	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
@@ -52,14 +52,14 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// userRoles, err := api.usersRepo.GetUserRole(*res)
+	// err := api.usersRepo.GetAllUserData(*res)
 
 	// Deklarasi expiry time untuk token jwt (time millisecond)
 	// claim menggunakan variable yang sudah didefinisikan diatas
 	expirationTime := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
-		Username: user.Username,
+		Username: *res,
 		// Role:     userRoles,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
@@ -87,7 +87,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		Expires: expirationTime,
 	})
 
-	encoder.Encode(LoginSuccesResponse{Token: tokenStr})
+	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
 }
 
 func (api *API) logout(w http.ResponseWriter, req *http.Request) {

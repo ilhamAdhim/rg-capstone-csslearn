@@ -33,6 +33,7 @@ func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
 
 		//ambil token dari cookie yang dikirim ketika request
 		//return unauthorized ketika token kosong
@@ -42,6 +43,7 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 		if err != nil {
 			if err == http.ErrNoCookie {
 				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AuthErrorRespone{Error: err.Error()})
 				return
 			}
 
@@ -76,7 +78,6 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 		//validasi
 		ctx := context.WithValue(r.Context(), "username", claims.Username)
 		next.ServeHTTP(w, r.WithContext(ctx))
-		return
 
 	})
 }

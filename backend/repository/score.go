@@ -22,7 +22,7 @@ func (s *ScoreRepository) FetchScore() ([]ScoreCourse, error) {
 	}
 	for rows.Next() {
 		var scores ScoreCourse
-		err := rows.Scan(&scores.Nama, &scores.Course, &scores.Score)
+		err := rows.Scan(&scores.Score)
 
 		if err != nil {
 			return score, err
