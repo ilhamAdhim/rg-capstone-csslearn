@@ -30,7 +30,7 @@ func main() {
 
 		);
 
-		CREATE TABLE  IF NOT EXISTS tb_course_css (
+		CREATE TABLE  IF NOT EXISTS tb_course (
 			id_course INTEGER  not null PRIMARY KEY AUTOINCREMENT,
 			id_course_category INT(11) not null,
 			nama_course VARCHAR(50) not null,
@@ -40,7 +40,6 @@ func main() {
 
 		CREATE TABLE  IF NOT EXISTS tb_latihan (
 			id_latihan INT(11) not null,
-			id_course_category INT(11) not null,
 			id_course INT(11) not null,
 			question VARCHAR(255) not null,
 			answer1 VARCHAR(255) not null,
@@ -49,7 +48,6 @@ func main() {
 			answer4 VARCHAR(255) not null,
 			answer5 VARCHAR(255) not null,
 			key_answer VARCHAR(255) not null,
-			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category),
 			FOREIGN KEY (id_course) REFERENCES tb_course(id_course)
 		);
 
