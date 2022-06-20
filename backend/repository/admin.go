@@ -57,10 +57,10 @@ func (u *AdminRepository) LoginAdmin(username string, password string) (*string,
 // 	return role, nil
 // }
 
-func (u *AdminRepository) RegisterAdmin([]Admin) (*string, error) {
+func (u *AdminRepository) RegisterAdmin(username string, password string) (*string, error) {
 	var admins Admin
 	SqlStatement := `INSERT INTO (username, password) from tb_admin VALUES ( ?, ? )`
-	_, err := u.db.Exec(SqlStatement, &admins.Username, &admins.Password)
+	_, err := u.db.Exec(SqlStatement, username, password)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (u *AdminRepository) RegisterAdmin([]Admin) (*string, error) {
 
 func (u *AdminRepository) GetAllAdminData() ([]Admin, error) {
 
-	sqlStatement := `SELECT *FROM tb_admin`
+	sqlStatement := `SELECT username, password *FROM tb_admin`
 	var admin []Admin
 	rows, err := u.db.Query(sqlStatement)
 	if err != nil {

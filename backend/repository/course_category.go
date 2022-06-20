@@ -48,11 +48,11 @@ func (c *CourseCategoryRepository) FecthCategoryCourseByID(id int64) (CourseCate
 	return coursecategory, nil
 }
 
-func (c *CourseCategoryRepository) CreateCourseCategory([]CourseCategory) (*string, error) {
+func (c *CourseCategoryRepository) CreateCourseCategory(title string, materi string) (*string, error) {
 
 	var course CourseCategory
 	SqlStatement := `INSERT INTO (nama_materi, materi) from tb_course_category VALUES ( ?, ?)`
-	_, err := c.db.Exec(SqlStatement, &course.Title_Materi, &course.Materi)
+	_, err := c.db.Exec(SqlStatement, title, materi)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (c *CourseCategoryRepository) CreateCourseCategory([]CourseCategory) (*stri
 
 }
 
-func (c *CourseCategoryRepository) UpdateCourseCategory([]CourseCategory) (*string, error) {
+func (c *CourseCategoryRepository) UpdateCourseCategory(id int64) (*string, error) {
 	var course CourseCategory
 	SqlStatement := `Update tb_course_category SET nama_materi = ?, materi = ? from tb_course_category WHERE id_course_category = ?`
 	_, err := c.db.Exec(SqlStatement, &course.ID, &course.Title_Materi, &course.Materi)

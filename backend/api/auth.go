@@ -9,8 +9,19 @@ import (
 )
 
 type User struct {
+	ID       int64  `json:"id"`
 	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
+	Token    string `json:"token"`
+}
+
+type UserErrorRespone struct {
+	Error string `json:"error"`
+}
+
+type GetUserSuccesRespone struct {
+	Users []User `json:"users"`
 }
 
 type LoginSuccesResponse struct {
@@ -42,7 +53,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// res, err := api.usersRepo.Login(user.Username, user.Password)
+	res, err := api.usersRepo.Login(user.Username, user.Password)
 
 	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
@@ -52,14 +63,14 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// userRoles, err := api.usersRepo.GetUserRole(*res)
+	// _, err := api.usersRepo.GetAllUserData(*res)
 
 	// Deklarasi expiry time untuk token jwt (time millisecond)
 	// claim menggunakan variable yang sudah didefinisikan diatas
 	expirationTime := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
-		Username: user.Username,
+		Username: *res,
 		// Role:     userRoles,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
@@ -87,7 +98,56 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		Expires: expirationTime,
 	})
 
-	encoder.Encode(LoginSuccesResponse{Token: tokenStr})
+	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
+}
+
+func (api *API) register(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var user User
+	err := json.NewDecoder(req.Body).Decode(&user)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	_, err = api.usersRepo.Register(user.Username, user.Email, user.Password)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Registration Failed"))
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Registration successful"))
+
+}
+
+func (api *API) getusers(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	encoder := json.NewEncoder(w)
+
+	response := GetUserSuccesRespone{}
+	response.Users = make([]User, 0)
+
+	users, err := api.usersRepo.GetAllUserData()
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(UserErrorRespone{Error: err.Error()})
+			return
+		}
+	}()
+	if err != nil {
+		return
+	}
+
+	for _, list := range users {
+		response.Users = append(response.Users, User{
+			Username: list.Username,
+			Email:    list.Email,
+		})
+	}
+	encoder.Encode(response)
+
 }
 
 func (api *API) logout(w http.ResponseWriter, req *http.Request) {

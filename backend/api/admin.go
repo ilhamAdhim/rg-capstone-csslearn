@@ -9,8 +9,10 @@ import (
 )
 
 type Admin struct {
+	ID       int64  `json:"id_admin"`
 	Username string `json:"username"`
 	Password string `json:"password"`
+	Token    string `json:"token"`
 }
 
 type LoginSuccesResponseAdmin struct {
@@ -20,6 +22,10 @@ type LoginSuccesResponseAdmin struct {
 
 type AdminErrorRespone struct {
 	Error string `json:"error"`
+}
+
+type GetAdminSuccesRespone struct {
+	Admins []Admin `json:"admins"`
 }
 
 //jwtkey untuk membuat signature
@@ -42,7 +48,7 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	res, err := api.adminsRepo.Loginadmin(admin.Username, admin.Password)
+	res, err := api.adminsRepo.LoginAdmin(admin.Username, admin.Password)
 
 	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
@@ -59,7 +65,7 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
-		Username: admin.Username,
+		Username: *res,
 		// Role:     adminRoles,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
@@ -88,6 +94,54 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 	})
 
 	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
+}
+
+func (api *API) registeradmin(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var admins Admin
+	err := json.NewDecoder(req.Body).Decode(&admins)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	_, err = api.adminsRepo.RegisterAdmin(admins.Username, admins.Password)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Registration Failed"))
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Registration successful"))
+
+}
+
+func (api *API) getadmins(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	encoder := json.NewEncoder(w)
+
+	response := GetAdminSuccesRespone{}
+	response.Admins = make([]Admin, 0)
+
+	admins, err := api.adminsRepo.GetAllAdminData()
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(UserErrorRespone{Error: err.Error()})
+			return
+		}
+	}()
+	if err != nil {
+		return
+	}
+
+	for _, list := range admins {
+		response.Admins = append(response.Admins, Admin{
+			Username: list.Username,
+		})
+	}
+	encoder.Encode(response)
+
 }
 
 func (api *API) logoutadmin(w http.ResponseWriter, req *http.Request) {

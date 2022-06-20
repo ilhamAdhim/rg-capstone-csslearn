@@ -13,7 +13,7 @@ func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Acces-Control-Allow-Origin", "http://locahost:9000")
 
 	//semua method diperbolehkan masuk
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
 
 	//semua header siperbolehkan untuk disisipkan
 	w.Header().Set("Acces-Control-Allow-Headers", "*")
@@ -33,6 +33,7 @@ func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
 
 		//ambil token dari cookie yang dikirim ketika request
 		//return unauthorized ketika token kosong
@@ -42,6 +43,7 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 		if err != nil {
 			if err == http.ErrNoCookie {
 				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AuthErrorRespone{Error: err.Error()})
 				return
 			}
 
@@ -76,7 +78,6 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 		//validasi
 		ctx := context.WithValue(r.Context(), "username", claims.Username)
 		next.ServeHTTP(w, r.WithContext(ctx))
-		return
 
 	})
 }
@@ -154,6 +155,34 @@ func (api *API) POST(next http.Handler) http.Handler {
 		if r.Method != http.MethodPost {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			encoder.Encode(AuthErrorRespone{Error: "Need POST Method!"})
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (api *API) PUT(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
+		if r.Method != http.MethodPut {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			encoder.Encode(AuthErrorRespone{Error: "Need PUT Method!"})
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (api *API) DELETE(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
+		if r.Method != http.MethodDelete {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			encoder.Encode(AuthErrorRespone{Error: "Need DELETE Method!"})
 			return
 		}
 
