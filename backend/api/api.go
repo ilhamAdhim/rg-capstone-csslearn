@@ -35,7 +35,7 @@ func NewAPI(usersRepo repository.UserRepository) API {
 	mux.Handle("/api/latihan/id_latihan", api.GET(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/latihan/id_course", api.GET(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/latihan/update", api.POST(http.HandlerFunc(api.logout)))
-	// mux.Handle("/api/latihan/delete", api.DELETE(http.HandlerFunc(api.logout)))
+	mux.Handle("/api/latihan/delete", api.DELETE(http.HandlerFunc(api.logout)))
 
 
 
