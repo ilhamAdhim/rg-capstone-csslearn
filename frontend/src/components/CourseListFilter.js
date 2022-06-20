@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
-import { mockGetCourse } from "../data/admin/CourseCRUD";
+import { mockGetCourse } from "data/admin/CourseCRUD";
 
 function CourseListFilter({
   setSelectedCourse,

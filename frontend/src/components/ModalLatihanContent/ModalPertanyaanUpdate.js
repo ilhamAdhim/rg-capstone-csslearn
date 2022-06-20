@@ -2,7 +2,7 @@ import { FormControl, Input, FormLabel } from "@chakra-ui/react";
 
 import React from "react";
 
-export default function ModalPertanyaanUpdate({ currentPertanyaan, formObj }) {
+export default function ModalPertanyaanUpdate({ currentPertanyaan }) {
   //   TODO : Set Form & Validation
   // ...
 
@@ -10,12 +10,7 @@ export default function ModalPertanyaanUpdate({ currentPertanyaan, formObj }) {
     <>
       <FormControl mt={4}>
         <FormLabel>Question text</FormLabel>
-        <Input
-          borderColor={"#33A9DC"}
-          variant="outline"
-          color="black"
-          height={40}
-        />
+        <Input borderColor={"#33A9DC"} variant="outline" height={40} />
       </FormControl>
 
       <FormControl mt={4}>
@@ -23,7 +18,6 @@ export default function ModalPertanyaanUpdate({ currentPertanyaan, formObj }) {
         <Input
           borderColor={"#33A9DC"}
           variant="outline"
-          color="black"
           values={currentPertanyaan?.optionA}
         />
       </FormControl>
@@ -33,7 +27,6 @@ export default function ModalPertanyaanUpdate({ currentPertanyaan, formObj }) {
         <Input
           borderColor={"#33A9DC"}
           variant="outline"
-          color="black"
           values={currentPertanyaan?.optionB}
         />
       </FormControl>
@@ -43,7 +36,6 @@ export default function ModalPertanyaanUpdate({ currentPertanyaan, formObj }) {
         <Input
           borderColor={"#33A9DC"}
           variant="outline"
-          color="black"
           values={currentPertanyaan?.optionC}
         />
       </FormControl>
@@ -53,7 +45,6 @@ export default function ModalPertanyaanUpdate({ currentPertanyaan, formObj }) {
         <Input
           borderColor={"#33A9DC"}
           variant="outline"
-          color="black"
           values={currentPertanyaan?.optionD}
         />
       </FormControl>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MOCK_API_URL_MATERI } from "../api";
+import { MOCK_API_URL_MATERI } from "data/api";
 
 const createMateri = async (values) => {
   const response = axios.post(`${MOCK_API_URL_MATERI}`, values);

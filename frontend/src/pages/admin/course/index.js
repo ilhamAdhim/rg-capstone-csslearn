@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Layout from "../../../components/layout";
-import useDocumentTitle from "../../../hooks/useDocumentTitle";
+import Layout from "components/layout";
+import useDocumentTitle from "hooks/useDocumentTitle";
 
 import {
   Container,
@@ -10,14 +10,17 @@ import {
   Skeleton,
   useToast,
 } from "@chakra-ui/react";
-import ModalCustom from "../../../components/ModalCustom";
-import { ucfirst } from "../../../common";
-import { mockGetCourse } from "../../../data/admin/CourseCRUD";
-import JumbotronAdd from "../../../components/JumbotronAdd";
-import ModalCourseUpdate from "../../../components/ModalCourseContent/ModalCourseUpdate";
-import ModalCourseDelete from "../../../components/ModalCourseContent/ModalCourseDelete";
-import ModalCourseCreate from "../../../components/ModalCourseContent/ModalCourseCreate";
-import CourseList from "../../../components/CourseList";
+import ModalCustom from "components/ModalCustom";
+import { ucfirst } from "common";
+import { mockGetCourse } from "data/admin/CourseCRUD";
+import JumbotronAdd from "components/JumbotronAdd";
+import ModalCourseUpdate from "components/ModalCourseContent/ModalCourseUpdate";
+import ModalCourseDelete from "components/ModalCourseContent/ModalCourseDelete";
+import ModalCourseCreate from "components/ModalCourseContent/ModalCourseCreate";
+import CourseList from "components/CourseList";
+
+// TODO : Pindah semua toast ke API handlers (folder data)
+// Caranya pakai const toast = createStandaloneToast();
 
 function CourseAdminPage() {
   useDocumentTitle(`Course`);

@@ -1,5 +1,5 @@
 import { Button, Center, chakra, Flex } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as ReactLogo } from "../assets/page_not_found.svg";
 
 function NotFound() {

@@ -1,424 +1,141 @@
-import {
-  Container,
-  Stack,
-  Flex,
-  Heading,
-  Text,
-  Button,
-  Image,
-  useColorModeValue,
-  Select,
-} from "@chakra-ui/react";
+import { Flex, Text, Select, useDisclosure, useToast } from "@chakra-ui/react";
+import { ucfirst } from "common";
+import BoxItem from "components/BoxItem";
+import ModalCustom from "components/ModalCustom";
+import ModalPertanyaanCreate from "components/ModalLatihanContent/ModalPertanyaanCreate";
+import ModalPertanyaanDelete from "components/ModalLatihanContent/ModalPertanyaanDelete";
+import ModalPertanyaanUpdate from "components/ModalLatihanContent/ModalPertanyaanUpdate";
+import { useEffect, useState } from "react";
 
 export default function Latihan() {
+  const modal = useDisclosure();
+  const toast = useToast();
+
+  const [selectedCourse, setSelectedCourse] = useState("");
+  const [modalRole, setModalRole] = useState("");
+
+  const [dataPertanyaan, setDataPertanyaan] = useState([]);
+  const [selectedPertanyaan, setSelectedPertanyaan] = useState("");
+  const [isPertanyaanLoaded, setIsPertanyaanLoaded] = useState(false);
+
+  const handleFilterByCourse = (value) => setSelectedCourse(value);
+
+  useEffect(() => {
+    if (selectedCourse !== " ") {
+      // TODO : Fetch data latihan by category ID
+      // ...
+    }
+    console.log(selectedCourse);
+    setDataPertanyaan([{ id: 1 }, { id: 2 }, { id: 3 }]);
+  }, [selectedCourse]);
+
+  const handleOpenModal = (role, course = {}) => {
+    console.log(role);
+    modal.onOpen();
+    setSelectedPertanyaan(course);
+    setModalRole(role);
+  };
+
+  const handleCreatePertanyaan = () => {
+    // TODO : connect endpoint CreatePertanyaan
+    // ...
+
+    toast({
+      title: "Pertanyaan baru telah dibuat",
+      variant: "solid",
+      status: "success",
+      isClosable: true,
+      position: "top",
+    });
+  };
+
+  const handleUpdatePertanyaan = () => {
+    // TODO : connect endpoint UpdatePertanyaan
+    // ...
+
+    toast({
+      title: `Pertanyaan ${selectedPertanyaan.teksSoal || " "} berhasil diubah`,
+      variant: "solid",
+      status: "success",
+      isClosable: true,
+      position: "top",
+    });
+  };
+
+  const handleDeletePertanyaan = () => {
+    // TODO : connect endpoint DeletePertanyaan
+    // ...
+    toast({
+      title: `Pertanyaan ${
+        selectedPertanyaan.teksSoal || " "
+      } berhasil dihapus`,
+      variant: "solid",
+      status: "success",
+      isClosable: true,
+      position: "top",
+    });
+  };
+
   return (
-    <Container maxW={"5xl"}>
-      <Stack
-        width={"100%"}
-        direction={"row"}
-        justifyContent={"flex-start"}
-        mt={8}
-      >
+    <>
+      <Flex mt={8} justifyContent="space-between" direction={"row"}>
         <Text>Filter berdasarkan course</Text>
         <Select
-          borderColor={"#33A9DC"}
-          variant="outline"
-          color="gray.400"
-          placeholder="CSS Intro"
           size="md"
           width={40}
-        />
-      </Stack>
-
-      <Stack
-        borderWidth="1px"
-        borderRadius="lg"
-        w={1000}
-        height={200}
-        bg={useColorModeValue("#D4EDF8", "gray.900")}
-        boxShadow={"2xl"}
-        mb={20}
-        mt={20}
-        ml={6}
-      >
-        <Stack
-          flex={1}
-          flexDirection="column"
-          justifyContent="space-between"
-          alignItems="center"
-          p={1}
-          pr={20}
-          pl={12}
-          pt={2}
+          color="gray.400"
+          variant="outline"
+          borderColor={"#33A9DC"}
+          placeholder="Pilih Course ..."
+          onChange={(e) => handleFilterByCourse(e.target.value)}
         >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 1
-          </Heading>
+          <option value="1">CSS Intro</option>
+          <option value="2">CSS Selector</option>
+          <option value="3">CSS Attributes</option>
+        </Select>
+      </Flex>
 
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry
-          </Text>
+      <Flex gap="1em" flexDir="column" mt="1em">
+        {dataPertanyaan?.map((item) => (
+          <BoxItem
+            hasEdit
+            hasDelete
+            item={item}
+            key={item.id}
+            handleOpenModal={handleOpenModal}
+            entity="Pertanyaan"
+          />
+        ))}
+      </Flex>
 
-          <Stack
-            width={"100%"}
-            mt={"2rem"}
-            direction={"row"}
-            padding={2}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"blue.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "blue.500",
-              }}
-              _focus={{
-                bg: "blue.600",
-              }}
-            >
-              Update course
-            </Button>
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"red.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "red.500",
-              }}
-              _focus={{
-                bg: "red.600",
-              }}
-            >
-              Delete course
-            </Button>
-          </Stack>
-        </Stack>
-      </Stack>
-
-      <Stack
-        borderWidth="1px"
-        borderRadius="lg"
-        w={1000}
-        height={200}
-        bg={useColorModeValue("#D4EDF8", "gray.900")}
-        boxShadow={"2xl"}
-        mb={20}
-        mt={20}
-        ml={6}
+      <ModalCustom
+        isOpen={modal.isOpen}
+        onClose={modal.onClose}
+        role={modalRole}
+        onHandleSubmit={
+          modalRole === "create"
+            ? handleCreatePertanyaan
+            : modalRole === "update"
+            ? handleUpdatePertanyaan
+            : handleDeletePertanyaan
+        }
+        selectedEntity={selectedPertanyaan}
+        title={ucfirst(
+          modalRole !== "create"
+            ? `${modalRole} pertanyaan ${selectedPertanyaan.id}`
+            : `Tambah Pertanyaan baru`
+        )}
       >
-        <Stack
-          flex={1}
-          flexDirection="column"
-          justifyContent="space-between"
-          alignItems="center"
-          p={1}
-          pr={20}
-          pl={12}
-          pt={2}
-        >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 2
-          </Heading>
+        {modalRole === "update" && (
+          <ModalPertanyaanUpdate currentPertanyaan={selectedPertanyaan} />
+        )}
 
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry
-          </Text>
+        {modalRole === "create" && <ModalPertanyaanCreate />}
 
-          <Stack
-            width={"100%"}
-            mt={"2rem"}
-            direction={"row"}
-            padding={2}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"blue.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "blue.500",
-              }}
-              _focus={{
-                bg: "blue.600",
-              }}
-            >
-              Update course
-            </Button>
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"red.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "red.500",
-              }}
-              _focus={{
-                bg: "red.600",
-              }}
-            >
-              Delete course
-            </Button>
-          </Stack>
-        </Stack>
-      </Stack>
-
-      <Stack
-        borderWidth="1px"
-        borderRadius="lg"
-        w={1000}
-        height={200}
-        bg={useColorModeValue("#D4EDF8", "gray.900")}
-        boxShadow={"2xl"}
-        mb={20}
-        mt={20}
-        ml={6}
-      >
-        <Stack
-          flex={1}
-          flexDirection="column"
-          justifyContent="space-between"
-          alignItems="center"
-          p={1}
-          pr={20}
-          pl={12}
-          pt={2}
-        >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 3
-          </Heading>
-
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry
-          </Text>
-
-          <Stack
-            width={"100%"}
-            mt={"2rem"}
-            direction={"row"}
-            padding={2}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"blue.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "blue.500",
-              }}
-              _focus={{
-                bg: "blue.600",
-              }}
-            >
-              Update course
-            </Button>
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"red.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "red.500",
-              }}
-              _focus={{
-                bg: "red.600",
-              }}
-            >
-              Delete course
-            </Button>
-          </Stack>
-        </Stack>
-      </Stack>
-
-      <Stack
-        borderWidth="1px"
-        borderRadius="lg"
-        w={1000}
-        height={200}
-        bg={useColorModeValue("#D4EDF8", "gray.900")}
-        boxShadow={"2xl"}
-        mb={20}
-        mt={20}
-        ml={6}
-      >
-        <Stack
-          flex={1}
-          flexDirection="column"
-          justifyContent="space-between"
-          alignItems="center"
-          p={1}
-          pr={20}
-          pl={12}
-          pt={2}
-        >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 4
-          </Heading>
-
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry
-          </Text>
-
-          <Stack
-            width={"100%"}
-            mt={"2rem"}
-            direction={"row"}
-            padding={2}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"blue.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "blue.500",
-              }}
-              _focus={{
-                bg: "blue.600",
-              }}
-            >
-              Update course
-            </Button>
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"red.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "red.500",
-              }}
-              _focus={{
-                bg: "red.600",
-              }}
-            >
-              Delete course
-            </Button>
-          </Stack>
-        </Stack>
-      </Stack>
-
-      <Stack
-        borderWidth="1px"
-        borderRadius="lg"
-        w={1000}
-        height={200}
-        bg={useColorModeValue("#D4EDF8", "gray.900")}
-        boxShadow={"2xl"}
-        mb={20}
-        mt={20}
-        ml={6}
-      >
-        <Stack
-          flex={1}
-          flexDirection="column"
-          justifyContent="space-between"
-          alignItems="center"
-          p={1}
-          pr={20}
-          pl={12}
-          pt={2}
-        >
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Pertanyaan. 5
-          </Heading>
-
-          <Text color={useColorModeValue("gray.700", "gray.400")} px={3}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry
-          </Text>
-
-          <Stack
-            width={"100%"}
-            mt={"2rem"}
-            direction={"row"}
-            padding={2}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"blue.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "blue.500",
-              }}
-              _focus={{
-                bg: "blue.600",
-              }}
-            >
-              Update course
-            </Button>
-            <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"red.500"}
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "red.500",
-              }}
-              _focus={{
-                bg: "red.600",
-              }}
-            >
-              Delete course
-            </Button>
-          </Stack>
-        </Stack>
-      </Stack>
-    </Container>
+        {modalRole === "delete" && (
+          <ModalPertanyaanDelete currentPertanyaan={selectedPertanyaan} />
+        )}
+      </ModalCustom>
+    </>
   );
 }

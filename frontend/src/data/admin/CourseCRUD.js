@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MOCK_API_URL_COURSE } from "../api";
+import { MOCK_API_URL_COURSE } from "data/api";
 
 const createCourse = async (values) => {
   const response = axios.post(`${MOCK_API_URL_COURSE}`, values);
@@ -34,6 +34,7 @@ const mockGetCourse = async () => {
         item.judul_course.includes(dataResponse.judul_course)
       ) &&
       distinctData.push({
+        id: dataResponse.id,
         judul_course: dataResponse.judul_course,
         description:
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry",

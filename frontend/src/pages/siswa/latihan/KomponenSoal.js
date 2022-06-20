@@ -6,6 +6,7 @@ import {
   Text,
   useColorModeValue,
   Container,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
@@ -13,15 +14,20 @@ import { Link } from "react-router-dom";
 
 function KomponenSoal() {
   const { exerciseCourse, idSoal } = useParams();
-
+  const buttonSize = useBreakpointValue(["sm", "lg"]);
   useEffect(() => {
     // TODO : Setiap ada perubahan page, fetch data dari detail pertanyaan /api/latihan/:id
     // ...
   }, [idSoal]);
 
   return (
-    <Container maxW={"6xl"} px={20}>
-      <Flex justifyContent={"flex-end"} mr={-24}>
+    <Container
+      maxW={"6xl"}
+      px={[0, 10, 20]}
+      minH={"100vh"}
+      direction={{ base: "column", md: "row" }}
+    >
+      <Flex justifyContent={"flex-end"} mr={-4}>
         <Button mr={4} ml={4} rounded={"full"} colorScheme="blue">
           1
         </Button>
@@ -45,7 +51,6 @@ function KomponenSoal() {
       <Stack
         borderWidth="1px"
         borderRadius="lg"
-        w={850}
         height={200}
         bg={useColorModeValue("#FFE0CB", "gray.900")}
         boxShadow={"2xl"}
@@ -76,23 +81,53 @@ function KomponenSoal() {
         Answer
       </Heading>
 
-      <Stack ml={12} mr={20} spacing={5} pl={1}>
-        <Button colorScheme={"blue"} variant={"outline"}>
+      <Stack
+        width={[200, 800]}
+        ml={[20, 16]}
+        spacing={5}
+        pl={[6, 8]}
+        flex={1}
+        flexDirection="column"
+        justifyContent="space-around  "
+        alignItems="center"
+        pt={2}
+      >
+        <Button
+          size={buttonSize}
+          ml={[0, 0]}
+          colorScheme={"blue"}
+          variant={"outline"}
+        >
           A. Lorem Ipsum is simply dummy text of the printing
-          {/* {dataPertanyaan?.optionA} */}
         </Button>
+        {/* {dataPertanyaan?.optionA} */}
 
-        <Button colorScheme={"blue"} variant={"outline"}>
+        <Button
+          size={buttonSize}
+          ml={[8, 14]}
+          colorScheme={"blue"}
+          variant={"outline"}
+        >
           B. Lorem Ipsum is simply dummy text of the printing
           {/* {dataPertanyaan?.optionB} */}
         </Button>
 
-        <Button colorScheme={"blue"} variant={"outline"}>
+        <Button
+          size={buttonSize}
+          ml={[8, 14]}
+          colorScheme={"blue"}
+          variant={"outline"}
+        >
           C. Lorem Ipsum is simply dummy text of the printing
           {/* {dataPertanyaan?.optionC} */}
         </Button>
 
-        <Button colorScheme={"blue"} variant={"outline"}>
+        <Button
+          size={buttonSize}
+          ml={[8, 14]}
+          colorScheme={"blue"}
+          variant={"outline"}
+        >
           D. Lorem Ipsum is simply dummy text of the printing
           {/* {dataPertanyaan?.optionD} */}
         </Button>

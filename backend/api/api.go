@@ -13,14 +13,13 @@ type API struct {
 	categorycourseRepo repository.CourseCategoryRepository
 	courseRepo         repository.CourseRepository
 	latihanRepo        repository.LatihanRepository
-
-	mux *http.ServeMux
+	mux                *http.ServeMux
 }
 
 func NewAPI(usersRepo repository.UserRepository) API {
 	mux := http.NewServeMux()
 	api := API{
-		usersRepo, mux,
+		usersRepo, adminsRepo, categorycourseRepo, scoreRepo, courseRepo, latihanRepo, mux,
 	}
 
 	mux.Handle("/api/user/login", api.POST(http.HandlerFunc(api.login)))
@@ -35,13 +34,16 @@ func NewAPI(usersRepo repository.UserRepository) API {
 	mux.Handle("/api/course/id_course", api.GET(http.HandlerFunc(api.course)))
 	mux.Handle("/api/course/create", api.POST(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/course/update", api.PUT(http.HandlerFunc(api.logout)))
+	mux.Handle("/api/course/delete", api.DELETE(http.HandlerFunc(api.logout)))
 
 	mux.Handle("/api/course_category/getcourse", api.GET(http.HandlerFunc(api.getcoursecategory)))
 	mux.Handle("/api/course_category/getcoursebyid", api.GET(http.HandlerFunc(api.getcoursecategorybyid)))
 	mux.Handle("/api/course_category/insertcourse", api.POST(http.HandlerFunc(api.insertCourseCategory)))
 	mux.Handle("/api/course_category/updatecourse", api.PUT(http.HandlerFunc(api.updateCourseCategory)))
 	mux.Handle("/api/course_category/deletecourse", api.DELETE(http.HandlerFunc(api.deleteCourseCategory)))
-
+  
+	mux.Handle("/api/latihan/id_latihan", api.GET(http.HandlerFunc(api.logout)))
+	mux.Handle("/api/latihan/id_course", api.GET(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/latihan/update", api.POST(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/latihan/delete", api.DELETE(http.HandlerFunc(api.logout)))
 	return api
