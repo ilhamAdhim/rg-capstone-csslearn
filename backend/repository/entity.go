@@ -26,10 +26,31 @@ type CourseCategory struct {
 	End_date     *time.Time `db:"end_date"`
 }
 
+type Course struct {
+	ID            int64  `db:"id_course_category"`
+	Siswa_ID      int64  `db:"id_siswa"`
+	Title_Content string `db:"nama_materi"`
+	Content       string `db:"materi"`
+}
+
+type Latihan struct {
+	ID                int64  `db:"id_latihan"`
+	Coursecategory_ID int64  `db:"id_course_category"`
+	Course_ID         int64  `db:"id_course"`
+	Question          string `db:"question"`
+	Answer1           string `db:"answer1"`
+	Answer2           string `db:"answer2"`
+	Answer3           string `db:"answer3"`
+	Answer4           string `db:"answer4"`
+	Answer5           string `db:"answer5"`
+	Key_Answer        string `db:"key_answer"`
+	Score             int64  `db:"score"`
+}
+
 type ScoreCourse struct {
 	ID         int64 `db:"id_nilai"`
 	Siswa_ID   int64 `db:"id_siswa"`
-	Latihan_ID int64 `db:"id_latihan`
+	Latihan_ID int64 `db:"id_latihan"`
 	Course_ID  int64 `db:"id_course"`
 	Score      int64 `db:"score"`
 }

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/dgrijalva/jwt-go"
 )
 
 type User struct {
@@ -14,6 +14,17 @@ type User struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 	Token    string `json:"token"`
+}
+
+type UserRegister struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type UserLogin struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type UserErrorRespone struct {
@@ -34,19 +45,18 @@ type AuthErrorRespone struct {
 }
 
 //jwtkey untuk membuat signature
-var jwtkey = []byte("key")
+var jwtkey = []byte("Key_testing")
 
 // Struct claim sebagai object yang akan diencode oleh jwt
 // jwt.StandardClaims sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
 type Claims struct {
-	Username string
-	// Role     string
+	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
 func (api *API) login(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var user User
+	var user UserLogin
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -71,7 +81,6 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 	claims := &Claims{
 		Username: *res,
-		// Role:     userRoles,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
@@ -82,10 +91,10 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 	//jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
 	//return internal error ketika ada kesalahan ketika pembuatan JWT string
-
 	tokenStr, err := token.SignedString(jwtkey)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
 		return
 	}
 
@@ -103,7 +112,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) register(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var user User
+	var user UserRegister
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

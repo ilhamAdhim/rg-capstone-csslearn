@@ -16,10 +16,10 @@ type API struct {
 	mux                *http.ServeMux
 }
 
-func NewAPI(usersRepo repository.UserRepository) API {
+func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepository, categorycourseRepo repository.CourseCategoryRepository, courseRepo repository.CourseRepository, latihanRepo repository.LatihanRepository) API {
 	mux := http.NewServeMux()
 	api := API{
-		usersRepo, adminsRepo, categorycourseRepo, scoreRepo, courseRepo, latihanRepo, mux,
+		usersRepo, adminsRepo, categorycourseRepo, courseRepo, latihanRepo, mux,
 	}
 
 	mux.Handle("/api/user/login", api.POST(http.HandlerFunc(api.login)))
@@ -41,7 +41,7 @@ func NewAPI(usersRepo repository.UserRepository) API {
 	mux.Handle("/api/course_category/insertcourse", api.POST(http.HandlerFunc(api.insertCourseCategory)))
 	mux.Handle("/api/course_category/updatecourse", api.PUT(http.HandlerFunc(api.updateCourseCategory)))
 	mux.Handle("/api/course_category/deletecourse", api.DELETE(http.HandlerFunc(api.deleteCourseCategory)))
-  
+
 	mux.Handle("/api/latihan/id_latihan", api.GET(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/latihan/id_course", api.GET(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/latihan/update", api.POST(http.HandlerFunc(api.logout)))

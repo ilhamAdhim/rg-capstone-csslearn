@@ -5,13 +5,13 @@ import (
 	"errors"
 )
 
-type userRepository interface {
-	FetchUserByID(id int64) (User, error)
-	Login(username string, password string) (*string, error)
-	// GetUserRole(username string) (string, error)
-	Register(username string, password string, email string) (*string, error)
-	GetAllUserData(User, error)
-}
+// type userRepository interface {
+// 	FetchUserByID(id int64) (User, error)
+// 	Login(username string, password string) (*string, error)
+// 	// GetUserRole(username string) (string, error)
+// 	Register(username string, password string, email string) (*string, error)
+// 	GetAllUserData(User, error)
+// }
 
 type UserRepository struct {
 	db *sql.DB
@@ -23,7 +23,7 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 
 func (u *UserRepository) FetchUserByID(id int64) (User, error) {
 	var user User
-	err := u.db.QueryRow("SELECT *from tb_siswa WHERE id_siswa = ?", id).Scan(&user.ID, &user.Username, &user.Password, &user.Email)
+	err := u.db.QueryRow("SELECT * from tb_siswa WHERE id_siswa = ?", id).Scan(&user.ID, &user.Username, &user.Password, &user.Email)
 	if err != nil {
 		return user, err
 
@@ -45,7 +45,7 @@ func (u *UserRepository) FetchUserByID(id int64) (User, error) {
 func (u *UserRepository) Register(username string, email string, password string) (*string, error) {
 	var user User
 
-	SqlStatement := `INSERT INTO (username, email, password) from tb_siswa VALUES ( ?, ?, ?)`
+	SqlStatement := `INSERT INTO tb_siswa (username, email, password) VALUES (?, ?, ?)`
 	_, err := u.db.Exec(SqlStatement, username, email, password)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (u *UserRepository) Login(username string, password string) (*string, error
 	var user User
 
 	sqlStatement := `SELECT username, email FROM tb_siswa WHERE username = ? AND password = ?`
-	err := u.db.QueryRow(sqlStatement, username, password).Scan(&user.Username)
+	err := u.db.QueryRow(sqlStatement, username, password).Scan(&user.Username, &user.Email)
 
 	if err != nil {
 		return nil, errors.New("Login Failed")

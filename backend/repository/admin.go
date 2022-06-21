@@ -5,13 +5,13 @@ import (
 	"fmt"
 )
 
-type adminRepository interface {
-	FetchAdminByID(id int64) (Admin, error)
-	Loginadmin(username string, password string) (*string, error)
-	// GetAdminRole(username string) (string, error)
-	Registeradmin(username string, password string) (*string, error)
-	GetAllAdminData(Admin, error)
-}
+// type adminRepository interface {
+// 	FetchAdminByID(id int64) (Admin, error)
+// 	Loginadmin(username string, password string) (*string, error)
+// 	// GetAdminRole(username string) (string, error)
+// 	Registeradmin(username string, password string) (*string, error)
+// 	GetAllAdminData(Admin, error)
+// }
 
 type AdminRepository struct {
 	db *sql.DB
