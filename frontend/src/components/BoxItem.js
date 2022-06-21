@@ -56,6 +56,9 @@ function BoxItem({
               <Text mt="1em" fontSize="md" textAlign={["justify"]}>
                 {item.email || `Email : ${item.useremail}`}
               </Text>
+              <Text mt="1em" fontSize="md" textAlign={["justify"]}>
+                {item.current || `Current Course : ${item.usercurrent}`}
+              </Text>
             </Box>
             <Flex m="auto 0" gap="1em" justifyContent="center">
               {hasPreview && (
