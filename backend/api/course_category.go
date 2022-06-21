@@ -12,10 +12,21 @@ type CourseCategoryErrorRespone struct {
 
 type Category struct {
 	ID         int64      `json:"id_course_category"`
-	Title      string     `json:"nama_materi"`
+	Title      string     `json:"title"`
 	Materi     string     `json:"materi"`
 	Start_date *time.Time `json:"start_date"`
 	End_date   *time.Time `json:"end_date"`
+}
+
+type CategoryInsert struct {
+	Title  string `json:"title"`
+	Materi string `json:"materi"`
+}
+
+type CategoryUpdate struct {
+	ID     int64  `json:"id_course_category"`
+	Title  string `json:"title"`
+	Materi string `json:"materi"`
 }
 
 type CourseCategorySuccesRespone struct {
@@ -85,7 +96,7 @@ func (api *API) getcoursecategorybyid(w http.ResponseWriter, req *http.Request) 
 
 func (api *API) insertCourseCategory(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var course Category
+	var course CategoryInsert
 	err := json.NewDecoder(req.Body).Decode(&course)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -105,14 +116,17 @@ func (api *API) insertCourseCategory(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) updateCourseCategory(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var course Category
+	var course CategoryUpdate
 	err := json.NewDecoder(req.Body).Decode(&course)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	_, err = api.categorycourseRepo.UpdateCourseCategory(course.ID)
+	// user harus ngirim data apa yang mau di update
+	// title dan materi
+
+	_, err = api.categorycourseRepo.UpdateCourseCategory(course.ID, course.Title, course.Materi)
 	if err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte("Update course category Failed"))

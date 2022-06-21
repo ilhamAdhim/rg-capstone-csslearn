@@ -38,7 +38,7 @@ func main() {
 			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category)
 		);
 
-		CREATE TABLE  IF NOT EXISTS tb_latihan (
+		CREATE TABLE IF NOT EXISTS tb_latihan (
 			id_latihan INT(11) not null,
 			id_course_category INT(11),
 			id_course INT(11),
@@ -54,7 +54,7 @@ func main() {
 			FOREIGN KEY (id_course) REFERENCES tb_course(id_course)
 		);
 
-		CREATE TABLE  IF NOT EXISTS tb_course_category (
+		CREATE TABLE IF NOT EXISTS tb_course_category (
 			id_course_category INTEGER not null PRIMARY KEY AUTOINCREMENT,
 			id_siswa INT(11),
 			nama_materi VARCHAR(100),
