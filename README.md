@@ -2,7 +2,7 @@
 App ini dibuat untuk memudahkan pengguna dalam belajar CSS,
 terutama yang baru belajar tentang Frontend.
 
-![logo](https://user-images.githubusercontent.com/100768683/174842033-3dcaffb9-e94a-4bfe-a7bb-5ab65d6e79b8.png)
+![CSS2](https://user-images.githubusercontent.com/100768683/174853194-0f380775-42b0-480d-8b70-550877ddf0e1.png)
 
 # Pertama ada fitur untuk admin 
 - Mengatur materi CSS
@@ -14,6 +14,9 @@ terutama yang baru belajar tentang Frontend.
 - timer belajar
 - latihan CSS dengan hasil yang lansung terlihat sesuai input
 ![siswa](https://user-images.githubusercontent.com/100768683/174850161-6408a5c5-6329-4aa7-b7c9-c8950b3ddfac.png)
+
+# Tech Stack
+-
 
 
 jira software
