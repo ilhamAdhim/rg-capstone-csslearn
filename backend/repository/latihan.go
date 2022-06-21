@@ -14,24 +14,24 @@ func NewLatihanRepository(db *sql.DB) *LatihanRepository {
 
 func (c *LatihanRepository) FecthLatihan() ([]Latihan, error) {
 	sqlStatement := `SELECT question, answer1, answer2, answer3, answer4, answer5, key_answer FROM tb_latihan`
-	var latihan []Latihan
+	var latihans []Latihan
 	rows, err := c.db.Query(sqlStatement)
 
 	if err != nil {
-		return latihan, err
+		return latihans, err
 	}
 	for rows.Next() {
-		var Latihan
-		err := rows.Scan(&latihan.Title_question, &Latihan.answer1, &Latihan.answer2, &Latihan.answer3, &Latihan.answer4, &Latihan.answer5, &Latihan.key_answer)
+		var latihan Latihan
+		err := rows.Scan(&latihan.Question, &latihan.Answer1, &latihan.Answer2, &latihan.Answer3, &latihan.Answer4, &latihan.Answer5, &latihan.Key_Answer)
 
 		if err != nil {
-			return Latihan, err
+			return latihans, err
 		}
 
-		latihan = append(latihan)
+		latihans = append(latihans, latihan)
 	}
 
-	return latihan, nil
+	return latihans, nil
 }
 
 func (c *LatihanRepository) FecthLatihanByID(id int64) (Latihan, error) {
@@ -40,7 +40,7 @@ func (c *LatihanRepository) FecthLatihanByID(id int64) (Latihan, error) {
 
 	var latihan Latihan
 	row := c.db.QueryRow(sqlStatement, id)
-	err := row.Scan(&latihan.ID, &latihan.question)
+	err := row.Scan(&latihan.ID, &latihan.Question)
 	if err != nil {
 		return latihan, err
 	}
@@ -54,7 +54,7 @@ func (c *LatihanRepository) FecthLatihanByID_course(id int64) (Latihan, error) {
 
 	var latihan Latihan
 	row := c.db.QueryRow(sqlStatement, id)
-	err := row.Scan(&latihan.ID, &latihan.id_course)
+	err := row.Scan(&latihan.ID, &latihan.Course_ID)
 	if err != nil {
 		return latihan, err
 	}

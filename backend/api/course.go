@@ -11,7 +11,7 @@ type CourseErrorRespone struct {
 
 type Course struct {
 	Title   string `json:"nama_course"`
-	content string `json:"content"`
+	Content string `json:"content"`
 	// id_category int `json: "id_category"`
 }
 
@@ -41,7 +41,7 @@ func (api *API) course(w http.ResponseWriter, req *http.Request) {
 
 	for _, course := range course {
 		respone.Course = append(respone.Course, Course{
-			Title:  course.Title_content,
+			Title:   course.Title_Content,
 			Content: course.Content,
 		})
 	}

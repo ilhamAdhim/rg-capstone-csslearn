@@ -16,6 +16,12 @@ type User struct {
 	Token    string `json:"token"`
 }
 
+type UserRegister struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type UserErrorRespone struct {
 	Error string `json:"error"`
 }
@@ -103,7 +109,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) register(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var user User
+	var user UserRegister
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

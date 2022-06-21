@@ -16,8 +16,11 @@ func main() {
 	}
 
 	usersRepo := repository.NewUserRepository(db)
-	// adminsRepo := repository.NewAdminRepository(db)
+	adminsRepo := repository.NewAdminRepository(db)
+	categorycourseRepo := repository.NewCourseCategoryRepository(db)
+	courseRepo := repository.NewCourseRepository(db)
+	latihanRepo := repository.NewLatihanRepository(db)
 
-	mainAPI := api.NewAPI(*usersRepo)
+	mainAPI := api.NewAPI(*usersRepo, *adminsRepo, *categorycourseRepo, *courseRepo, *latihanRepo)
 	mainAPI.Start()
 }

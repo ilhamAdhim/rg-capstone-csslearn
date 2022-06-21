@@ -5,13 +5,13 @@ import (
 	"errors"
 )
 
-type userRepository interface {
-	FetchUserByID(id int64) (User, error)
-	Login(username string, password string) (*string, error)
-	// GetUserRole(username string) (string, error)
-	Register(username string, password string, email string) (*string, error)
-	GetAllUserData(User, error)
-}
+// type userRepository interface {
+// 	FetchUserByID(id int64) (User, error)
+// 	Login(username string, password string) (*string, error)
+// 	// GetUserRole(username string) (string, error)
+// 	Register(username string, password string, email string) (*string, error)
+// 	GetAllUserData(User, error)
+// }
 
 type UserRepository struct {
 	db *sql.DB
