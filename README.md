@@ -23,6 +23,8 @@ terutama yang baru belajar tentang Frontend.
 ![4](https://user-images.githubusercontent.com/100768683/174863377-ae70aec6-a86f-48a4-afea-06a60b55188b.png)
 
 # Tech Stack
+![image](https://user-images.githubusercontent.com/100768683/174865608-730110b8-1432-4ac4-8d75-7e2ccba1bffe.png)
+![image](https://user-images.githubusercontent.com/100768683/174865688-457e23a4-ed3b-4dfd-9bca-3712bc818645.png)
 
 
 
