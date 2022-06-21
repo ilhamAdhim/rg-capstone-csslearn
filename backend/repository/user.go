@@ -2,7 +2,7 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
+	"errors"
 )
 
 type userRepository interface {
@@ -42,11 +42,11 @@ func (u *UserRepository) FetchUserByID(id int64) (User, error) {
 // 	return role, nil
 // }
 
-func (u *UserRepository) Register([]User) (*string, error) {
+func (u *UserRepository) Register(username string, email string, password string) (*string, error) {
 	var user User
 
 	SqlStatement := `INSERT INTO (username, email, password) from tb_siswa VALUES ( ?, ?, ?)`
-	_, err := u.db.Exec(SqlStatement, &user.Username, &user.Email, &user.Password)
+	_, err := u.db.Exec(SqlStatement, username, email, password)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (u *UserRepository) Register([]User) (*string, error) {
 }
 
 func (u *UserRepository) GetAllUserData() ([]User, error) {
-	sqlStatement := `SELECT *FROM tb_siswa`
+	sqlStatement := `SELECT username, email *FROM tb_siswa`
 	var users []User
 
 	rows, err := u.db.Query(sqlStatement)
@@ -77,19 +77,28 @@ func (u *UserRepository) GetAllUserData() ([]User, error) {
 }
 
 func (u *UserRepository) Login(username string, password string) (*string, error) {
+	var user User
 
-	users, err := u.GetAllUserData()
+	sqlStatement := `SELECT username, email FROM tb_siswa WHERE username = ? AND password = ?`
+	err := u.db.QueryRow(sqlStatement, username, password).Scan(&user.Username)
 
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Login Failed")
 	}
 
-	for _, user := range users {
-		if user.Username == username && user.Password == password {
-			return &user.Username, nil
-		}
-	}
-	return nil, fmt.Errorf("Login Failed")
+	return &user.Username, nil
+	// users, err := u.GetAllUserData()
+
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// for _, user := range users {
+	// 	if user.Username == username && user.Password == password {
+	// 		return &user.Username, nil
+	// 	}
+	// }
+	// return nil, fmt.Errorf("Login Failed")
 }
 
 //sisa edit codingan perlu di cek kembali dan di register perlu menambahkan email dan jenis kelamin

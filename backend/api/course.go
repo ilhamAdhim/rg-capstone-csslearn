@@ -1,4 +1,4 @@
-package api 
+package api
 
 import (
 	"encoding/json"
@@ -10,13 +10,13 @@ type CourseErrorRespone struct {
 }
 
 type Course struct {
-	Title  string `json:"nama_course"`
+	Title   string `json:"nama_course"`
 	content string `json:"content"`
 	// id_category int `json: "id_category"`
 }
 
 type CourseSuccesRespone struct {
-	Course []Course`json:"course"`
+	Course []Course `json:"course"`
 }
 
 func (api *API) course(w http.ResponseWriter, req *http.Request) {
