@@ -9,16 +9,18 @@ terutama yang baru belajar tentang Frontend.
  ![Admin](https://user-images.githubusercontent.com/100768683/174850134-514014bb-40ec-4673-83ba-cc972b06ae02.png)
  
  - mengatur materi dan topik
- 
-- Mengatur pertanyaan sesuai topik
+ ![2](https://user-images.githubusercontent.com/100768683/174863451-795ba1a7-bcca-4a2a-b4a6-5b7208884eb4.png)
 
+- Mengatur pertanyaan sesuai topik
+![1](https://user-images.githubusercontent.com/100768683/174863437-af89812d-39e7-4fe4-8257-b5025ed319ff.png)
 
 # Siswa fitur
 - Mind map sesuai pokok bahasan
-![siswa](https://user-images.githubusercontent.com/100768683/174850161-6408a5c5-6329-4aa7-b7c9-c8950b3ddfac.png)
+- ![3](https://user-images.githubusercontent.com/100768683/174863461-f34b7a45-e3d0-46ca-a447-7399a702d129.png)
 
 -latihan CSS dengan hasil yang lansung terlihat sesuai input
-
+![siswa](https://user-images.githubusercontent.com/100768683/174850161-6408a5c5-6329-4aa7-b7c9-c8950b3ddfac.png)
+![4](https://user-images.githubusercontent.com/100768683/174863377-ae70aec6-a86f-48a4-afea-06a60b55188b.png)
 
 # Tech Stack
 
