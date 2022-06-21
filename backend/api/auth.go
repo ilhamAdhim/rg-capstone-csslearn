@@ -22,6 +22,11 @@ type UserRegister struct {
 	Password string `json:"password"`
 }
 
+type UserLogin struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type UserErrorRespone struct {
 	Error string `json:"error"`
 }
@@ -52,7 +57,7 @@ type Claims struct {
 
 func (api *API) login(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var user User
+	var user UserLogin
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
