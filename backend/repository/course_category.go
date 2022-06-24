@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"time"
 )
 
 type CourseCategoryRepository struct {
@@ -18,9 +17,7 @@ func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, erro
 	SELECT 
 		id_course_category, 
 		nama_materi,
-		materi, 
-		start_date, 
-		end_date 
+		materi
 	FROM 
 		tb_course_category`
 
@@ -35,8 +32,6 @@ func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, erro
 		err := rows.Scan(&category.ID,
 			&category.Title_Materi,
 			&category.Materi,
-			&category.Start_date,
-			&category.End_date,
 		)
 
 		if err != nil {
@@ -49,35 +44,41 @@ func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, erro
 	return course, nil
 }
 
-func (c *CourseCategoryRepository) FecthCategoryCourseByID(id int64) (CourseCategory, error) {
-
+func (c *CourseCategoryRepository) FecthCategoryCourseByID(id int64) (CourseCategory,error) {
 	sqlStatement := `SELECT nama_materi, materi FROM tb_course_category WHERE id_course_category = ?`
 
-	var coursecategory CourseCategory
-	row := c.db.QueryRow(sqlStatement, id)
-	err := row.Scan(&coursecategory.ID, &coursecategory.Title_Materi, &coursecategory.Materi)
+	// var coursecategory CourseCategory
+	_, err := c.db.Query(sqlStatement, id)
+
+	var course []CourseCategory
+	rows, err := c.db.Query(sqlStatement)
+
 	if err != nil {
-		return coursecategory, err
+		return course, err
+	}
+	for rows.Next() {
+		var category CourseCategory
+		err := rows.Scan(&category.ID,
+			&category.Title_Materi,
+			&category.Materi,
+		)
+
+		if err != nil {
+			return course, err
+		}
+
+		course = append(course, category)
 	}
 
-	return coursecategory, nil
+	return course, nil
+}
 }
 
 func (c *CourseCategoryRepository) CreateCourseCategory(title string, materi string) (*string, error) {
 
 	var course CourseCategory
-	SqlStatement := `
-		INSERT INTO 
-			tb_course_category 
-			(
-				nama_materi,
-				materi, 
-				start_date, 
-				end_date
-			)
-		VALUES 
-			(?, ?, ?, ?)`
-	_, err := c.db.Exec(SqlStatement, title, materi, time.Now(), time.Now())
+	SqlStatement := `INSERT INTO tb_course_category (nama_materi, materi) VALUES(?, ?)`
+	_, err := c.db.Exec(SqlStatement, title, materi)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +91,7 @@ func (c *CourseCategoryRepository) UpdateCourseCategory(id int64, title string, 
 	// var course CourseCategory
 	// materi = ""
 	// title = ""
-	SqlStatement := `Update tb_course_category SET nama_materi = ?, materi = ? from tb_course_category WHERE id_course_category = ?`
+	SqlStatement := `Update tb_course_category SET nama_materi = ?, materi = ? WHERE id_course_category = ?`
 	_, err := c.db.Exec(SqlStatement, title, materi, id)
 	if err != nil {
 		return nil, err
@@ -101,8 +102,7 @@ func (c *CourseCategoryRepository) UpdateCourseCategory(id int64, title string, 
 }
 
 func (c *CourseCategoryRepository) DeleteCourseCategoryByID(id int64) error {
-
-	sqlStatement := `DELETE FROM tb_course_category WHERE id_course_category = ?;`
+	sqlStatement := `DELETE FROM tb_course_category WHERE id_course_category= ?`
 
 	_, err := c.db.Exec(sqlStatement, id)
 	if err != nil {

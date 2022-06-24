@@ -9,7 +9,7 @@ import (
 )
 
 type User struct {
-	ID       int64  `json:"id"`
+	ID       int64  `json:"id_siswa"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -17,6 +17,13 @@ type User struct {
 }
 
 type UserRegister struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type UserEdit struct {
+	ID       int64  `json:"id_siswa"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -87,7 +94,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 	}
 
 	//token encoded claim dengan salah satu algoritma yang dipakai
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	//jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
 	//return internal error ketika ada kesalahan ketika pembuatan JWT string
@@ -105,9 +112,34 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		Name:    "token",
 		Value:   tokenStr,
 		Expires: expirationTime,
+		Path:    "/",
 	})
 
-	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
+	json.NewEncoder(w).Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
+}
+
+func (api *API) editProfile(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var user UserEdit
+	err := json.NewDecoder(req.Body).Decode(&user)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// user harus ngirim data apa yang mau di update
+	// title dan materi
+
+	_, err = api.usersRepo.UpdateProfile(user.ID, user.Username, user.Email, user.Password)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Update profile failed"))
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Update profile successful"))
+
 }
 
 func (api *API) register(w http.ResponseWriter, req *http.Request) {
@@ -151,8 +183,10 @@ func (api *API) getusers(w http.ResponseWriter, req *http.Request) {
 
 	for _, list := range users {
 		response.Users = append(response.Users, User{
+			ID:       list.ID,
 			Username: list.Username,
 			Email:    list.Email,
+			Password: list.Password,
 		})
 	}
 	encoder.Encode(response)
@@ -188,3 +222,19 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Logout succes"))
 }
+
+// func (api *API) deleteUser(w http.ResponseWriter, req *http.Request) {
+// 	api.AllowOrigin(w, req)
+// 	var user User
+// 	err := api.categorycourseRepo.DeleteCourseCategoryByID(user.ID)
+// 	encoder := json.NewEncoder(w)
+// 	defer func() {
+// 		if err != nil {
+// 			w.WriteHeader(http.StatusBadRequest)
+// 			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
+// 		}
+// 	}()
+
+// 	w.WriteHeader(http.StatusCreated)
+// 	w.Write([]byte("Delete course category successful"))
+// }

@@ -60,8 +60,6 @@ func main() {
 			start_date DATETIME,
 			end_date DATETIME,
 			FOREIGN KEY (id_siswa) REFERENCES tb_siswa(id_siswa)
-				ON UPDATE RESTRICT
-      		 	ON DELETE RESTRICT
 		);
 
 		
