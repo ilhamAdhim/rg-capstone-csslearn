@@ -35,7 +35,6 @@ type Course struct {
 
 type Latihan struct {
 	ID                int64  `db:"id_latihan"`
-	Coursecategory_ID int64  `db:"id_course_category"`
 	Course_ID         int64  `db:"id_course"`
 	Question          string `db:"question"`
 	Answer1           string `db:"answer1"`
@@ -47,10 +46,3 @@ type Latihan struct {
 	Score             int64  `db:"score"`
 }
 
-type ScoreCourse struct {
-	ID         int64 `db:"id_nilai"`
-	Siswa_ID   int64 `db:"id_siswa"`
-	Latihan_ID int64 `db:"id_latihan"`
-	Course_ID  int64 `db:"id_course"`
-	Score      int64 `db:"score"`
-}

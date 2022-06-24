@@ -40,7 +40,6 @@ func main() {
 
 		CREATE TABLE IF NOT EXISTS tb_latihan (
 			id_latihan INT(11) not null,
-			id_course_category INT(11),
 			id_course INT(11),
 			question VARCHAR(255),
 			answer1 VARCHAR(255),
@@ -50,7 +49,6 @@ func main() {
 			answer5 VARCHAR(255),
 			key_answer VARCHAR(255) not null,
 			score int(11),
-			FOREIGN KEY (id_course_category) REFERENCES tb_course_category(id_course_category),
 			FOREIGN KEY (id_course) REFERENCES tb_course(id_course)
 		);
 
