@@ -1,7 +1,5 @@
 package repository
 
-import "time"
-
 type User struct {
 	ID       int64  `db:"id_siswa"`
 	Username string `db:"username"`
@@ -18,19 +16,19 @@ type Admin struct {
 }
 
 type CourseCategory struct {
-	ID           int64      `db:"id_course_category"`
-	Siswa_ID     int64      `db:"id_siswa"`
-	Title_Materi string     `db:"nama_materi"`
-	Materi       string     `db:"materi"`
-	Start_date   *time.Time `db:"start_date"`
-	End_date     *time.Time `db:"end_date"`
+	ID           int64  `db:"id_course_category"`
+	Siswa_ID     int64  `db:"id_siswa"`
+	Title_Materi string `db:"nama_materi"`
+	Materi       string `db:"materi"`
+	// Start_date   *time.Time `db:"start_date"`
+	// End_date     *time.Time `db:"end_date"`
 }
 
 type Course struct {
-	ID            int64  `db:"id_course_category"`
-	Siswa_ID      int64  `db:"id_siswa"`
-	Title_Content string `db:"nama_materi"`
-	Content       string `db:"materi"`
+	ID                 int64  `db:"id_course"`
+	Course_Category_ID int64  `db:"id_course_category"`
+	Title_Content      string `db:"nama_materi"`
+	Content            string `db:"content"`
 }
 
 type Latihan struct {

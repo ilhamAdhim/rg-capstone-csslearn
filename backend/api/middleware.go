@@ -85,6 +85,7 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
 
 		//ambil token dari cookie yang dikirim ketika request
 		//return unauthorized ketika token kosong
@@ -94,6 +95,7 @@ func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 		if err != nil {
 			if err == http.ErrNoCookie {
 				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AdminErrorRespone{Error: err.Error()})
 				return
 			}
 
@@ -102,15 +104,15 @@ func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 		}
 
 		//mengambil value dari cookie token
-		tokenStr := c.Value
-		claims := &Claims{}
+		tokenString := c.Value
+		claimstoken := &Claims{}
 
 		//1. parse JWT token ke dalam claim
 		//2. return unauthorized ketika signature invalid
 		//3. return bad request ketika field token tidak ada
 		//4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
-		tkn, err := jwt.ParseWithClaims(tokenStr, claims, func(t *jwt.Token) (interface{}, error) {
-			return jwtkey, nil
+		tkn, err := jwt.ParseWithClaims(tokenString, claimstoken, func(t *jwt.Token) (interface{}, error) {
+			return jwtKey, nil
 		})
 
 		if err != nil {
@@ -127,9 +129,8 @@ func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 
 		//validasi
 
-		ctx := context.WithValue(r.Context(), "username", claims.Username)
+		ctx := context.WithValue(r.Context(), "username", claimstoken.Username)
 		next.ServeHTTP(w, r.WithContext(ctx))
-		return
 
 	})
 }

@@ -13,7 +13,14 @@ func NewCourseCategoryRepository(db *sql.DB) *CourseCategoryRepository {
 }
 
 func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, error) {
-	sqlStatement := `SELECT nama_materi, materi, start_date FROM tb_course_category`
+	sqlStatement := `
+	SELECT 
+		id_course_category, 
+		nama_materi,
+		materi
+	FROM 
+		tb_course_category`
+
 	var course []CourseCategory
 	rows, err := c.db.Query(sqlStatement)
 
@@ -22,7 +29,10 @@ func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, erro
 	}
 	for rows.Next() {
 		var category CourseCategory
-		err := rows.Scan(&category.Title_Materi, &category.Materi, &category.Start_date)
+		err := rows.Scan(&category.ID,
+			&category.Title_Materi,
+			&category.Materi,
+		)
 
 		if err != nil {
 			return course, err
@@ -34,24 +44,40 @@ func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, erro
 	return course, nil
 }
 
-func (c *CourseCategoryRepository) FecthCategoryCourseByID(id int64) (CourseCategory, error) {
+func (c *CourseCategoryRepository) FecthCategoryCourseByID(id int64) (CourseCategory,error) {
+	sqlStatement := `SELECT nama_materi, materi FROM tb_course_category WHERE id_course_category = ?`
 
-	sqlStatement := `SELECT nama_materi, materi  FROM tb_course_category WHERE id_course_category= ?`
+	// var coursecategory CourseCategory
+	_, err := c.db.Query(sqlStatement, id)
 
-	var coursecategory CourseCategory
-	row := c.db.QueryRow(sqlStatement, id)
-	err := row.Scan(&coursecategory.ID, &coursecategory.Title_Materi, &coursecategory.Materi)
+	var course []CourseCategory
+	rows, err := c.db.Query(sqlStatement)
+
 	if err != nil {
-		return coursecategory, err
+		return course, err
+	}
+	for rows.Next() {
+		var category CourseCategory
+		err := rows.Scan(&category.ID,
+			&category.Title_Materi,
+			&category.Materi,
+		)
+
+		if err != nil {
+			return course, err
+		}
+
+		course = append(course, category)
 	}
 
-	return coursecategory, nil
+	return course, nil
+}
 }
 
 func (c *CourseCategoryRepository) CreateCourseCategory(title string, materi string) (*string, error) {
 
 	var course CourseCategory
-	SqlStatement := `INSERT INTO (nama_materi, materi) from tb_course_category VALUES ( ?, ?)`
+	SqlStatement := `INSERT INTO tb_course_category (nama_materi, materi) VALUES(?, ?)`
 	_, err := c.db.Exec(SqlStatement, title, materi)
 	if err != nil {
 		return nil, err
@@ -61,21 +87,22 @@ func (c *CourseCategoryRepository) CreateCourseCategory(title string, materi str
 
 }
 
-func (c *CourseCategoryRepository) UpdateCourseCategory(id int64) (*string, error) {
-	var course CourseCategory
-	SqlStatement := `Update tb_course_category SET nama_materi = ?, materi = ? from tb_course_category WHERE id_course_category = ?`
-	_, err := c.db.Exec(SqlStatement, &course.ID, &course.Title_Materi, &course.Materi)
+func (c *CourseCategoryRepository) UpdateCourseCategory(id int64, title string, materi string) (*string, error) {
+	// var course CourseCategory
+	// materi = ""
+	// title = ""
+	SqlStatement := `Update tb_course_category SET nama_materi = ?, materi = ? WHERE id_course_category = ?`
+	_, err := c.db.Exec(SqlStatement, title, materi, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &course.Title_Materi, nil
+	return &title, nil
 
 }
 
 func (c *CourseCategoryRepository) DeleteCourseCategoryByID(id int64) error {
-
-	sqlStatement := `DELETE *FROM tb_course category WHERE id_course_category = ?;`
+	sqlStatement := `DELETE FROM tb_course_category WHERE id_course_category= ?`
 
 	_, err := c.db.Exec(sqlStatement, id)
 	if err != nil {

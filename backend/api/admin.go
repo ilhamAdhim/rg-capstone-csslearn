@@ -5,14 +5,19 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/dgrijalva/jwt-go"
 )
 
-type Admin struct {
+type Admins struct {
 	ID       int64  `json:"id_admin"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Token    string `json:"token"`
+}
+
+type Admin struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type LoginSuccesResponseAdmin struct {
@@ -25,16 +30,20 @@ type AdminErrorRespone struct {
 }
 
 type GetAdminSuccesRespone struct {
-	Admins []Admin `json:"admins"`
+	Adminlog []Admins `json:"admins"`
+}
+
+type AuthAdminErrorRespone struct {
+	Error string `json:"error"`
 }
 
 //jwtkey untuk membuat signature
-var jwtKey = []byte("key")
+var jwtKey = []byte("key_admin")
 
 // Struct claim sebagai object yang akan diencode oleh jwt
 // jwt.StandardClaims sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
 type ClaimsAdmin struct {
-	Username string
+	Username string `json:"username"`
 	// Role     string
 	jwt.StandardClaims
 }
@@ -73,14 +82,15 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 	}
 
 	//token encoded claim dengan salah satu algoritma yang dipakai
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	//jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
 	//return internal error ketika ada kesalahan ketika pembuatan JWT string
 
-	tokenStr, err := token.SignedString(jwtkey)
+	tokenStr, err := token.SignedString(jwtKey)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
 		return
 	}
 
@@ -91,43 +101,44 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 		Name:    "token",
 		Value:   tokenStr,
 		Expires: expirationTime,
+		Path:    "/",
 	})
 
-	encoder.Encode(LoginSuccesResponse{Username: *res, Token: tokenStr})
+	json.NewEncoder(w).Encode(LoginSuccesResponseAdmin{Username: *res, Token: tokenStr})
 }
 
-func (api *API) registeradmin(w http.ResponseWriter, req *http.Request) {
-	api.AllowOrigin(w, req)
-	var admins Admin
-	err := json.NewDecoder(req.Body).Decode(&admins)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+// func (api *API) registeradmin(w http.ResponseWriter, req *http.Request) {
+// 	api.AllowOrigin(w, req)
+// 	var admins AdminRegister
+// 	err := json.NewDecoder(req.Body).Decode(&admins)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		return
+// 	}
 
-	_, err = api.adminsRepo.RegisterAdmin(admins.Username, admins.Password)
-	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Registration Failed"))
-		return
-	}
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("Registration successful"))
+// 	_, err = api.adminsRepo.RegisterAdmin(admins.Username, admins.Password)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusUnauthorized)
+// 		w.Write([]byte("Registration Admin Failed"))
+// 		return
+// 	}
+// 	w.WriteHeader(http.StatusCreated)
+// 	w.Write([]byte("Registration Admin successful"))
 
-}
+// }
 
 func (api *API) getadmins(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 	encoder := json.NewEncoder(w)
 
 	response := GetAdminSuccesRespone{}
-	response.Admins = make([]Admin, 0)
+	response.Adminlog = make([]Admins, 0)
 
 	admins, err := api.adminsRepo.GetAllAdminData()
 	defer func() {
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
-			encoder.Encode(UserErrorRespone{Error: err.Error()})
+			encoder.Encode(AdminErrorRespone{Error: err.Error()})
 			return
 		}
 	}()
@@ -136,8 +147,10 @@ func (api *API) getadmins(w http.ResponseWriter, req *http.Request) {
 	}
 
 	for _, list := range admins {
-		response.Admins = append(response.Admins, Admin{
+		response.Adminlog = append(response.Adminlog, Admins{
+			ID:       list.ID,
 			Username: list.Username,
+			Password: list.Password,
 		})
 	}
 	encoder.Encode(response)

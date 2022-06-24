@@ -25,6 +25,7 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 	mux.Handle("/api/user/login", api.POST(http.HandlerFunc(api.login)))
 	mux.Handle("/api/user/logout", api.POST(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/user/register", api.POST(http.HandlerFunc(api.register)))
+	mux.Handle("/api/user/editprofile", api.PUT(http.HandlerFunc(api.editProfile)))
 	mux.Handle("/api/user/getusers", api.GET(http.HandlerFunc(api.getusers)))
 
 	mux.Handle("/api/admin/getadmins", api.GET(http.HandlerFunc(api.getadmins)))
@@ -36,11 +37,11 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 	mux.Handle("/api/course/update", api.PUT(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/course/delete", api.DELETE(http.HandlerFunc(api.logout)))
 
-	mux.Handle("/api/course_category/getcourse", api.GET(http.HandlerFunc(api.getcoursecategory)))
-	mux.Handle("/api/course_category/getcoursebyid", api.GET(http.HandlerFunc(api.getcoursecategorybyid)))
-	mux.Handle("/api/course_category/insertcourse", api.POST(http.HandlerFunc(api.insertCourseCategory)))
-	mux.Handle("/api/course_category/updatecourse", api.PUT(http.HandlerFunc(api.updateCourseCategory)))
-	mux.Handle("/api/course_category/deletecourse", api.DELETE(http.HandlerFunc(api.deleteCourseCategory)))
+	mux.Handle("/api/topic/getcourse", api.GET(http.HandlerFunc(api.getcoursecategory)))
+	mux.Handle("/api/topic/getcoursebyid", api.GET(http.HandlerFunc(api.getcoursecategorybyid)))
+	mux.Handle("/api/topic/insertcourse", api.POST(http.HandlerFunc(api.insertCourseCategory)))
+	mux.Handle("/api/topic/updatecourse", api.PUT(http.HandlerFunc(api.updateCourseCategory)))
+	mux.Handle("/api/topic/deletecourse", api.DELETE(http.HandlerFunc(api.deleteCourseCategory)))
 
 	mux.Handle("/api/latihan/id_latihan", api.GET(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/latihan/id_course", api.GET(http.HandlerFunc(api.logout)))
