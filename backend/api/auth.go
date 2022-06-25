@@ -13,7 +13,7 @@ type User struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
-	Token    string `json:"token"`
+	// Token    string `json:"token"`
 }
 
 type UserRegister struct {
@@ -22,12 +22,7 @@ type UserRegister struct {
 	Password string `json:"password"`
 }
 
-type UserEdit struct {
-	ID       int64  `json:"id_siswa"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
+
 
 type UserLogin struct {
 	Username string `json:"username"`
@@ -120,24 +115,22 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) editProfile(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var user UserEdit
+	var user User
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	// user harus ngirim data apa yang mau di update
-	// title dan materi
 
-	_, err = api.usersRepo.UpdateProfile(user.ID, user.Username, user.Email, user.Password)
+	 _, err = api.usersRepo.UpdateProfile(user.ID, user.Username, user.Email, user.Password)
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Update profile failed"))
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Update profile Failed"))
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Update profile successful"))
 
 }

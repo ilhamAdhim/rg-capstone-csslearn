@@ -31,13 +31,13 @@ type Coursedel struct {
 }
 
 type CourseInsert struct {
-	Nama_course string `json:"nama_course"`
+	Nama_Course string `json:"nama_course"`
 	Content     string `json:"content"`
 }
 
 type CourseUpdate struct {
 	ID          int64  `json:"id_course"`
-	Nama_course string `json:"nama_course"`
+	Nama_Course string `json:"nama_course"`
 	Content     string `json:"content"`
 }
 
@@ -107,12 +107,13 @@ func (api *API) insertCourse(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	_, err = api.courseRepo.CreateCourse(course.Nama_course, course.Content)
-	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Insert course Failed"))
-		return
-	}
+	_, err = api.courseRepo.CreateCourse(course.Nama_Course, course.Content)
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}()
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("Insert course successful"))
 
@@ -120,24 +121,25 @@ func (api *API) insertCourse(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) updatecourse(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var course CourseUpdate
-	err := json.NewDecoder(req.Body).Decode(&course)
+	var courses CourseUpdate
+	err := json.NewDecoder(req.Body).Decode(&courses)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
 	// user harus ngirim data apa yang mau di update
 	// title dan materi
 
-	_, err = api.courseRepo.UpdateCourse(course.ID, course.Nama_course, course.Content)
-	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Update course Failed"))
-		return
-	}
+	_, err = api.courseRepo.UpdateCourse(courses.ID, courses.Nama_Course, courses.Content)
 
-	w.WriteHeader(http.StatusCreated)
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}()
+
+	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Update course successful"))
 
 }
