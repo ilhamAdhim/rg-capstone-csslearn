@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/schema"
 	"github.com/rg-km/final-project-engineering-70/repository"
@@ -28,9 +29,8 @@ type Deltopic struct {
 }
 
 type Gettopic struct {
-	ID     int64  `schema:"id_course_category"`
-	Title  string `schema:"title"`
-	Materi string `schema:"materi"`
+	Title_Materi string `json:"title"`
+	Materi       string `json:"materi"`
 }
 
 type CategoryInsert struct {
@@ -90,24 +90,17 @@ func (api *API) getcoursecategory(w http.ResponseWriter, req *http.Request) {
 func (api *API) getcoursecategorybyid(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 
-	decoder := schema.NewDecoder()
-	var course Category
+	idCourse := req.URL.Query().Get("id")
+	id, _ := strconv.Atoi(idCourse)
 
-	// id := req.URL.Query().Get("id_course")
-
-	err := decoder.Decode(&course.ID, req.URL.Query())
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-	}
-	err = api.categorycourseRepo.FecthCategoryCourseByID(course.ID)
+	course, err := api.categorycourseRepo.FecthCategoryCourseByID(int64(id))
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
-	respBody, _ := json.Marshal(course)
-	w.WriteHeader(http.StatusOK)
-	w.Write(respBody)
+	json.NewEncoder(w).Encode(Gettopic{course.Title_Materi, course.Materi})
 
 }
 

@@ -44,17 +44,20 @@ func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, erro
 	return course, nil
 }
 
-func (c *CourseCategoryRepository) FecthCategoryCourseByID(id int64) error {
+func (c *CourseCategoryRepository) FecthCategoryCourseByID(id int64) (CourseCategory, error) {
+	course := CourseCategory{}
 	sqlStatement := `SELECT nama_materi, materi FROM tb_course_category WHERE id_course_category = ?`
 
-	// var course CourseCategory
-	_, err := c.db.Query(sqlStatement, id)
-	// err := row.Scan(id, title, materi)
+	row := c.db.QueryRow(sqlStatement, id)
+	err := row.Scan(
+		&course.Title_Materi,
+		&course.Materi,
+	)
 	if err != nil {
-		return err
+		return course, err
 	}
 
-	return nil
+	return course, nil
 }
 
 func (c *CourseCategoryRepository) CreateCourseCategory(title string, materi string) (*string, error) {
