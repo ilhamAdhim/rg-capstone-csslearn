@@ -9,7 +9,7 @@ import (
 )
 
 func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
-	// localhost:9000 origin mendapat izin akses
+	// localhost:3000 origin mendapat izin akses
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 
 	//semua method diperbolehkan masuk
@@ -19,7 +19,7 @@ func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 
 	//allow cookie
-	w.Header().Set("Access-Control-Allow-Crenditials", "true")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if req.Method == "OPTIONS" {
