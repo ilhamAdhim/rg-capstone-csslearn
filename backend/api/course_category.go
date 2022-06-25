@@ -15,7 +15,7 @@ type CourseCategoryErrorRespone struct {
 
 type Category struct {
 	ID       int64  `json:"id_course_category"`
-	Siswa_ID string `json:"id_siswa"`
+	// Siswa_ID string `json:"id_siswa"`
 	Title    string `json:"title"`
 	Materi   string `json:"materi"`
 	// Start_date *time.Time `json:"start_date"`
@@ -136,11 +136,13 @@ func (api *API) updateCourseCategory(w http.ResponseWriter, req *http.Request) {
 	// title dan materi
 
 	_, err = api.categorycourseRepo.UpdateCourseCategory(course.ID, course.Title, course.Materi)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Update course category Failed"))
-		return
-	}
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}()
+	
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Update course category successful"))
@@ -152,15 +154,20 @@ func (api *API) deleteCourseCategory(w http.ResponseWriter, req *http.Request) {
 	var course Deltopic
 
 	decoder := schema.NewDecoder()
+	// idCourse := req.URL.Query().Get("id")
+	// id, _ := strconv.Atoi(idCourse)
+
 	err := decoder.Decode(&course, req.URL.Query())
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 	}
 	err = api.categorycourseRepo.DeleteCourseCategoryByID(course.ID)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Delete course category failed"))
-	}
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}()
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Delete course category successful"))
