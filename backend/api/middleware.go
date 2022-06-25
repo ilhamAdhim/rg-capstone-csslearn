@@ -10,7 +10,7 @@ import (
 
 func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 	// localhost:9000 origin mendapat izin akses
-	w.Header().Set("Acces-Control-Allow-Origin", "http://locahost:9000")
+	w.Header().Set("Acces-Control-Allow-Origin", "http://localhost:3000")
 
 	//semua method diperbolehkan masuk
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
