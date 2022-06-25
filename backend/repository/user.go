@@ -87,10 +87,8 @@ func (u *UserRepository) GetAllUserData() ([]User, error) {
 }
 
 func (c *UserRepository) UpdateProfile(id int64, username string, email string, password string) (*string, error) {
-	// var course CourseCategory
-	// materi = ""
-	// title = ""
-	SqlStatement := `Update tb_siswa SET username = ?, email = ?, password = ? WHERE id_siswa = ?`
+
+	SqlStatement := `Update tb_siswa SET username = ?, email = ?, password = ? WHERE id_siswa= ?`
 	_, err := c.db.Exec(SqlStatement, username, email, password, id)
 	if err != nil {
 		return nil, err

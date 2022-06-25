@@ -73,10 +73,10 @@ func (c *CourseRepository) CreateCourse(title string, konten string) (*string, e
 
 }
 
-func (c *CourseRepository) UpdateCourse(id int64, title string, konten string) (*string, error) {
-	// var course Course
+func (c *CourseRepository) UpdateCourse(id int64, title string, materi string) (*string, error) {
+	// course := Course{}
 	SqlStatement := `Update tb_course SET nama_course = ?, content = ? WHERE id_course = ?`
-	_, err := c.db.Exec(SqlStatement, title, konten, id)
+	_, err := c.db.Exec(SqlStatement, title, materi,id)
 	if err != nil {
 		return nil, err
 	}

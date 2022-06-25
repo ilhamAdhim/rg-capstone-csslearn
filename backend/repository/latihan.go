@@ -13,7 +13,7 @@ func NewLatihanRepository(db *sql.DB) *LatihanRepository {
 }
 
 func (c *LatihanRepository) FecthLatihan() ([]Latihan, error) {
-	sqlStatement := `SELECT question, answer1, answer2, answer3, answer4, answer5 FROM tb_latihan`
+	sqlStatement := `SELECT id_latihan, question, answer1, answer2, answer3, answer4, answer5, key_answer FROM tb_latihan`
 	var latihans []Latihan
 	rows, err := c.db.Query(sqlStatement)
 
@@ -22,8 +22,7 @@ func (c *LatihanRepository) FecthLatihan() ([]Latihan, error) {
 	}
 	for rows.Next() {
 		var latihan Latihan
-		err := rows.Scan(&latihan.Question, &latihan.Answer1, &latihan.Answer2, &latihan.Answer3, &latihan.Answer4, &latihan.Answer5)
-
+		err := rows.Scan(&latihan.ID, &latihan.Question, &latihan.Answer1, &latihan.Answer2, &latihan.Answer3, &latihan.Answer4, &latihan.Answer5, &latihan.Key_Answer)
 		if err != nil {
 			return latihans, err
 		}
@@ -71,19 +70,19 @@ func (c *LatihanRepository) CreateLatihan(soal string, answer1 string, answer2 s
 
 }
 
-func (c *LatihanRepository) FecthLatihanByID_course(id int64) (Latihan, error) {
+// func (c *LatihanRepository) FecthLatihanByID_course(id int64) (Latihan, error) {
 
-	sqlStatement := `SELECT id_course FROM tb_latihan WHERE id_latihan= ?`
+// 	sqlStatement := `SELECT id_course FROM tb_latihan WHERE id_latihan= ?`
 
-	var latihan Latihan
-	row := c.db.QueryRow(sqlStatement, id)
-	err := row.Scan(&latihan.ID, &latihan.Course_ID)
-	if err != nil {
-		return latihan, err
-	}
+// 	var latihan Latihan
+// 	row := c.db.QueryRow(sqlStatement, id)
+// 	err = row.Scan(&latihan.ID, &latihan.Course_ID)
+// 	if err != nil {
+// 		return latihan, err
+// 	}
 
-	return latihan, nil
-}
+// 	return latihan, nil
+// }
 
 func (c *LatihanRepository) UpdateLatihan(id int64, soal string, answer1 string, answer2 string, answer3 string, answer4 string, answer5 string, keyanswer string) (*string, error) {
 	// var latihan Latihan
@@ -97,7 +96,7 @@ func (c *LatihanRepository) UpdateLatihan(id int64, soal string, answer1 string,
 		answer5 = ?,
 		key_answer = ? WHERE id_latihan = ?`
 
-	_, err := c.db.Exec(SqlStatement, id, soal, answer1, answer2, answer3, answer4, answer5, keyanswer)
+	_, err := c.db.Exec(SqlStatement, soal, answer1, answer2, answer3, answer4, answer5, keyanswer, id)
 
 	if err != nil {
 		return nil, err
@@ -109,7 +108,7 @@ func (c *LatihanRepository) UpdateLatihan(id int64, soal string, answer1 string,
 
 func (c *LatihanRepository) DeleteLatihanByID(id int64) error {
 
-	sqlStatement := `DELETE *FROM tb_latihan WHERE id_latihan = ?;`
+	sqlStatement := `DELETE FROM tb_latihan WHERE id_latihan= ?;`
 
 	_, err := c.db.Exec(sqlStatement, id)
 	if err != nil {
