@@ -17,6 +17,7 @@ export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
 
   useEffect(() => {
     setRole(localStorage.getItem("current_role"));
+    console.log("Hehe lagi");
   }, []);
 
   return (
@@ -54,11 +55,11 @@ export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
             pt={2}
           >
             <Heading fontSize={"2xl"} fontFamily={"body"}>
-              {course.judul_course || course || "Ini title"}
+              {course.nama_course || "Ini title"}
             </Heading>
 
             <Text color={titleColorMode} px={3}>
-              {course.deskripsi_course ||
+              {course.content ||
                 `Lorem Ipsum is simply dummy text of the printing and typesetting
             industry`}
             </Text>

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import ModalCustom from "components/ModalCustom";
 import { ucfirst } from "common";
-import { mockGetCourse } from "data/admin/CourseCRUD";
+import { getCourse, mockGetCourse } from "data/admin/CourseCRUD";
 import JumbotronAdd from "components/JumbotronAdd";
 import ModalCourseUpdate from "components/ModalCourseContent/ModalCourseUpdate";
 import ModalCourseDelete from "components/ModalCourseContent/ModalCourseDelete";
@@ -82,8 +82,12 @@ function CourseAdminPage() {
   };
 
   useEffect(() => {
-    mockGetCourse().then((data) => {
-      setDataCourse(data);
+    // mockGetCourse().then((data) => {
+    //   setDataCourse(data);
+    //   setIsCourseLoaded(true);
+    // });
+    getCourse().then((res) => {
+      setDataCourse(res.course);
       setIsCourseLoaded(true);
     });
   }, []);

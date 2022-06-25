@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
-import { mockGetCourse } from "data/admin/CourseCRUD";
+import { getCourse, mockGetCourse } from "data/admin/CourseCRUD";
 
 function CourseListFilter({
   setSelectedCourse,
@@ -26,10 +26,12 @@ function CourseListFilter({
   const [isCourseLoaded, setisCourseLoaded] = useState(false);
 
   useEffect(() => {
-    mockGetCourse().then((data) => {
-      setDataCourse(data);
-      setisCourseLoaded(true);
-    });
+    // mockGetCourse().then((data) => {
+    //   setDataCourse(data);
+    //   setisCourseLoaded(true);
+    // });
+
+    getCourse().then((res) => console.log(res));
   }, []);
 
   const onChangeTopic = (topic) => {
