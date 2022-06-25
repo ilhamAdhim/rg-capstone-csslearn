@@ -10,16 +10,16 @@ import (
 
 func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 	// localhost:9000 origin mendapat izin akses
-	w.Header().Set("Acces-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 
 	//semua method diperbolehkan masuk
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
 
 	//semua header siperbolehkan untuk disisipkan
-	w.Header().Set("Acces-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 
 	//allow cookie
-	w.Header().Set("Acces-Control-Allow-Crenditials", "true")
+	w.Header().Set("Access-Control-Allow-Crenditials", "true")
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if req.Method == "OPTIONS" {
