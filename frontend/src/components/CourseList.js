@@ -17,7 +17,6 @@ export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
 
   useEffect(() => {
     setRole(localStorage.getItem("current_role"));
-    console.log("Hehe lagi");
   }, []);
 
   return (

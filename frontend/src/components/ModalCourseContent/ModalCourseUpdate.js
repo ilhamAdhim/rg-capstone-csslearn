@@ -15,13 +15,13 @@ export default function ModalCourseUpdate({ currentCourse }) {
           ref={initialRef}
           borderColor={"#33A9DC"}
           variant="outline"
-          value={currentCourse.judul_course}
+          value={currentCourse.nama_course}
         />
       </FormControl>
 
       <FormControl mt={4}>
         <FormLabel>Description</FormLabel>
-        <Textarea value={currentCourse.description} />
+        <Textarea value={currentCourse.content} />
       </FormControl>
     </>
   );

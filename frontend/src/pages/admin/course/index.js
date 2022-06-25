@@ -130,7 +130,7 @@ function CourseAdminPage() {
             selectedEntity={selectedCourse}
             title={ucfirst(
               modalRole !== "create"
-                ? `${modalRole} course ${selectedCourse.judul_course}`
+                ? `${modalRole} course ${selectedCourse.content}`
                 : `Tambah Course baru`
             )}
           >
