@@ -39,7 +39,7 @@ func main() {
 		);
 
 		CREATE TABLE IF NOT EXISTS tb_latihan (
-			id_latihan INT(11) not null,
+			id_latihan INTEGER not null PRIMARY KEY AUTOINCREMENT,
 			id_course INT(11),
 			question VARCHAR(255),
 			answer1 VARCHAR(255),
@@ -64,8 +64,10 @@ func main() {
 
 		
 		
-	INSERT INTO tb_admin(username, password) VALUES('admin70', '1234');
-	INSERT INTO tb_siswa(username, password,email) VALUES('widatii', 'wida12','widati@gmail.com');`)
+	INSERT INTO tb_admin(username, password)
+	VALUES('admin70', '1234');
+	INSERT INTO tb_siswa(username, password,email)
+	VALUES('widatii', 'wida12','widati@gmail.com');`)
 
 	if err != nil {
 		panic(err)

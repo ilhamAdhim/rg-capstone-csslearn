@@ -15,8 +15,8 @@ func NewCourseRepository(db *sql.DB) *CourseRepository {
 func (c *CourseRepository) FecthCourse() ([]Course, error) {
 	sqlStatement := `
 	SELECT 
+	id_course,
 		nama_course, 
-		course, 
 		content 
 	FROM 
 		tb_course`
@@ -29,7 +29,10 @@ func (c *CourseRepository) FecthCourse() ([]Course, error) {
 	}
 	for rows.Next() {
 		var course Course
-		err := rows.Scan(&course.Title_Content, &course.Content)
+		err := rows.Scan(
+			&course.ID,
+			&course.Nama_Course,
+			&course.Content)
 
 		if err != nil {
 			return courses, err
@@ -41,54 +44,48 @@ func (c *CourseRepository) FecthCourse() ([]Course, error) {
 	return courses, nil
 }
 
-func (c *CourseRepository) FecthCourseByID(id int64) (Course, error) {
+func (c *CourseRepository) FecthCourseByID(id int64) error {
 
-	sqlStatement := `SELECT nama_course, content  FROM tb_course WHERE id_course= ?`
+	sqlStatement := `SELECT nama_course, content FROM tb_course WHERE id_course= ?`
 
 	var course Course
 	row := c.db.QueryRow(sqlStatement, id)
-	err := row.Scan(&course.ID, &course.Title_Content, &course.Content)
+	err := row.Scan(
+		&course.Nama_Course,
+		&course.Content)
 	if err != nil {
-		return course, err
+		return err
 	}
 
-	return course, nil
+	return nil
 }
 
-func (c *CourseRepository) CreateCourse([]Course) (*string, error) {
+func (c *CourseRepository) CreateCourse(title string, konten string) (*string, error) {
 
 	var course Course
-	SqlStatement := `
-	INSERT INTO
-		tb_course 
-		(
-			nama_course, 
-			course
-		) 
-		VALUES 
-		( ?, ?)`
-	_, err := c.db.Exec(SqlStatement, &course.Title_Content, &course.Content)
+	SqlStatement := `INSERT INTO tb_course(nama_course,content) VALUES( ?, ?)`
+	_, err := c.db.Exec(SqlStatement, title, konten)
 	if err != nil {
 		return nil, err
 	}
 
-	return &course.Title_Content, nil
+	return &course.Nama_Course, nil
 
 }
 
-func (c *CourseRepository) UpdateCourse([]Course) (*string, error) {
-	var course Course
-	SqlStatement := `Update tb_course SET nama_course = ?, course = ? from tb_course WHERE id_course = ?`
-	_, err := c.db.Exec(SqlStatement, nama_course, id)
+func (c *CourseRepository) UpdateCourse(id int64, title string, konten string) (*string, error) {
+	// var course Course
+	SqlStatement := `Update tb_course SET nama_course = ?, content = ? WHERE id_course = ?`
+	_, err := c.db.Exec(SqlStatement, title, konten, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &nama_course, nil
+	return &title, nil
 
 }
 
-unc (c *CourseCategoryRepository) DeleteCourseCategoryByID(id int64) error {
+func (c *CourseRepository) DeleteCourseByID(id int64) error {
 
 	sqlStatement := `DELETE FROM tb_course WHERE id_course = ?;`
 
