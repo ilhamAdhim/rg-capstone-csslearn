@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/schema"
 )
@@ -44,6 +45,11 @@ type CourseSuccesRespone struct {
 	Courses []Course `json:"course"`
 }
 
+type GetSuccesResponse struct {
+	Nama_course string `json:"nama_course"`
+	Content     string `json:"content"`
+}
+
 func (api *API) getcourses(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 	encoder := json.NewEncoder(w)
@@ -77,34 +83,18 @@ func (api *API) getcourses(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) getcoursebyid(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	decoder := schema.NewDecoder()
-	var course GetCourse
 
-	err := decoder.Decode(&course, req.URL.Query())
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-	}
+	idCourse := req.URL.Query().Get("id")
+	id, _ := strconv.Atoi(idCourse)
 
-	respone := CourseSuccesRespone{}
-	respone.Courses = make([]Course, 0)
+	course, err := api.courseRepo.FecthCourseByID(int64(id))
 
-	err = api.courseRepo.FecthCourseByID(course.ID)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	var courses []GetCourse
-	for _, course := range courses {
-		respone.Courses = append(respone.Courses, Course{
-			Nama_Course: course.Nama_Course,
-			Content:     course.Content,
-		})
-	}
-
-	w.WriteHeader(http.StatusOK)
-	respBody, _ := json.Marshal(course)
-	w.Write(respBody)
+	json.NewEncoder(w).Encode(GetSuccesResponse{course.Nama_Course, course.Content})
 
 }
 

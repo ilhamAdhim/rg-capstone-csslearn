@@ -44,20 +44,20 @@ func (c *CourseRepository) FecthCourse() ([]Course, error) {
 	return courses, nil
 }
 
-func (c *CourseRepository) FecthCourseByID(id int64) error {
-
+func (c *CourseRepository) FecthCourseByID(id int64) (Course, error) {
+	course := Course{}
 	sqlStatement := `SELECT nama_course, content FROM tb_course WHERE id_course= ?`
 
-	var course Course
 	row := c.db.QueryRow(sqlStatement, id)
 	err := row.Scan(
 		&course.Nama_Course,
-		&course.Content)
+		&course.Content,
+	)
 	if err != nil {
-		return err
+		return course, err
 	}
 
-	return nil
+	return course, nil
 }
 
 func (c *CourseRepository) CreateCourse(title string, konten string) (*string, error) {
