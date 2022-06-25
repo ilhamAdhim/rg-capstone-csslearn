@@ -32,21 +32,23 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 	mux.Handle("/api/admin/loginadmin", api.POST(http.HandlerFunc(api.loginadmin)))
 	mux.Handle("/api/admin/logoutadmin", api.POST(http.HandlerFunc(api.logoutadmin)))
 
-	mux.Handle("/api/course/id_course", api.GET(http.HandlerFunc(api.course)))
-	mux.Handle("/api/course/create", api.POST(http.HandlerFunc(api.logout)))
-	mux.Handle("/api/course/update", api.PUT(http.HandlerFunc(api.logout)))
-	mux.Handle("/api/course/delete", api.DELETE(http.HandlerFunc(api.logout)))
+	mux.Handle("/api/course/getcourse", api.GET(http.HandlerFunc(api.getcourses)))
+	mux.Handle("/api/course/getcoursebyid", api.GET(http.HandlerFunc(api.getcoursebyid)))
+	mux.Handle("/api/course/create", api.POST(http.HandlerFunc(api.insertCourse)))
+	mux.Handle("/api/course/update", api.PUT(http.HandlerFunc(api.updatecourse)))
+	mux.Handle("/api/course/delete", api.GET(http.HandlerFunc(api.deletecourse)))
 
 	mux.Handle("/api/topic/getcourse", api.GET(http.HandlerFunc(api.getcoursecategory)))
 	mux.Handle("/api/topic/getcoursebyid", api.GET(http.HandlerFunc(api.getcoursecategorybyid)))
 	mux.Handle("/api/topic/insertcourse", api.POST(http.HandlerFunc(api.insertCourseCategory)))
 	mux.Handle("/api/topic/updatecourse", api.PUT(http.HandlerFunc(api.updateCourseCategory)))
-	mux.Handle("/api/topic/deletecourse", api.DELETE(http.HandlerFunc(api.deleteCourseCategory)))
+	mux.Handle("/api/topic/deletecourse", api.GET(http.HandlerFunc(api.deleteCourseCategory)))
 
-	mux.Handle("/api/latihan/id_latihan", api.GET(http.HandlerFunc(api.logout)))
-	mux.Handle("/api/latihan/id_course", api.GET(http.HandlerFunc(api.logout)))
-	mux.Handle("/api/latihan/update", api.POST(http.HandlerFunc(api.logout)))
-	mux.Handle("/api/latihan/delete", api.DELETE(http.HandlerFunc(api.logout)))
+	mux.Handle("/api/latihan/getlatihan", api.GET(http.HandlerFunc(api.getlatihan)))
+	// mux.Handle("/api/latihan/id_course", api.GET(http.HandlerFunc(api.logout)))
+	mux.Handle("/api/latihan/update", api.POST(http.HandlerFunc(api.updateTest)))
+	mux.Handle("/api/latihan/insert", api.DELETE(http.HandlerFunc(api.insertLatihan)))
+
 	return api
 }
 

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gorilla/schema"
 	"github.com/rg-km/final-project-engineering-70/repository"
 )
 
@@ -18,6 +19,18 @@ type Category struct {
 	Materi   string `json:"materi"`
 	// Start_date *time.Time `json:"start_date"`
 	// End_date   *time.Time `json:"end_date"`
+}
+
+type Deltopic struct {
+	ID     int64  `schema:"id_course_category"`
+	Title  string `schema:"title"`
+	Materi string `schema:"materi"`
+}
+
+type Gettopic struct {
+	ID     int64  `schema:"id_course_category"`
+	Title  string `schema:"title"`
+	Materi string `schema:"materi"`
 }
 
 type CategoryInsert struct {
@@ -76,35 +89,26 @@ func (api *API) getcoursecategory(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) getcoursecategorybyid(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
+
+	decoder := schema.NewDecoder()
 	var course Category
-	err := json.NewDecoder(req.Body).Decode(&course)
+
+	// id := req.URL.Query().Get("id_course")
+
+	err := decoder.Decode(&course.ID, req.URL.Query())
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		return
 	}
-	r(w)
-
-	_, err := api.categorycourseRepo.FecthCategoryCourseByID(course.ID)
-	defer func() {
-		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
-			return
-		}
-	}()
+	err = api.categorycourseRepo.FecthCategoryCourseByID(course.ID)
 
 	if err != nil {
-		return
+		w.WriteHeader(http.StatusBadRequest)
 	}
 
+	respBody, _ := json.Marshal(course)
 	w.WriteHeader(http.StatusOK)
-	encoder.Encode(CourseCategoryListSuccesRespone{
-		ID:     &course.ID,
-		Title:  &course.Title,
-		Materi: &course.Materi,
-	})
+	w.Write(respBody)
 
-	encoder.Encode(respone)
 }
 
 func (api *API) insertCourseCategory(w http.ResponseWriter, req *http.Request) {
@@ -152,13 +156,17 @@ func (api *API) updateCourseCategory(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) deleteCourseCategory(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var course Category
+	var course Deltopic
 
-	err := api.categorycourseRepo.DeleteCourseCategoryByID(course.ID)
+	decoder := schema.NewDecoder()
+	err := decoder.Decode(&course, req.URL.Query())
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Delete course category Failed"))
-		return
+	}
+	err = api.categorycourseRepo.DeleteCourseCategoryByID(course.ID)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Delete course category failed"))
 	}
 
 	w.WriteHeader(http.StatusOK)
