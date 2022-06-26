@@ -9,9 +9,34 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Register() {
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [msg, setMsg] = useState("");
+  // const navigate = useNavigate();
+
+  // const Register = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await axios.post("https://csslearn.ilhamadhim.me/api/user/register", {
+  //       name: name,
+  //       email: email,
+  //       password: password,
+  //     });
+  //     localStorage.setItem('token', response.data.token);
+  //     navigate.push("/login");
+  //   } catch (error) {
+  //     if (error.response) {
+  //       console.log(error.response.data);
+  //     }
+  //   }
+  // };
+
   return (
     <Stack
       bg={"white"}
@@ -23,6 +48,7 @@ export default function Register() {
           <Heading color={"#205375"} fontSize={"2xl"}>
             Sign Up
           </Heading>
+          <form onSubmit={Register}></form>
           <FormControl color={"#205375"} id="username">
             <FormLabel>Username</FormLabel>
             <Input
@@ -31,6 +57,8 @@ export default function Register() {
               color="teal"
               placeholder="username"
               _placeholder={{ color: "inherit" }}
+              // value={name}
+              // onChange={(e) => setName(e.target.value)}
             />
           </FormControl>
           <FormControl color={"#205375"} id="email">
@@ -41,6 +69,8 @@ export default function Register() {
               color="teal"
               placeholder="email"
               _placeholder={{ color: "inherit" }}
+              // value={email}
+              // onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>
           <FormControl color={"#205375"} id="password">
@@ -51,8 +81,11 @@ export default function Register() {
               color="teal"
               placeholder="password"
               _placeholder={{ color: "inherit" }}
+              // value={password}
+              // onChange={(e) => setPassword(e.target.value)}
             />
           </FormControl>
+
           <Stack spacing={6}>
             <Stack
               direction={{ base: "column", sm: "row" }}

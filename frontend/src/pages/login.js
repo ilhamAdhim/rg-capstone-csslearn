@@ -9,9 +9,37 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("admin")) {
+    }
+  }, [navigate]);
+
+  async function login() {
+    console.warn(username, password);
+    let item = { username, password };
+    let result = await fetch("https://csslearn.ilhamadhim.me/api/admin/login", {
+      method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+    result = await result.json();
+    localStorage.setItem("admin", JSON.stringify(result));
+    navigate("/admin/course");
+  }
+
   return (
     <Stack
       bg={"white"}
@@ -31,6 +59,7 @@ export default function Login() {
               color="teal"
               placeholder="username"
               _placeholder={{ color: "inherit" }}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </FormControl>
           <FormControl color={"#205375"} id="password">
@@ -41,6 +70,7 @@ export default function Login() {
               color="teal"
               placeholder="password"
               _placeholder={{ color: "inherit" }}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </FormControl>
           <Stack spacing={6}>
@@ -49,7 +79,7 @@ export default function Login() {
               align={"start"}
               justify={"space-between"}
             ></Stack>
-            <Button colorScheme={"blue"} variant={"solid"}>
+            <Button onClick={login} colorScheme={"blue"} variant={"solid"}>
               Sign In
             </Button>
             <Text color={"#205375"} flex={"1"} align={"center"}>
