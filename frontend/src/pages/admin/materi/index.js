@@ -8,7 +8,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "components/layout";
 import ModalCustom from "components/ModalCustom";
 import { mockGetMateriFromCourse } from "data/admin/MateriCRUD";

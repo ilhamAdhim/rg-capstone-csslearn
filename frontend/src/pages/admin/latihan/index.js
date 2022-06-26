@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "components/layout";
 import useDocumentTitle from "hooks/useDocumentTitle";
 import Latihan from "./Latihan";

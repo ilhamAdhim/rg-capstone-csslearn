@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "components/layout";
 import useDocumentTitle from "hooks/useDocumentTitle";
 
@@ -11,7 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import ModalCustom from "components/ModalCustom";
-import { ucfirst } from "common";
+import { ucfirst } from "common"; 
 import { mockGetCourse } from "data/admin/CourseCRUD";
 import JumbotronAdd from "components/JumbotronAdd";
 import ModalCourseUpdate from "components/ModalCourseContent/ModalCourseUpdate";
@@ -103,7 +103,7 @@ function CourseAdminPage() {
             <CourseList
               dataCourse={dataCourse}
               handleOpenModal={handleOpenModal}
-            />
+              />
           ) : (
             <Stack spacing={6} mt={6}>
               <Skeleton h="300px" />

@@ -1,4 +1,6 @@
-import Layout from "components/layout";
+import Layout from "components";
+import React, { useEffect, useState } from "react";
+
 
 function DaftarSiswa() {
   return (

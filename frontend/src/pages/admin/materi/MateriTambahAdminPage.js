@@ -8,7 +8,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import rehypeSanitize from "rehype-sanitize";
 import Layout from "../../../components/layout";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
