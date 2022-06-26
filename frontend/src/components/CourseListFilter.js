@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
-import { mockGetCourse } from "data/admin/CourseCRUD";
+import { getCourse, mockGetCourse } from "data/admin/CourseCRUD";
 
 function CourseListFilter({
   setSelectedCourse,
@@ -23,28 +23,33 @@ function CourseListFilter({
   );
 
   const [dataCourse, setDataCourse] = useState([]);
-  const [isCourseLoaded, setisCourseLoaded] = useState(false);
+  const [isCourseLoaded, setIsCourseLoaded] = useState(false);
 
   useEffect(() => {
-    mockGetCourse().then((data) => {
-      setDataCourse(data);
-      setisCourseLoaded(true);
+    // mockGetCourse().then((data) => {
+    //   setDataCourse(data);
+    //   setIsCourseLoaded(true);
+    // });
+
+    getCourse().then((res) => {
+      setDataCourse(res.course);
+      setIsCourseLoaded(true);
     });
   }, []);
 
-  const onChangeTopic = (topic) => {
+  const onChangeCourse = (course) => {
     setIsCourseSelected(true);
-    setSelectedCourse(topic);
+    setSelectedCourse(course);
   };
 
   return (
     <>
       {isCourseLoaded ? (
         <Flex gap="1em" mt="8" mb="8" px="4" flexDir={["column", "row"]}>
-          {dataCourse.map((topic, id) => (
+          {dataCourse.map((course, id) => (
             <Box
               _focus={{ borderBottom: "3px solid red" }}
-              onClick={() => onChangeTopic(topic)}
+              onClick={() => onChangeCourse(course)}
               as="button"
               bg={bgColorCourse}
               p="4"
@@ -64,11 +69,9 @@ function CourseListFilter({
                   />
                 </Box>
                 <Box flex="1">
-                  <Text fontWeight="bold">{topic.judul_course}</Text>
+                  <Text fontWeight="bold">{course.nama_course}</Text>
                   <Divider my="4" />
-                  <Text textAlign="justify">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </Text>
+                  <Text textAlign="justify">{course.content}</Text>
                 </Box>
               </Flex>
             </Box>

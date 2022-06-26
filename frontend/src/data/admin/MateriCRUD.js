@@ -1,26 +1,28 @@
 import axios from "axios";
-import { MOCK_API_URL_MATERI } from "data/api";
+import { API_URL_TOPIC, MOCK_API_URL_MATERI } from "data/api";
 
 const createMateri = async (values) => {
-  const response = axios.post(`${MOCK_API_URL_MATERI}`, values);
+  const response = axios.post(`${API_URL_TOPIC}/insertcourse`, values);
   return response.data;
 };
 
 const updateMateri = async (id, values) => {
-  const response = axios.put(`${MOCK_API_URL_MATERI}/${id}`, values);
+  const response = axios.put(`${API_URL_TOPIC}/updatecourse?id=${id}`, values);
   return response.data;
 };
 
 const deleteMateri = async (id) => {
-  const response = axios.delete(`${MOCK_API_URL_MATERI}/${id}`);
+  const response = axios.delete(`${API_URL_TOPIC}/deletecourse?id=${id}`);
   return response.data;
 };
 
 const getMateri = async () => {
-  const response = await axios.get(MOCK_API_URL_MATERI);
-
+  const response = await axios.get(`${API_URL_TOPIC}/gettopics`);
   return response.data;
 };
+
+// TODO : tambah lagi getMateriByCourseID ya
+// ...
 
 const mockGetMateriFromCourse = async () => {
   const response = await axios.get(MOCK_API_URL_MATERI);
@@ -28,7 +30,7 @@ const mockGetMateriFromCourse = async () => {
 };
 
 const getDetailMateri = async (id) => {
-  const response = await axios.get(`${MOCK_API_URL_MATERI}/${id}`);
+  const response = await axios.get(`${API_URL_TOPIC}/getcoursebyid?id=${id}`);
   return response.data;
 };
 

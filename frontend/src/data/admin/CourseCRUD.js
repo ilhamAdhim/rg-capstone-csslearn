@@ -1,23 +1,23 @@
 import axios from "axios";
-import { MOCK_API_URL_COURSE } from "data/api";
+import { API_URL_COURSE, MOCK_API_URL_COURSE } from "data/api";
 
 const createCourse = async (values) => {
-  const response = axios.post(`${MOCK_API_URL_COURSE}`, values);
+  const response = axios.post(`${API_URL_COURSE}/create`, values);
   return response.data;
 };
 
 const updateCourse = async (id, values) => {
-  const response = axios.put(`${MOCK_API_URL_COURSE}/${id}`, values);
+  const response = axios.put(`${API_URL_COURSE}/update?id=${id}`, values);
   return response.data;
 };
 
 const deleteCourse = async (id) => {
-  const response = axios.delete(`${MOCK_API_URL_COURSE}/${id}`);
+  const response = axios.delete(`${API_URL_COURSE}/delete?id=${id}`);
   return response.data;
 };
 
 const getCourse = async () => {
-  const response = await axios.get(MOCK_API_URL_COURSE);
+  const response = await axios.get(`${API_URL_COURSE}/getcourse`);
 
   return response.data;
 };
@@ -45,7 +45,7 @@ const mockGetCourse = async () => {
 };
 
 const getDetailCourse = async (id) => {
-  const response = await axios.get(`${MOCK_API_URL_COURSE}/${id}`);
+  const response = await axios.get(`${API_URL_COURSE}/getcoursebyid?id=${id}`);
   return response.data;
 };
 

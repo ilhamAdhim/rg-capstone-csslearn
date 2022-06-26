@@ -12,8 +12,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import ModalCustom from "components/ModalCustom";
-import { ucfirst } from "common"; 
-import { mockGetCourse } from "data/admin/CourseCRUD";
+import { ucfirst } from "common";
+import { getCourse, mockGetCourse } from "data/admin/CourseCRUD";
 import JumbotronAdd from "components/JumbotronAdd";
 import ModalCourseUpdate from "components/ModalCourseContent/ModalCourseUpdate";
 import ModalCourseDelete from "components/ModalCourseContent/ModalCourseDelete";
@@ -88,8 +88,12 @@ function CourseAdminPage() {
   };
 
   useEffect(() => {
-    mockGetCourse().then((data) => {
-      setDataCourse(data);
+    // mockGetCourse().then((data) => {
+    //   setDataCourse(data);
+    //   setIsCourseLoaded(true);
+    // });
+    getCourse().then((res) => {
+      setDataCourse(res.course);
       setIsCourseLoaded(true);
     });
   }, []);
@@ -109,7 +113,7 @@ function CourseAdminPage() {
             <CourseList
               dataCourse={dataCourse}
               handleOpenModal={handleOpenModal}
-              />
+            />
           ) : (
             <Stack spacing={6} mt={6}>
               <Skeleton h="300px" />
@@ -132,7 +136,7 @@ function CourseAdminPage() {
             selectedEntity={selectedCourse}
             title={ucfirst(
               modalRole !== "create"
-                ? `${modalRole} course ${selectedCourse.judul_course}`
+                ? `${modalRole} course ${selectedCourse.content}`
                 : `Tambah Course baru`
             )}
           >
