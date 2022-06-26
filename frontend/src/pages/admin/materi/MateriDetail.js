@@ -11,7 +11,7 @@ import {
 import { useParams } from "react-router";
 import Layout from "components/layout";
 import useDocumentTitle from "hooks/useDocumentTitle";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
 

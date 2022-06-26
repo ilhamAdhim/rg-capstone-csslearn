@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "components/layout";
 import useDocumentTitle from "hooks/useDocumentTitle";
+// import { Navigate } from "react-router-dom";
 
 import {
   Container,
@@ -18,11 +19,16 @@ import ModalCourseUpdate from "components/ModalCourseContent/ModalCourseUpdate";
 import ModalCourseDelete from "components/ModalCourseContent/ModalCourseDelete";
 import ModalCourseCreate from "components/ModalCourseContent/ModalCourseCreate";
 import CourseList from "components/CourseList";
-
 // TODO : Pindah semua toast ke API handlers (folder data)
 // Caranya pakai const toast = createStandaloneToast();
 
 function CourseAdminPage() {
+  // const token = localStorage.getItem("token");
+  // console.log("token: ", token);
+
+  // if (!token) {
+  //   return <Navigate to="/login" />;
+  // }
   useDocumentTitle(`Course`);
   const toast = useToast();
   const modal = useDisclosure();

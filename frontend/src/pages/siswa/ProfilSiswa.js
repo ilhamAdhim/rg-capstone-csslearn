@@ -17,6 +17,7 @@ import {
   InputLeftElement,
 } from "@chakra-ui/react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import React from "react";
 
 function ProfilSiswa() {
   useDocumentTitle("Profil Admin");

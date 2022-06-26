@@ -1,7 +1,7 @@
 import Layout from "components/layout";
 import useDocumentTitle from "hooks/useDocumentTitle";
 import { Container, Stack, Heading, Skeleton } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { mockGetCourse } from "data/admin/CourseCRUD";
 import CourseList from "components/CourseList";
 import { useNavigate } from "react-router";

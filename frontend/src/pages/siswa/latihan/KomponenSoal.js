@@ -8,9 +8,9 @@ import {
   Container,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 function KomponenSoal() {
   const { exerciseCourse, idSoal } = useParams();

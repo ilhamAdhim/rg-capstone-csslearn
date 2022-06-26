@@ -7,9 +7,9 @@ import {
   Image,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
+function CourseList({ dataCourse, handleOpenModal, ...props }) {
   const colorModeStack = useColorModeValue("#D4EDF8", "gray.900");
   const titleColorMode = useColorModeValue("gray.700", "gray.400");
 
@@ -123,3 +123,5 @@ export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
     </>
   );
 }
+
+export default CourseList;

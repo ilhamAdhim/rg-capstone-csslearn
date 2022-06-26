@@ -17,10 +17,12 @@ const deleteMateri = async (id) => {
 };
 
 const getMateri = async () => {
-  const response = await axios.get(`${API_URL_TOPIC}/getcourse`);
-
+  const response = await axios.get(`${API_URL_TOPIC}/gettopics`);
   return response.data;
 };
+
+// TODO : tambah lagi getMateriByCourseID ya
+// ...
 
 const mockGetMateriFromCourse = async () => {
   const response = await axios.get(MOCK_API_URL_MATERI);
