@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+import Layout from "components";
+import React, { useEffect, useState } from "react";
+
+=======
 import { useEffect, useState } from "react";
 import Layout from "components/layout";
 import useDocumentTitle from "hooks/useDocumentTitle";
@@ -44,6 +49,7 @@ function DaftarSiswaAdminPage() {
   useEffect(() => {
     setIsDaftarSiswaLoaded(true);
   }, []);
+>>>>>>> 2197927716e253a58237067dd1a423c1d8c171a5
 
   return (
     <>

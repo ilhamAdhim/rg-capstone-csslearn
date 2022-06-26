@@ -17,6 +17,8 @@ import {
   InputLeftElement,
 } from "@chakra-ui/react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+
 function ProfileAdminPage() {
   useDocumentTitle("Profil Admin");
   const toast = useToast();

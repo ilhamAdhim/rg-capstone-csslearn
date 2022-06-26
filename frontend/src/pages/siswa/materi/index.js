@@ -1,10 +1,17 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
+<<<<<<< HEAD
+=======
 import { useEffect, useState } from "react";
+>>>>>>> 2197927716e253a58237067dd1a423c1d8c171a5
 import CourseListFilter from "components/CourseListFilter";
 import Layout from "components/layout";
 import TimelineSection from "components/TimelineSection";
 import useDocumentTitle from "hooks/useDocumentTitle";
+<<<<<<< HEAD
+import { useState } from "react";
+=======
 import { mockGetMateriFromCourse } from "data/admin/MateriCRUD";
+>>>>>>> 2197927716e253a58237067dd1a423c1d8c171a5
 
 function Materi() {
   useDocumentTitle(`Materi`);

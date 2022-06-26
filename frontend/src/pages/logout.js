@@ -8,6 +8,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Layout from "components/layout";
+import React from "react";
 
 export default function Logout() {
   return (

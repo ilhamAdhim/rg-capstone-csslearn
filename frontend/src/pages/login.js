@@ -10,9 +10,14 @@ import {
   Text,
   Select,
 } from "@chakra-ui/react";
+<<<<<<< HEAD
 import { Link, Navigate } from "react-router-dom";
 import { Fragment, useState } from "react";
 import axios from "axios";
+=======
+import { Link } from "react-router-dom";
+import React from "react";
+>>>>>>> 22f1d3eded471a9ad7da48abb8173efeb993c16f
 
 export default function Login() {
   const [username, setUsername] = useState("");
