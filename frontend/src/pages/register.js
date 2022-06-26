@@ -9,14 +9,9 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-<<<<<<< HEAD
 import { Link, Navigate } from "react-router-dom";
 import { useState, Fragment } from "react";
 import axios from "axios";
-=======
-import { Link } from "react-router-dom";
-import React from "react";
->>>>>>> 22f1d3eded471a9ad7da48abb8173efeb993c16f
 
 export default function Register() {
   const [username, setUsername] = useState("");
