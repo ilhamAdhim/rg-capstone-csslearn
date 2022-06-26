@@ -11,13 +11,14 @@ type User struct {
 type Admin struct {
 	ID       int64  `db:"id_admin"`
 	Username string `db:"username"`
+	Email    string `db:"email"`
 	Password string `db:"password"`
 	Token    string `db:"token"`
 }
 
 type CourseCategory struct {
 	ID           int64  `db:"id_course_category"`
-	Siswa_ID     int64  `db:"id_siswa"`
+	Course_ID    int64  `db:"id_course"`
 	Title_Materi string `db:"nama_materi"`
 	Materi       string `db:"materi"`
 	// Start_date   *time.Time `db:"start_date"`
@@ -25,21 +26,35 @@ type CourseCategory struct {
 }
 
 type Course struct {
-	ID                 int64  `db:"id_course"`
-	Course_Category_ID int64  `db:"id_course_category"`
-	Nama_Course        string `db:"nama_materi"`
-	Content            string `db:"content"`
+	ID          int64  `db:"id_course"`
+	Nama_Course string `db:"nama_materi"`
+	Content     string `db:"content"`
+}
+
+type TopicbyIdcourse struct {
+	ID           int64  `db:"id_course"`
+	Title_Materi string `db:"nama_materi"`
+	Materi       string `db:"materi"`
 }
 
 type Latihan struct {
 	ID         int64  `db:"id_latihan"`
+	Id_course  int64  `db:"id_course"`
+	Question   string `db:"question"`
+	Answer1    string `db:"answer1"`
+	Answer2    string `db:"answer2"`
+	Answer3    string `db:"answer3"`
+	Answer4    string `db:"answer4"`
+	Key_Answer string `db:"key_answer"`
+	Score      int64  `db:"score"`
+}
+
+type LatihanByCourse struct {
 	Course_ID  int64  `db:"id_course"`
 	Question   string `db:"question"`
 	Answer1    string `db:"answer1"`
 	Answer2    string `db:"answer2"`
 	Answer3    string `db:"answer3"`
 	Answer4    string `db:"answer4"`
-	Answer5    string `db:"answer5"`
 	Key_Answer string `db:"key_answer"`
-	Score      int64  `db:"score"`
 }
