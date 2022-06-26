@@ -16,7 +16,8 @@ export const MOCK_API_URL_MATERI = `${MOCK_BASE_URL}/materi`;
 
 export const axiosWithBearer = (bearerToken) =>
   axios.create({
-    headers: {
-      Authorization: `Bearer ${bearerToken}`,
-    },
+    // headers: {
+    //   // Authorization: `Bearer ${bearerToken}`,
+    // },
+    withCredentials: true,
   });

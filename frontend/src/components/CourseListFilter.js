@@ -26,11 +26,6 @@ function CourseListFilter({
   const [isCourseLoaded, setIsCourseLoaded] = useState(false);
 
   useEffect(() => {
-    // mockGetCourse().then((data) => {
-    //   setDataCourse(data);
-    //   setIsCourseLoaded(true);
-    // });
-
     getCourse().then((res) => {
       setDataCourse(res.course);
       setIsCourseLoaded(true);
@@ -53,7 +48,6 @@ function CourseListFilter({
               as="button"
               bg={bgColorCourse}
               p="4"
-              // borderRadius="10"
               key={id}
               flex="1"
               boxShadow={boxShadowColorCourse}

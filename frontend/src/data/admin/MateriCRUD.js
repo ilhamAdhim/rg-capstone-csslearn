@@ -1,36 +1,55 @@
 import axios from "axios";
-import { API_URL_TOPIC, MOCK_API_URL_MATERI } from "data/api";
+import { API_URL_TOPIC, axiosWithBearer, MOCK_API_URL_MATERI } from "data/api";
 
-const createMateri = async (values) => {
-  const response = axios.post(`${API_URL_TOPIC}/insertcourse`, values);
+const createMateri = async (values, bearerToken) => {
+  const response = axiosWithBearer(bearerToken).post(
+    `${API_URL_TOPIC}/create`,
+    values
+  );
   return response.data;
 };
 
-const updateMateri = async (id, values) => {
-  const response = axios.put(`${API_URL_TOPIC}/updatecourse?id=${id}`, values);
+const updateMateri = async (id, values, bearerToken) => {
+  const response = axiosWithBearer(bearerToken).put(
+    `${API_URL_TOPIC}/update?id=${id}`,
+    values
+  );
   return response.data;
 };
 
-const deleteMateri = async (id) => {
-  const response = axios.delete(`${API_URL_TOPIC}/deletecourse?id=${id}`);
+const deleteMateri = async (id, bearerToken) => {
+  const response = axiosWithBearer(bearerToken).get(
+    `${API_URL_TOPIC}/delete?id=${id}`
+  );
   return response.data;
 };
 
-const getMateri = async () => {
-  const response = await axios.get(`${API_URL_TOPIC}/gettopics`);
+const getMateri = async (bearerToken) => {
+  const response = await axiosWithBearer(bearerToken).get(
+    `${API_URL_TOPIC}/gettopics`
+  );
   return response.data;
 };
 
 // TODO : tambah lagi getMateriByCourseID ya
 // ...
 
+const getMateriByCourseID = async (id, bearerToken) => {
+  const response = await axiosWithBearer(bearerToken).get(
+    `${API_URL_TOPIC}/getbyidCourse?id=${id}`
+  );
+  return response.data;
+};
+
 const mockGetMateriFromCourse = async () => {
   const response = await axios.get(MOCK_API_URL_MATERI);
   return response.data;
 };
 
-const getDetailMateri = async (id) => {
-  const response = await axios.get(`${API_URL_TOPIC}/getcoursebyid?id=${id}`);
+const getDetailMateri = async (id, bearerToken) => {
+  const response = await axiosWithBearer(bearerToken).get(
+    `${API_URL_TOPIC}/getcoursebyid?id=${id}`
+  );
   return response.data;
 };
 
@@ -40,5 +59,6 @@ export {
   deleteMateri,
   getMateri,
   getDetailMateri,
+  getMateriByCourseID,
   mockGetMateriFromCourse,
 };

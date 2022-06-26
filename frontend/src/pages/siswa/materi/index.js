@@ -36,7 +36,7 @@ function Materi() {
           >
             {" "}
             {isCourseSelected
-              ? `${selectedCourse.judul_course}`
+              ? `${selectedCourse.nama_course}`
               : "Harap pilih topik diatas terlebih dahulu"}{" "}
           </Text>
           {/* // TODO : Timeline / roadmap nya masih berupa design saja   */}

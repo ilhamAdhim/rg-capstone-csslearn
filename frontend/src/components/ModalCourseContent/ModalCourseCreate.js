@@ -2,7 +2,7 @@ import { FormControl, Input, FormLabel, Textarea } from "@chakra-ui/react";
 
 import React from "react";
 
-export default function ModalCourseCreate() {
+export default function ModalCourseCreate({ setFormObj }) {
   const initialRef = React.useRef(null);
 
   //   TODO : Set Form & Validation

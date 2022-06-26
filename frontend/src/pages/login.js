@@ -11,10 +11,13 @@ import {
   // Select,
 } from "@chakra-ui/react";
 import { Link, Navigate } from "react-router-dom";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 export default function Login() {
+  const [cookies, setCookie] = useCookies();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirectAdmin, setRedirectAdmin] = useState(false);
@@ -29,8 +32,10 @@ export default function Login() {
       .post("https://csslearn.ilhamadhim.me/api/admin/login", data)
       .then((result) => {
         if (result) {
+          console.log(result.data, " ini apa");
           localStorage.setItem("token", result.data.token);
           setRedirectAdmin(true);
+          setCookie("token", result.data.token, { path: "/" });
         }
         console.log(result.data.token);
       });

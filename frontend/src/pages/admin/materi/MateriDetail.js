@@ -32,6 +32,14 @@ function MateriDetailAdminPage() {
 
   const { idMateri } = useParams();
 
+  const [tokenJWT, setTokenJWT] = useState("");
+
+  // Ini untuk create dan update
+  const [formObj, setFormObj] = useState({
+    nama_course: "",
+    content: "",
+  });
+
   useEffect(() => {
     // TODO : fetch detail materi by ID
     // ...
@@ -82,7 +90,7 @@ function MateriDetailAdminPage() {
               </Button>
             </Flex>
             <Box data-color-mode={currentMode?.colorMode}>
-              {!isEditingMateri && (
+              {!isEditingMateri ? (
                 <MDEditor.Markdown
                   source={valueMarkdownEditor}
                   style={{
@@ -91,9 +99,7 @@ function MateriDetailAdminPage() {
                     marginTop: "1em",
                   }}
                 />
-              )}
-
-              {isEditingMateri && (
+              ) : (
                 <MDEditor
                   value={valueMarkdownEditor}
                   onChange={setValueMarkdownEditor}

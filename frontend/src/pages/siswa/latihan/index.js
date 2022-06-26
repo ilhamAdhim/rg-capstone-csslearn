@@ -14,9 +14,7 @@ function Latihan() {
   const [isCourseLoaded, setIsCourseLoaded] = useState(false);
 
   const handlePilihTopik = (selectedCourse) => {
-    const newUrl = selectedCourse?.judul_course
-      .toLowerCase()
-      .replace(/\s/g, "");
+    const newUrl = selectedCourse?.nama_course.toLowerCase().replace(/\s/g, "");
 
     navigate(`/siswa/latihan/${newUrl}/1`);
   };

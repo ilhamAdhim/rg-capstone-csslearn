@@ -2,13 +2,21 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
   Skeleton,
   Stack,
   useColorMode,
   useToast,
 } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
+import { toastProps } from "common";
+import { getDetailCourse } from "data/admin/CourseCRUD";
+import { createMateri, getMateri } from "data/admin/MateriCRUD";
 import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router";
 import rehypeSanitize from "rehype-sanitize";
 import Layout from "../../../components/layout";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
@@ -20,49 +28,65 @@ function MateriTambahAdminPage() {
 
   const [valueMarkdownEditor, setValueMarkdownEditor] =
     useState("**Hello world!!!**");
+  const [judul, setJudul] = useState("");
 
-  const [dataMateri, setDataMateri] = useState([]);
+  const [dataCourse, setDataCourse] = useState([]);
   const [isMateriLoaded, setIsMateriLoaded] = useState(true);
 
+  const [formObj, setFormObj] = useState({});
+
+  const { idCourse } = useParams();
+
   const submitMateri = () => {
-    // TODO : connect endpoint CreateMateri
-
-    // ? Ini bisa dipindah di folder data/admin/MateriCRUD.js
-    // If success :
-    toast({
-      title: "Materi berhasil ditambahkan",
-      variant: "solid",
-      status: "success",
-      isClosable: true,
-      duration: 3000,
-      position: "top",
-    });
-
-    // If failed :
-    // toast({
-    //   title: "Materi gagal ditambahkan",
-    //   status: "error",
-    //   isClosable: true,
-    //   duration: 3000,
-    //   position: "top",
-    // });
+    console.log("formObj", formObj);
+    createMateri(formObj, localStorage.getItem("token"))
+      .then((res) => {
+        toast({
+          title: `Materi untuk ${dataCourse} berhasil ditambahkan`,
+          ...toastProps,
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    // TODO : Fetch data materi by ID.
-    // ...
-  }, []);
+    setFormObj({
+      id_course: idCourse,
+      materi: valueMarkdownEditor,
+      title: judul,
+    });
+  }, [judul, valueMarkdownEditor]);
 
-  //TODO : Set Form values
-  // ...
+  useEffect(() => {
+    setIsMateriLoaded(false);
+
+    getDetailCourse(idCourse).then((res) => {
+      setDataCourse(res.nama_course);
+      setIsMateriLoaded(true);
+    });
+  }, []);
 
   return (
     <>
       <Layout>
         {isMateriLoaded ? (
           <>
-            Halo ini tambah materi ya
-            <Box data-color-mode={currentMode?.colorMode}>
+            <Heading fontSize="1.5em" color={"#FF6905"}>
+              {" "}
+              Tambahkan materi untuk {dataCourse}
+            </Heading>
+
+            <Box data-color-mode={currentMode?.colorMode} mt="1em">
+              <FormControl>
+                <FormLabel>Judul Materi</FormLabel>
+                <Input
+                  borderColor={"#205375"}
+                  variant="outline"
+                  color="teal"
+                  placeholder="Judul Materi ..."
+                  onChange={(e) => setJudul(e.target.value)}
+                />
+              </FormControl>
               <MDEditor
                 value={valueMarkdownEditor}
                 onChange={setValueMarkdownEditor}
@@ -72,10 +96,6 @@ function MateriTambahAdminPage() {
                 height={500}
                 style={{ marginTop: "2em" }}
               />
-              {/* <MDEditor.Markdown
-     source={value}
-     style={{ whiteSpace: "pre-wrap" }}
-   /> */}
             </Box>
           </>
         ) : (
