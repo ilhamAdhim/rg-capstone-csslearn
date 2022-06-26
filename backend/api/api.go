@@ -26,7 +26,6 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 	mux.Handle("/api/user/logout", api.POST(http.HandlerFunc(api.logout)))
 	mux.Handle("/api/user/register", api.POST(http.HandlerFunc(api.register)))
 
-
 	//Siswa(User)
 	mux.Handle("/api/user/editprofile", api.PUT(api.AuthMiddleware(http.HandlerFunc(api.editProfile))))
 
@@ -47,19 +46,16 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 	mux.Handle("/api/latihan/update", api.PUT(http.HandlerFunc(api.updateTest)))
 	mux.Handle("/api/latihan/insert", api.POST(http.HandlerFunc(api.insertLatihan)))
 
-
-
-
 	// Siswa(User) & Admin
 	mux.Handle("/api/course/getcourse", api.GET(http.HandlerFunc(api.getcourses)))
 	mux.Handle("/api/course/getcoursebyid", api.GET(http.HandlerFunc(api.getcoursebyid)))
-	
+
 	mux.Handle("/api/topic/gettopics", api.GET(http.HandlerFunc(api.getcoursecategory)))
 	mux.Handle("/api/topic/gettopicbyid", api.GET(http.HandlerFunc(api.getcoursecategorybyid)))
-	
+
 	mux.Handle("/api/latihan/getlatihan", api.GET(http.HandlerFunc(api.getlatihan)))
 	mux.Handle("/api/latihan/delete", api.GET(http.HandlerFunc(api.deleteSoal)))
-	
+
 	return api
 }
 

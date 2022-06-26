@@ -8,7 +8,7 @@ import {
   Stack,
   Image,
   Text,
-  Select,
+  // Select,
 } from "@chakra-ui/react";
 import { Link, Navigate } from "react-router-dom";
 import { Fragment, useState } from "react";
@@ -17,7 +17,8 @@ import axios from "axios";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
+  const [redirectAdmin, setRedirectAdmin] = useState(false);
+  const [redirectUser, setRedirectUser] = useState(false);
 
   const loginAdmin = () => {
     const data = {
@@ -29,7 +30,7 @@ export default function Login() {
       .then((result) => {
         if (result) {
           localStorage.setItem("token", result.data.token);
-          setRedirect(true);
+          setRedirectAdmin(true);
         }
         console.log(result.data.token);
       });
@@ -45,7 +46,7 @@ export default function Login() {
       .then((result) => {
         if (result) {
           localStorage.setItem("token", result.data.token);
-          setRedirect(true);
+          setRedirectUser(true);
         }
         console.log(result.data.token);
       });
@@ -53,8 +54,8 @@ export default function Login() {
 
   return (
     <Fragment>
-      {redirect && <Navigate to="/admin/course" />}
-      {redirect && <Navigate to="/siswa" />}
+      {redirectAdmin && <Navigate to="/admin/course" />}
+      {redirectUser && <Navigate to="/siswa" />}
       <Stack
         bg={"white"}
         minH={"100vh"}
