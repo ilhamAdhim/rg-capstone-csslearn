@@ -14,18 +14,19 @@ type CourseCategoryErrorRespone struct {
 }
 
 type Category struct {
-	ID       int64  `json:"id_course_category"`
-	// Siswa_ID string `json:"id_siswa"`
-	Title    string `json:"title"`
-	Materi   string `json:"materi"`
+	ID        int64  `json:"id_course_category"`
+	Course_ID int64  `json:"id_course"`
+	Title     string `json:"title"`
+	Materi    string `json:"materi"`
 	// Start_date *time.Time `json:"start_date"`
 	// End_date   *time.Time `json:"end_date"`
 }
 
 type Deltopic struct {
-	ID     int64  `schema:"id_course_category"`
-	Title  string `schema:"title"`
-	Materi string `schema:"materi"`
+	ID        int64  `schema:"id_course_category"`
+	Course_ID int64  `schema:"id_course"`
+	Title     string `schema:"title"`
+	Materi    string `schema:"materi"`
 }
 
 type Gettopic struct {
@@ -33,9 +34,16 @@ type Gettopic struct {
 	Materi       string `json:"materi"`
 }
 
+type GettopicbyCourse struct {
+	ID           int64  `json:"id_course"`
+	Title_Materi string `json:"title"`
+	Materi       string `json:"materi"`
+}
+
 type CategoryInsert struct {
-	Title  string `json:"title"`
-	Materi string `json:"materi"`
+	Course_ID int64  `json:"id_course"`
+	Title     string `json:"title"`
+	Materi    string `json:"materi"`
 }
 
 type CategoryDelete struct {
@@ -43,13 +51,18 @@ type CategoryDelete struct {
 }
 
 type CategoryUpdate struct {
-	ID     int64  `json:"id_course_category"`
-	Title  string `json:"title"`
-	Materi string `json:"materi"`
+	ID        int64  `json:"id_course_category"`
+	Course_ID int64  `json:"id_course"`
+	Title     string `json:"title"`
+	Materi    string `json:"materi"`
 }
 
 type CourseCategorySuccesRespone struct {
 	CategoryCourse []Category `json:"category"`
+}
+
+type GetCategorySuccesRespone struct {
+	CategoryCourse []GettopicbyCourse `json:"gettopic"`
 }
 
 type CourseCategoryListSuccesRespone struct {
@@ -78,9 +91,10 @@ func (api *API) getcoursecategory(w http.ResponseWriter, req *http.Request) {
 
 	for _, coursecategory := range category {
 		respone.CategoryCourse = append(respone.CategoryCourse, Category{
-			ID:     coursecategory.ID,
-			Title:  coursecategory.Title_Materi,
-			Materi: coursecategory.Materi,
+			ID:        coursecategory.ID,
+			Course_ID: coursecategory.Course_ID,
+			Title:     coursecategory.Title_Materi,
+			Materi:    coursecategory.Materi,
 		})
 	}
 
@@ -104,6 +118,43 @@ func (api *API) getcoursecategorybyid(w http.ResponseWriter, req *http.Request) 
 
 }
 
+func (api *API) getcategorybyidcourse(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	encoder := json.NewEncoder(w)
+
+	idCourse := req.URL.Query().Get("id")
+	id, _ := strconv.Atoi(idCourse)
+
+	respone := GetCategorySuccesRespone{}
+	respone.CategoryCourse = make([]GettopicbyCourse, 0)
+
+	courses, err := api.categorycourseRepo.FecthCategoryByIDCourse(int64(id))
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
+			return
+		}
+	}()
+
+	if err != nil {
+		return
+	}
+
+	for _, coursecategory := range courses {
+		respone.CategoryCourse = append(respone.CategoryCourse, GettopicbyCourse{
+			ID:           coursecategory.ID,
+			Title_Materi: coursecategory.Title_Materi,
+			Materi:       coursecategory.Materi,
+		})
+	}
+
+	encoder.Encode(respone)
+
+	// json.NewEncoder(w).Encode(Gettopic{course.Title_Materi, course.Materi})
+
+}
+
 func (api *API) insertCourseCategory(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 	var course CategoryInsert
@@ -113,7 +164,7 @@ func (api *API) insertCourseCategory(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	_, err = api.categorycourseRepo.CreateCourseCategory(course.Title, course.Materi)
+	_, err = api.categorycourseRepo.CreateCourseCategory(course.Course_ID, course.Title, course.Materi)
 	if err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte("Insert course category Failed"))
@@ -135,14 +186,13 @@ func (api *API) updateCourseCategory(w http.ResponseWriter, req *http.Request) {
 
 	// title dan materi
 
-	_, err = api.categorycourseRepo.UpdateCourseCategory(course.ID, course.Title, course.Materi)
+	_, err = api.categorycourseRepo.UpdateCourseCategory(course.ID, course.Course_ID, course.Title, course.Materi)
 	defer func() {
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 	}()
-	
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Update course category successful"))

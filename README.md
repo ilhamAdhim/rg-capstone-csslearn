@@ -23,19 +23,20 @@ terutama yang baru belajar tentang Frontend.
 ![4](https://user-images.githubusercontent.com/100768683/174863377-ae70aec6-a86f-48a4-afea-06a60b55188b.png)
 
 # Tech Stack
-![image](https://user-images.githubusercontent.com/100768683/174865608-730110b8-1432-4ac4-8d75-7e2ccba1bffe.png)
-![image](https://user-images.githubusercontent.com/100768683/174865688-457e23a4-ed3b-4dfd-9bca-3712bc818645.png)
-
-
+![image](https://user-images.githubusercontent.com/100768683/175807273-c4145838-653e-4ee0-9d70-d53cedcba944.png)
+![image](https://user-images.githubusercontent.com/100768683/175807333-8c046129-d915-4a08-825d-ebffa8c72a83.png)
+![image](https://user-images.githubusercontent.com/100768683/175807331-ade6ecbe-e6fd-4d22-9c17-bda6cab4c101.png)
+![image](https://user-images.githubusercontent.com/100768683/175807283-2a983cec-0fe0-4b8f-8d01-b0ada8df6ed7.png)
+![image](https://user-images.githubusercontent.com/100768683/175807298-8f30cdef-08e0-49d4-9a96-54643699d3ab.png)
 
 
 # Property
 Untuk lebih lengkap lansung cek dibawah, enjoy mazehh
 
-jira software
+![image](https://user-images.githubusercontent.com/100768683/175807354-27b380e1-f560-4582-9473-bb388eae2bdb.png)
 -https://final-project-group-70.atlassian.net/jira/software/projects/FPE7/boards/2/backlog
 
-Figma link
+![image](https://user-images.githubusercontent.com/100768683/175807568-3ad2fe11-708d-484a-b661-2f1eb187533d.png)
 -https://www.figma.com/file/X6dBCXb8GsXOjCkY3BSbm4/Untitled?node-id=14%3A96
 
 Live preview App

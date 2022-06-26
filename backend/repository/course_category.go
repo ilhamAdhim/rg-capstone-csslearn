@@ -16,6 +16,7 @@ func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, erro
 	sqlStatement := `
 	SELECT 
 		id_course_category, 
+		id_course,
 		nama_materi,
 		materi
 	FROM 
@@ -30,6 +31,7 @@ func (c *CourseCategoryRepository) FecthCategoryCourse() ([]CourseCategory, erro
 	for rows.Next() {
 		var category CourseCategory
 		err := rows.Scan(&category.ID,
+			&category.Course_ID,
 			&category.Title_Materi,
 			&category.Materi,
 		)
@@ -60,11 +62,46 @@ func (c *CourseCategoryRepository) FecthCategoryCourseByID(id int64) (CourseCate
 	return course, nil
 }
 
-func (c *CourseCategoryRepository) CreateCourseCategory(title string, materi string) (*string, error) {
+func (c *CourseCategoryRepository) FecthCategoryByIDCourse(id int64) ([]TopicbyIdcourse, error) {
+
+	sqlStatement := `
+		SELECT 
+		c.id_course,
+		t.nama_materi,
+		t.materi FROM tb_course_category t
+		INNER JOIN tb_course c ON c.id_course = t.id_course 
+		WHERE c.id_course= ?`
+
+	var course []TopicbyIdcourse
+	rows, err := c.db.Query(sqlStatement, id)
+
+	if err != nil {
+		return course, err
+	}
+
+	for rows.Next() {
+		var category TopicbyIdcourse
+		err := rows.Scan(
+			&category.ID,
+			&category.Title_Materi,
+			&category.Materi,
+		)
+
+		if err != nil {
+			return course, err
+		}
+
+		course = append(course, category)
+	}
+
+	return course, nil
+}
+
+func (c *CourseCategoryRepository) CreateCourseCategory(courseid int64, title string, materi string) (*string, error) {
 
 	var course CourseCategory
-	SqlStatement := `INSERT INTO tb_course_category (nama_materi, materi) VALUES(?, ?)`
-	_, err := c.db.Exec(SqlStatement, title, materi)
+	SqlStatement := `INSERT INTO tb_course_category (id_course, nama_materi, materi) VALUES(?, ?, ?)`
+	_, err := c.db.Exec(SqlStatement, courseid, title, materi)
 	if err != nil {
 		return nil, err
 	}
@@ -73,12 +110,12 @@ func (c *CourseCategoryRepository) CreateCourseCategory(title string, materi str
 
 }
 
-func (c *CourseCategoryRepository) UpdateCourseCategory(id int64, title string, materi string) (*string, error) {
+func (c *CourseCategoryRepository) UpdateCourseCategory(id int64, courseid int64, title string, materi string) (*string, error) {
 	// var course CourseCategory
 	// materi = ""
 	// title = ""
-	SqlStatement := `Update tb_course_category SET nama_materi = ?, materi = ? WHERE id_course_category = ?`
-	_, err := c.db.Exec(SqlStatement, title, materi, id)
+	SqlStatement := `Update tb_course_category SET id_course= ?, nama_materi = ?, materi = ? WHERE id_course_category = ?`
+	_, err := c.db.Exec(SqlStatement, courseid, title, materi, id)
 	if err != nil {
 		return nil, err
 	}

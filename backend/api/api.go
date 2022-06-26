@@ -43,6 +43,7 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 	mux.Handle("/api/topic/update", api.PUT(api.AdminMiddleware(http.HandlerFunc(api.updateCourseCategory))))
 	mux.Handle("/api/topic/delete", api.GET(api.AdminMiddleware(http.HandlerFunc(api.deleteCourseCategory))))
 
+<<<<<<< HEAD
 	mux.Handle("/api/latihan/update", api.PUT(http.HandlerFunc(api.updateTest)))
 	mux.Handle("/api/latihan/insert", api.POST(http.HandlerFunc(api.insertLatihan)))
 
@@ -55,6 +56,22 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 
 	mux.Handle("/api/latihan/getlatihan", api.GET(http.HandlerFunc(api.getlatihan)))
 	mux.Handle("/api/latihan/delete", api.GET(http.HandlerFunc(api.deleteSoal)))
+=======
+	mux.Handle("/api/latihan/update", api.PUT(api.AdminMiddleware(http.HandlerFunc(api.updateTest))))
+	mux.Handle("/api/latihan/insert", api.POST(api.AdminMiddleware(http.HandlerFunc(api.insertLatihan))))
+	mux.Handle("/api/latihan/delete", api.GET(api.AdminMiddleware(http.HandlerFunc(api.deleteSoal))))
+
+	// Siswa(User) & Admin
+	mux.Handle("/api/course/getcourse", api.GET(http.HandlerFunc(api.getcourses)))
+	mux.Handle("/api/course/getbyid", api.GET(http.HandlerFunc(api.getcoursebyid)))
+
+	mux.Handle("/api/topic/gettopics", api.GET(http.HandlerFunc(api.getcoursecategory)))
+	mux.Handle("/api/topic/getbyidCourse", api.GET(http.HandlerFunc(api.getcategorybyidcourse)))
+	mux.Handle("/api/topic/getbyid", api.GET(http.HandlerFunc(api.getcoursecategorybyid)))
+
+	mux.Handle("/api/latihan/getlatihan", api.GET(http.HandlerFunc(api.getlatihan)))
+	mux.Handle("/api/latihan/getbyidCourse", api.GET(http.HandlerFunc(api.getlatihanbyidcourse)))
+>>>>>>> ce906f101fcf8214814f21af828105c151aa6692
 
 	return api
 }
