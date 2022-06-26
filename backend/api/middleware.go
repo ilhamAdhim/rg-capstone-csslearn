@@ -9,17 +9,17 @@ import (
 )
 
 func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
-	// localhost:9000 origin mendapat izin akses
-	w.Header().Set("Acces-Control-Allow-Origin", "http://locahost:9000")
+	// localhost:3000 origin mendapat izin akses
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 
 	//semua method diperbolehkan masuk
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
 
 	//semua header siperbolehkan untuk disisipkan
-	w.Header().Set("Acces-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 
 	//allow cookie
-	w.Header().Set("Acces-Control-Allow-Crenditials", "true")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if req.Method == "OPTIONS" {
@@ -33,6 +33,7 @@ func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
 
 		//ambil token dari cookie yang dikirim ketika request
 		//return unauthorized ketika token kosong
@@ -42,6 +43,7 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 		if err != nil {
 			if err == http.ErrNoCookie {
 				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AuthErrorRespone{Error: err.Error()})
 				return
 			}
 
@@ -76,7 +78,6 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 		//validasi
 		ctx := context.WithValue(r.Context(), "username", claims.Username)
 		next.ServeHTTP(w, r.WithContext(ctx))
-		return
 
 	})
 }
@@ -84,6 +85,7 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
 
 		//ambil token dari cookie yang dikirim ketika request
 		//return unauthorized ketika token kosong
@@ -93,6 +95,7 @@ func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 		if err != nil {
 			if err == http.ErrNoCookie {
 				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AdminErrorRespone{Error: err.Error()})
 				return
 			}
 
@@ -101,15 +104,15 @@ func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 		}
 
 		//mengambil value dari cookie token
-		tokenStr := c.Value
-		claims := &Claims{}
+		tokenString := c.Value
+		claimstoken := &Claims{}
 
 		//1. parse JWT token ke dalam claim
 		//2. return unauthorized ketika signature invalid
 		//3. return bad request ketika field token tidak ada
 		//4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
-		tkn, err := jwt.ParseWithClaims(tokenStr, claims, func(t *jwt.Token) (interface{}, error) {
-			return jwtkey, nil
+		tkn, err := jwt.ParseWithClaims(tokenString, claimstoken, func(t *jwt.Token) (interface{}, error) {
+			return jwtKey, nil
 		})
 
 		if err != nil {
@@ -126,9 +129,8 @@ func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 
 		//validasi
 
-		ctx := context.WithValue(r.Context(), "username", claims.Username)
+		ctx := context.WithValue(r.Context(), "username", claimstoken.Username)
 		next.ServeHTTP(w, r.WithContext(ctx))
-		return
 
 	})
 }
@@ -154,6 +156,34 @@ func (api *API) POST(next http.Handler) http.Handler {
 		if r.Method != http.MethodPost {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			encoder.Encode(AuthErrorRespone{Error: "Need POST Method!"})
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (api *API) PUT(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
+		if r.Method != http.MethodPut {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			encoder.Encode(AuthErrorRespone{Error: "Need PUT Method!"})
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (api *API) DELETE(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		api.AllowOrigin(w, r)
+		encoder := json.NewEncoder(w)
+		if r.Method != http.MethodDelete {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			encoder.Encode(AuthErrorRespone{Error: "Need DELETE Method!"})
 			return
 		}
 

@@ -10,45 +10,57 @@ import {
   Flex,
   Icon,
   useColorModeValue,
+  Skeleton,
+  Stack,
 } from "@chakra-ui/react";
 // Here we have used react-icons package for the icons
 import { FaRegNewspaper } from "react-icons/fa";
 import { BsGithub } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-const milestones = [
-  {
-    id: 1,
-    categories: ["Article"],
-    title: "Wrote first article on Medium",
-    icon: FaRegNewspaper,
-    description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. `,
-    date: "MARCH 30, 2022",
-  },
-  {
-    id: 2,
-    categories: ["Web Dev", "OSS"],
-    title: "First open source contribution",
-    icon: BsGithub,
-    description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-    date: "July 30, 2022",
-  },
-];
+// const milestones = [
+//   {
+//     id: 1,
+//     categories: ["Article"],
+//     title: "Wrote first article on Medium",
+//     icon: FaRegNewspaper,
+//     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. `,
+//     date: "MARCH 30, 2022",
+//   },
+//   {
+//     id: 2,
+//     categories: ["Web Dev", "OSS"],
+//     title: "First open source contribution",
+//     icon: BsGithub,
+//     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
+//     date: "July 30, 2022",
+//   },
+// ];
 
-const TimelineSection = () => {
+const TimelineSection = ({ dataSource, isDataLoaded }) => {
   return (
     <Container maxWidth="4xl" p={{ base: 2, sm: 10 }}>
-      {milestones.map((milestone, index) => (
-        <Flex key={index} mb="10px">
-          <LineWithDot />
-          <Card {...milestone} />
-        </Flex>
-      ))}
+      {isDataLoaded ? (
+        <>
+          {dataSource?.map((perItem, index) => (
+            <Flex key={index} mb="10px">
+              <LineWithDot />
+              <Card {...perItem} />
+            </Flex>
+          ))}
+        </>
+      ) : (
+        <Stack spacing="4">
+          <Skeleton height="300px"></Skeleton>
+          <Skeleton height="300px"></Skeleton>
+          <Skeleton height="300px"></Skeleton>
+        </Stack>
+      )}
     </Container>
   );
 };
 
-const Card = ({ title, categories, description, icon, date, id }) => {
+const Card = ({ category_course, title, description, icon, date, id }) => {
   return (
     <HStack
       p={{ base: 3, sm: 6 }}
@@ -57,6 +69,7 @@ const Card = ({ title, categories, description, icon, date, id }) => {
       rounded="lg"
       alignItems="center"
       pos="relative"
+      w="100%"
       _before={{
         content: `""`,
         w: "0",
@@ -76,11 +89,7 @@ const Card = ({ title, categories, description, icon, date, id }) => {
       <Link to={`/${localStorage.getItem("current_role")}/materi/${id}`}>
         <Box>
           <HStack spacing={2} mb={1}>
-            {categories.map((cat) => (
-              <Text fontSize="sm" key={cat}>
-                {cat}
-              </Text>
-            ))}
+            <Text fontSize="sm"> {title}</Text>
           </HStack>
           <VStack spacing={2} mb={3} textAlign="left">
             <chakra.h1
@@ -91,7 +100,7 @@ const Card = ({ title, categories, description, icon, date, id }) => {
               fontWeight="bold"
               w="100%"
             >
-              {title}
+              {category_course}
             </chakra.h1>
 
             <Text fontSize="md" noOfLines={2}>

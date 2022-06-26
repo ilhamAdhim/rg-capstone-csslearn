@@ -1,7 +1,5 @@
 package repository
 
-import "time"
-
 type User struct {
 	ID       int64  `db:"id_siswa"`
 	Username string `db:"username"`
@@ -18,18 +16,30 @@ type Admin struct {
 }
 
 type CourseCategory struct {
-	ID           int64      `db:"id_course_category"`
-	Siswa_ID     int64      `db:"id_siswa"`
-	Title_Materi string     `db:"nama_materi"`
-	Materi       string     `db:"materi"`
-	Start_date   *time.Time `db:"start_date"`
-	End_date     *time.Time `db:"end_date"`
+	ID           int64  `db:"id_course_category"`
+	Siswa_ID     int64  `db:"id_siswa"`
+	Title_Materi string `db:"nama_materi"`
+	Materi       string `db:"materi"`
+	// Start_date   *time.Time `db:"start_date"`
+	// End_date     *time.Time `db:"end_date"`
 }
 
-type ScoreCourse struct {
-	ID         int64 `db:"id_nilai"`
-	Siswa_ID   int64 `db:"id_siswa"`
-	Latihan_ID int64 `db:"id_latihan`
-	Course_ID  int64 `db:"id_course"`
-	Score      int64 `db:"score"`
+type Course struct {
+	ID                 int64  `db:"id_course"`
+	Course_Category_ID int64  `db:"id_course_category"`
+	Nama_Course        string `db:"nama_materi"`
+	Content            string `db:"content"`
+}
+
+type Latihan struct {
+	ID         int64  `db:"id_latihan"`
+	Course_ID  int64  `db:"id_course"`
+	Question   string `db:"question"`
+	Answer1    string `db:"answer1"`
+	Answer2    string `db:"answer2"`
+	Answer3    string `db:"answer3"`
+	Answer4    string `db:"answer4"`
+	Answer5    string `db:"answer5"`
+	Key_Answer string `db:"key_answer"`
+	Score      int64  `db:"score"`
 }

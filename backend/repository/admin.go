@@ -5,13 +5,13 @@ import (
 	"fmt"
 )
 
-type adminRepository interface {
-	FetchAdminByID(id int64) (Admin, error)
-	Loginadmin(username string, password string) (*string, error)
-	// GetAdminRole(username string) (string, error)
-	Registeradmin(username string, password string) (*string, error)
-	GetAllAdminData(Admin, error)
-}
+// type adminRepository interface {
+// 	FetchAdminByID(id int64) (Admin, error)
+// 	Loginadmin(username string, password string) (*string, error)
+// 	// GetAdminRole(username string) (string, error)
+// 	Registeradmin(username string, password string) (*string, error)
+// 	GetAllAdminData(Admin, error)
+// }
 
 type AdminRepository struct {
 	db *sql.DB
@@ -30,6 +30,36 @@ func (u *AdminRepository) FetchAdminByID(id int64) (Admin, error) {
 	}
 
 	return admin, nil
+}
+
+func (u *AdminRepository) GetAllAdminData() ([]Admin, error) {
+
+	sqlStatement := `SELECT id_admin, username, password FROM tb_admin`
+	var admin []Admin
+	rows, err := u.db.Query(sqlStatement)
+	if err != nil {
+		return admin, err
+
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		var admins Admin
+
+		err := rows.Scan(
+			&admins.ID,
+			&admins.Username,
+			&admins.Password,
+		)
+
+		if err != nil {
+			return admin, nil
+		}
+		admin = append(admin, admins)
+	}
+
+	return admin, nil
+
 }
 
 func (u *AdminRepository) LoginAdmin(username string, password string) (*string, error) {
@@ -57,39 +87,15 @@ func (u *AdminRepository) LoginAdmin(username string, password string) (*string,
 // 	return role, nil
 // }
 
-func (u *AdminRepository) RegisterAdmin([]Admin) (*string, error) {
+func (u *AdminRepository) RegisterAdmin(username string, password string) (*string, error) {
 	var admins Admin
-	SqlStatement := `INSERT INTO (username, password) from tb_admin VALUES ( ?, ? )`
-	_, err := u.db.Exec(SqlStatement, &admins.Username, &admins.Password)
+	SqlStatement := `INSERT INTO tb_admin (username, password) VALUES ( ?, ? )`
+	_, err := u.db.Exec(SqlStatement, username, password)
 	if err != nil {
 		return nil, err
 	}
 
 	return &admins.Username, nil
-}
-
-func (u *AdminRepository) GetAllAdminData() ([]Admin, error) {
-
-	sqlStatement := `SELECT *FROM tb_admin`
-	var admin []Admin
-	rows, err := u.db.Query(sqlStatement)
-	if err != nil {
-		return admin, err
-
-	}
-
-	defer rows.Close()
-	for rows.Next() {
-		var admins Admin
-
-		if err := rows.Scan(&admins.Username, &admins.Password); err != nil {
-			return admin, nil
-		}
-		admin = append(admin, admins)
-	}
-
-	return admin, nil
-
 }
 
 //sisa edit codingan perlu di cek kembali
