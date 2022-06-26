@@ -31,13 +31,13 @@ type Coursedel struct {
 }
 
 type CourseInsert struct {
-	Nama_Course string `json:"nama_course"`
+	Nama_course string `json:"nama_course"`
 	Content     string `json:"content"`
 }
 
 type CourseUpdate struct {
 	ID          int64  `json:"id_course"`
-	Nama_Course string `json:"nama_course"`
+	Nama_course string `json:"nama_course"`
 	Content     string `json:"content"`
 }
 
@@ -107,7 +107,7 @@ func (api *API) insertCourse(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	_, err = api.courseRepo.CreateCourse(course.Nama_Course, course.Content)
+	_, err = api.courseRepo.CreateCourse(course.Nama_course, course.Content)
 	defer func() {
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -130,7 +130,7 @@ func (api *API) updatecourse(w http.ResponseWriter, req *http.Request) {
 	// user harus ngirim data apa yang mau di update
 	// title dan materi
 
-	_, err = api.courseRepo.UpdateCourse(courses.ID, courses.Nama_Course, courses.Content)
+	_, err = api.courseRepo.UpdateCourse(courses.ID, courses.Nama_course, courses.Content)
 
 	defer func() {
 		if err != nil {
@@ -139,8 +139,9 @@ func (api *API) updatecourse(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Update course successful"))
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Update course Succes"))
+	
 
 }
 
@@ -159,10 +160,12 @@ func (api *API) deletecourse(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 	}
 	err = api.courseRepo.DeleteCourseByID(coursedel.ID)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Delete course category failed"))
-	}
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}()
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Delete course category successful"))
