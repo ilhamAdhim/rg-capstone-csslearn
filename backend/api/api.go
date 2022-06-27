@@ -31,7 +31,7 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 
 	//Admin
 	mux.Handle("/api/admin/login", api.POST(http.HandlerFunc(api.loginadmin)))
-	mux.Handle("/api/admin/logout", api.GET(api.AdminMiddleware(http.HandlerFunc(api.logoutadmin))))
+	mux.Handle("/api/admin/logout", api.GET(http.HandlerFunc(api.logoutadmin)))
 	mux.Handle("/api/user/getusers", api.GET(api.AdminMiddleware(http.HandlerFunc(api.getusers))))
 	mux.Handle("/api/admin/getadmins", api.GET(api.AdminMiddleware(http.HandlerFunc(api.getadmins))))
 

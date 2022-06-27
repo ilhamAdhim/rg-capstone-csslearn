@@ -45,6 +45,7 @@ type LatihanTest struct {
 }
 
 type GetLatihanTest struct {
+	ID         int64  `schema:"id_latihan"`
 	Id_course  int64  `json:"id_course"`
 	Question   string `json:"question"`
 	Answer1    string `json:"answer1"`
@@ -144,6 +145,7 @@ func (api *API) getlatihanbyidcourse(w http.ResponseWriter, req *http.Request) {
 
 	for _, list := range soal {
 		respone.Latihans = append(respone.Latihans, GetLatihanTest{
+			ID:         list.ID,
 			Id_course:  list.Course_ID,
 			Question:   list.Question,
 			Answer1:    list.Answer1,

@@ -61,6 +61,7 @@ func (c *LatihanRepository) FecthLatihanByidCourse(id int64) ([]LatihanByCourse,
 	sqlStatement := `
 		SELECT 
 		c.id_course,
+		l.id_latihan,
 		l.question,
 		l.answer1,
 		l.answer2,
@@ -80,6 +81,7 @@ func (c *LatihanRepository) FecthLatihanByidCourse(id int64) ([]LatihanByCourse,
 	for rows.Next() {
 		var category LatihanByCourse
 		err := rows.Scan(
+			&category.ID,
 			&category.Course_ID,
 			&category.Question,
 			&category.Answer1,
