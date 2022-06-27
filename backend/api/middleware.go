@@ -3,13 +3,16 @@ package api
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
+
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
 func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
-	// localhost:9000 origin mendapat izin akses
+	// localhost:3000 origin mendapat izin akses
 	w.Header().Set("Acces-Control-Allow-Origin", "*")
 
 	//semua method diperbolehkan masuk
@@ -77,6 +80,7 @@ func (api *API) AuthMiddleware(next http.Handler) http.Handler {
 
 		//validasi
 		ctx := context.WithValue(r.Context(), "username", claims.Username)
+
 		next.ServeHTTP(w, r.WithContext(ctx))
 
 	})
@@ -87,31 +91,24 @@ func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 		api.AllowOrigin(w, r)
 		encoder := json.NewEncoder(w)
 
-		//ambil token dari cookie yang dikirim ketika request
-		//return unauthorized ketika token kosong
-		//return bad request ketika field token tidak ada
+		adminHeader := r.Header.Get("Authorization")
 
-		c, err := r.Cookie("token")
-		if err != nil {
-			if err == http.ErrNoCookie {
-				w.WriteHeader(http.StatusUnauthorized)
-				encoder.Encode(AdminErrorRespone{Error: err.Error()})
-				return
-			}
-
+		if !strings.Contains(adminHeader, "Bearer") {
 			w.WriteHeader(http.StatusBadRequest)
-			return
+			log.Println(adminHeader)
+			encoder.Encode(AdminErrorRespone{Error: "Error token"})
+
 		}
 
-		//mengambil value dari cookie token
-		tokenString := c.Value
-		claimstoken := &Claims{}
+		tokenString := strings.Replace(adminHeader, "Bearer", "", -1)
+
+		claimstoken := Claims{}
 
 		//1. parse JWT token ke dalam claim
 		//2. return unauthorized ketika signature invalid
 		//3. return bad request ketika field token tidak ada
 		//4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
-		tkn, err := jwt.ParseWithClaims(tokenString, claimstoken, func(t *jwt.Token) (interface{}, error) {
+		tkn, err := jwt.ParseWithClaims(tokenString, &claimstoken, func(t *jwt.Token) (interface{}, error) {
 			return jwtKey, nil
 		})
 
