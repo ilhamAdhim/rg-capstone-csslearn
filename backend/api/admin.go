@@ -90,28 +90,18 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	//Set token string kedalam cookie response
+	//Return response berupa username dan token JWT yang sudah login
+
+	http.SetCookie(w, &http.Cookie{
+		Name:    "token",
+		Value:   tokenStr,
+		Expires: expirationTime,
+		Path:    "/",
+	})
+
 	json.NewEncoder(w).Encode(LoginSuccesResponseAdmin{Username: *res, Token: tokenStr})
 }
-
-// func (api *API) registeradmin(w http.ResponseWriter, req *http.Request) {
-// 	api.AllowOrigin(w, req)
-// 	var admins AdminRegister
-// 	err := json.NewDecoder(req.Body).Decode(&admins)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		return
-// 	}
-
-// 	_, err = api.adminsRepo.RegisterAdmin(admins.Username, admins.Password)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusUnauthorized)
-// 		w.Write([]byte("Registration Admin Failed"))
-// 		return
-// 	}
-// 	w.WriteHeader(http.StatusCreated)
-// 	w.Write([]byte("Registration Admin successful"))
-
-// }
 
 func (api *API) getadmins(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
