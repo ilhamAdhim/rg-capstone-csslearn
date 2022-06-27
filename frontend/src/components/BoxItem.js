@@ -97,7 +97,7 @@ function BoxItem({
     return (
       <Box
         p="2em"
-        key={[item.id, item.user]}
+        key={item?.id_materi}
         bg={boxMateriBg}
         borderWidth="1px"
         borderRadius="lg"
@@ -113,7 +113,7 @@ function BoxItem({
               fontWeight="bold"
               textAlign={["center", "justify"]}
             >
-              {item.category_course || `Materi ${item.id}`}
+              {item.title}
             </Text>
             <Text mt="1em" fontSize="md" textAlign={["justify"]}>
               {item.materi ||
@@ -127,7 +127,7 @@ function BoxItem({
                 <Tooltip hasArrow placement="top" label={`Edit ${entity}`}>
                   {/* // ! Masih mock lho ya */}
                   {isEditOpenNewPage ? (
-                    <Link to={`${item.id + 1}`}>
+                    <Link to={`${item?.id_materi + 1}`}>
                       <Button
                         flex={1}
                         colorScheme="blue"
@@ -152,7 +152,7 @@ function BoxItem({
                   {/* // ! Masih mock lho ya */}
 
                   {isPreviewOpenNewPage ? (
-                    <Link to={`${item.id + 1}`}>
+                    <Link to={`edit/${item.id + 1}`}>
                       <Button
                         flex={1}
                         colorScheme="blue"
@@ -210,12 +210,15 @@ function BoxItem({
               fontWeight="bold"
               textAlign={["center", "justify"]}
             >
-              {item.course || `Pertanyaan ${item.id}`}
+              {item.question}
             </Text>
-            <Text mt="1em" fontSize="md" textAlign={["justify"]}>
-              {item.materi ||
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry"}
+            <Text my="1em" fontSize="md" textAlign={["justify"]}>
+              Opsi Jawaban:
             </Text>
+            <Text>{item.answer1}</Text>
+            <Text>{item.answer2}</Text>
+            <Text>{item.answer3}</Text>
+            <Text>{item.answer4}</Text>
           </Box>
           <Flex m="auto 0" gap="1em" justifyContent="center">
             {hasEdit && (
