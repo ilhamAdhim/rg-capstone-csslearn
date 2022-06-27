@@ -90,6 +90,16 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	//Set token string kedalam cookie response
+	//Return response berupa username dan token JWT yang sudah login
+
+	http.SetCookie(w, &http.Cookie{
+		Name:    "token",
+		Value:   tokenStr,
+		Expires: expirationTime,
+		Path:    "/",
+	})
+
 	json.NewEncoder(w).Encode(LoginSuccesResponseAdmin{Username: *res, Token: tokenStr})
 }
 

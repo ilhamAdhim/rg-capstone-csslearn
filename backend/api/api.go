@@ -32,20 +32,20 @@ func NewAPI(usersRepo repository.UserRepository, adminsRepo repository.AdminRepo
 	//Admin
 	mux.Handle("/api/admin/login", api.POST(http.HandlerFunc(api.loginadmin)))
 	mux.Handle("/api/admin/logout", api.GET(http.HandlerFunc(api.logoutadmin)))
-	mux.Handle("/api/user/getusers", api.GET(api.AdminMiddleware(http.HandlerFunc(api.getusers))))
-	mux.Handle("/api/admin/getadmins", api.GET(api.AdminMiddleware(http.HandlerFunc(api.getadmins))))
+	mux.Handle("/api/user/getusers", api.GET(http.HandlerFunc(api.getusers)))
+	mux.Handle("/api/admin/getadmins", api.GET(http.HandlerFunc(api.getadmins)))
 
-	mux.Handle("/api/course/create", api.POST(api.AdminMiddleware(http.HandlerFunc(api.insertCourse))))
-	mux.Handle("/api/course/update", api.PUT(api.AdminMiddleware(http.HandlerFunc(api.updatecourse))))
-	mux.Handle("/api/course/delete", api.GET(api.AdminMiddleware(http.HandlerFunc(api.deletecourse))))
+	mux.Handle("/api/course/create", api.POST(http.HandlerFunc(api.insertCourse)))
+	mux.Handle("/api/course/update", api.PUT(http.HandlerFunc(api.updatecourse)))
+	mux.Handle("/api/course/delete", api.GET(http.HandlerFunc(api.deletecourse)))
 
-	mux.Handle("/api/topic/create", api.POST(api.AdminMiddleware(http.HandlerFunc(api.insertCourseCategory))))
-	mux.Handle("/api/topic/update", api.PUT(api.AdminMiddleware(http.HandlerFunc(api.updateCourseCategory))))
-	mux.Handle("/api/topic/delete", api.GET(api.AdminMiddleware(http.HandlerFunc(api.deleteCourseCategory))))
+	mux.Handle("/api/topic/create", api.POST(http.HandlerFunc(api.insertCourseCategory)))
+	mux.Handle("/api/topic/update", api.PUT(http.HandlerFunc(api.updateCourseCategory)))
+	mux.Handle("/api/topic/delete", api.GET(http.HandlerFunc(api.deleteCourseCategory)))
 
-	mux.Handle("/api/latihan/update", api.PUT(api.AdminMiddleware(http.HandlerFunc(api.updateTest))))
-	mux.Handle("/api/latihan/insert", api.POST(api.AdminMiddleware(http.HandlerFunc(api.insertLatihan))))
-	mux.Handle("/api/latihan/delete", api.GET(api.AdminMiddleware(http.HandlerFunc(api.deleteSoal))))
+	mux.Handle("/api/latihan/update", api.PUT(http.HandlerFunc(api.updateTest)))
+	mux.Handle("/api/latihan/insert", api.POST(http.HandlerFunc(api.insertLatihan)))
+	mux.Handle("/api/latihan/delete", api.GET(http.HandlerFunc(api.deleteSoal)))
 
 	// Siswa(User) & Admin
 	mux.Handle("/api/course/getcourse", api.GET(http.HandlerFunc(api.getcourses)))
