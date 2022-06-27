@@ -111,9 +111,7 @@ func (c *CourseCategoryRepository) CreateCourseCategory(courseid int64, title st
 }
 
 func (c *CourseCategoryRepository) UpdateCourseCategory(id int64, courseid int64, title string, materi string) (*string, error) {
-	// var course CourseCategory
-	// materi = ""
-	// title = ""
+
 	SqlStatement := `Update tb_course_category SET id_course= ?, nama_materi = ?, materi = ? WHERE id_course_category = ?`
 	_, err := c.db.Exec(SqlStatement, courseid, title, materi, id)
 	if err != nil {

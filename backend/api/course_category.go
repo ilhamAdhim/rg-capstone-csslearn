@@ -204,8 +204,6 @@ func (api *API) deleteCourseCategory(w http.ResponseWriter, req *http.Request) {
 	var course Deltopic
 
 	decoder := schema.NewDecoder()
-	// idCourse := req.URL.Query().Get("id")
-	// id, _ := strconv.Atoi(idCourse)
 
 	err := decoder.Decode(&course, req.URL.Query())
 	if err != nil {

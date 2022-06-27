@@ -58,3 +58,14 @@ type LatihanByCourse struct {
 	Answer4    string `db:"answer4"`
 	Key_Answer string `db:"key_answer"`
 }
+
+type Exercise struct {
+	ID         int64  `db:"id_latihan"`
+	Course_ID  int64  `db:"id_course"`
+	Question   string `db:"question"`
+	Answer1    string `db:"answer1"`
+	Answer2    string `db:"answer2"`
+	Answer3    string `db:"answer3"`
+	Answer4    string `db:"answer4"`
+	Key_Answer string `db:"key_answer"`
+}

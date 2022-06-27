@@ -33,20 +33,6 @@ func (c *LatihanRepository) FecthLatihan() ([]Latihan, error) {
 	return latihans, nil
 }
 
-func (c *LatihanRepository) FecthLatihanByID(id int64) (Latihan, error) {
-
-	sqlStatement := `SELECT question FROM tb_latihan WHERE id_latihan= ?`
-
-	var latihan Latihan
-	row := c.db.QueryRow(sqlStatement, id)
-	err := row.Scan(&latihan.ID, &latihan.Question)
-	if err != nil {
-		return latihan, err
-	}
-
-	return latihan, nil
-}
-
 func (c *LatihanRepository) CreateLatihan(courseid int64, soal string, answer1 string, answer2 string, answer3 string, answer4 string, keyanswer string) (*string, error) {
 
 	// var latihan Latihan
@@ -146,3 +132,47 @@ func (c *LatihanRepository) DeleteLatihanByID(id int64) error {
 
 	return nil
 }
+
+// func (c *LatihanRepository) Exercises(id int64) ([]Exercise, error) {
+
+// 	sqlStatement := `
+// 		SELECT
+// 		c.id_course,
+// 		l.question,
+// 		l.answer1,
+// 		l.answer2,
+// 		l.answer3,
+// 		l.answer4,
+// 		l.key_answer FROM tb_latihan l
+// 		INNER JOIN tb_course c ON c.id_course = l.id_course
+// 		WHERE c.id_course= ?`
+
+// 	var course []Exercise
+// 	rows, err := c.db.Query(sqlStatement, id)
+
+// 	if err != nil {
+// 		return course, err
+// 	}
+
+// 	for rows.Next() {
+// 		var category Exercise
+// 		err := rows.Scan(
+// 			&category.Course_ID,
+// 			&category.Question,
+// 			&category.Answer1,
+// 			&category.Answer2,
+// 			&category.Answer3,
+// 			&category.Answer4,
+// 		)
+
+// 		if err != nil {
+// 			return course, err
+// 		}
+
+// 		course = append(course, category)
+
+// 		if &course.Key_Answer ==
+// 	}
+
+// 	return course, nil
+// }
