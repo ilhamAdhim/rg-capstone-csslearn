@@ -209,19 +209,3 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Logout succes"))
 }
-
-// func (api *API) deleteUser(w http.ResponseWriter, req *http.Request) {
-// 	api.AllowOrigin(w, req)
-// 	var user User
-// 	err := api.categorycourseRepo.DeleteCourseCategoryByID(user.ID)
-// 	encoder := json.NewEncoder(w)
-// 	defer func() {
-// 		if err != nil {
-// 			w.WriteHeader(http.StatusBadRequest)
-// 			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
-// 		}
-// 	}()
-
-// 	w.WriteHeader(http.StatusCreated)
-// 	w.Write([]byte("Delete course category successful"))
-// }
