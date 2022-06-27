@@ -32,7 +32,8 @@ type Course struct {
 }
 
 type TopicbyIdcourse struct {
-	ID           int64  `db:"id_course"`
+	ID           int64  `db:"id_course_category"`
+	Course_ID    int64  `db:"id_course"`
 	Title_Materi string `db:"nama_materi"`
 	Materi       string `db:"materi"`
 }
@@ -50,6 +51,18 @@ type Latihan struct {
 }
 
 type LatihanByCourse struct {
+	ID         int64  `db:"id_latihan"`
+	Course_ID  int64  `db:"id_course"`
+	Question   string `db:"question"`
+	Answer1    string `db:"answer1"`
+	Answer2    string `db:"answer2"`
+	Answer3    string `db:"answer3"`
+	Answer4    string `db:"answer4"`
+	Key_Answer string `db:"key_answer"`
+}
+
+type Exercise struct {
+	ID         int64  `db:"id_latihan"`
 	Course_ID  int64  `db:"id_course"`
 	Question   string `db:"question"`
 	Answer1    string `db:"answer1"`

@@ -13,7 +13,6 @@ type LatihanErrorRespone struct {
 }
 
 type Latihan struct {
-	// Title      string `json:"title"`
 	ID         int64  `json:"id_latihan"`
 	Id_course  int64  `json:"id_course"`
 	Question   string `json:"question"`
@@ -25,7 +24,6 @@ type Latihan struct {
 }
 
 type DeleteLatihan struct {
-	// Title      string `json:"title"`
 	ID         int64  `schema:"id_latihan"`
 	Id_course  int64  `schema:"id_course"`
 	Question   string `schema:"question"`
@@ -34,12 +32,9 @@ type DeleteLatihan struct {
 	Answer3    string `schema:"answer3"`
 	Answer4    string `schema:"answer4"`
 	Key_Answer string `schema:"key_answer"`
-	// id_course int  `json:"id_course"`
-
 }
 
 type LatihanTest struct {
-	// Title      string `json:"title"``
 	Id_course  int64  `json:"id_course"`
 	Question   string `json:"question"`
 	Answer1    string `json:"answer1"`
@@ -47,10 +42,10 @@ type LatihanTest struct {
 	Answer3    string `json:"answer3"`
 	Answer4    string `json:"answer4"`
 	Key_Answer string `json:"key_answer"`
-	// id_course int  `json:"id_course"`
 }
 
 type GetLatihanTest struct {
+	ID         int64  `schema:"id_latihan"`
 	Id_course  int64  `json:"id_course"`
 	Question   string `json:"question"`
 	Answer1    string `json:"answer1"`
@@ -150,6 +145,7 @@ func (api *API) getlatihanbyidcourse(w http.ResponseWriter, req *http.Request) {
 
 	for _, list := range soal {
 		respone.Latihans = append(respone.Latihans, GetLatihanTest{
+			ID:         list.ID,
 			Id_course:  list.Course_ID,
 			Question:   list.Question,
 			Answer1:    list.Answer1,

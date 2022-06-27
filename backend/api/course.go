@@ -127,8 +127,6 @@ func (api *API) updatecourse(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	// user harus ngirim data apa yang mau di update
-	// title dan materi
 
 	_, err = api.courseRepo.UpdateCourse(courses.ID, courses.Nama_course, courses.Content)
 
@@ -141,18 +139,12 @@ func (api *API) updatecourse(w http.ResponseWriter, req *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("Update course Succes"))
-	
 
 }
 
 func (api *API) deletecourse(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 	var coursedel Coursedel
-
-	// s := req.URL.Query().Get("id_course")
-	// id := strconv.Atoi(s)
-
-	// encoder := json.NewEncoder(w)
 
 	decoder := schema.NewDecoder()
 	err := decoder.Decode(&coursedel, req.URL.Query())

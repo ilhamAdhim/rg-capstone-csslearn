@@ -35,7 +35,8 @@ type Gettopic struct {
 }
 
 type GettopicbyCourse struct {
-	ID           int64  `json:"id_course"`
+	ID           int64  `json:"id_course_category"`
+	Course_ID    int64  `json:"id_course"`
 	Title_Materi string `json:"title"`
 	Materi       string `json:"materi"`
 }
@@ -144,6 +145,7 @@ func (api *API) getcategorybyidcourse(w http.ResponseWriter, req *http.Request) 
 	for _, coursecategory := range courses {
 		respone.CategoryCourse = append(respone.CategoryCourse, GettopicbyCourse{
 			ID:           coursecategory.ID,
+			Course_ID:    coursecategory.Course_ID,
 			Title_Materi: coursecategory.Title_Materi,
 			Materi:       coursecategory.Materi,
 		})
@@ -204,8 +206,6 @@ func (api *API) deleteCourseCategory(w http.ResponseWriter, req *http.Request) {
 	var course Deltopic
 
 	decoder := schema.NewDecoder()
-	// idCourse := req.URL.Query().Get("id")
-	// id, _ := strconv.Atoi(idCourse)
 
 	err := decoder.Decode(&course, req.URL.Query())
 	if err != nil {

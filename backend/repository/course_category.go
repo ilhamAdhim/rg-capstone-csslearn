@@ -67,6 +67,7 @@ func (c *CourseCategoryRepository) FecthCategoryByIDCourse(id int64) ([]TopicbyI
 	sqlStatement := `
 		SELECT 
 		c.id_course,
+		t.id_course_category,
 		t.nama_materi,
 		t.materi FROM tb_course_category t
 		INNER JOIN tb_course c ON c.id_course = t.id_course 
@@ -83,6 +84,7 @@ func (c *CourseCategoryRepository) FecthCategoryByIDCourse(id int64) ([]TopicbyI
 		var category TopicbyIdcourse
 		err := rows.Scan(
 			&category.ID,
+			&category.Course_ID,
 			&category.Title_Materi,
 			&category.Materi,
 		)
@@ -111,9 +113,7 @@ func (c *CourseCategoryRepository) CreateCourseCategory(courseid int64, title st
 }
 
 func (c *CourseCategoryRepository) UpdateCourseCategory(id int64, courseid int64, title string, materi string) (*string, error) {
-	// var course CourseCategory
-	// materi = ""
-	// title = ""
+
 	SqlStatement := `Update tb_course_category SET id_course= ?, nama_materi = ?, materi = ? WHERE id_course_category = ?`
 	_, err := c.db.Exec(SqlStatement, courseid, title, materi, id)
 	if err != nil {
