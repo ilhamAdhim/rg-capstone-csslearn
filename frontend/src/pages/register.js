@@ -95,7 +95,7 @@ export default function Register() {
                 Already have an account?
               </Text>
               <Link to="/login">
-                <Button colorScheme={"blue"} variant={"solid"}>
+                <Button colorScheme={"blue"} variant={"solid"} width={445}>
                   Sign In
                 </Button>
               </Link>

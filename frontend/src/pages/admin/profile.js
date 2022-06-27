@@ -18,12 +18,11 @@ import {
 } from "@chakra-ui/react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import React, { Fragment, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 
 function ProfileAdminPage() {
   const [redirectProfile, setRedirectProfile] = useState(false);
-  const [id_siswa, setId_siswa] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,45 +32,27 @@ function ProfileAdminPage() {
   const handleUpdateProfile = async () => {
     // TODO : connect endpoint UpdateProfile
     // ....
-    toast({
-      title: "Profil berhasil diperbarui",
-      status: "success",
-      duration: 3000,
-      position: "top",
-      isClosable: true,
-    });
 
-    try {
-      const data = {
-        id_siswa: id_siswa,
-        username: username,
-        password: password,
-        email: email,
-      };
-      const result = await axios.put(
-        `https://csslearn.ilhamadhim.me/api/user/editprofile${id_siswa}`,
-        data
-      );
-      if (result) {
-        localStorage.setItem("token", result.data.token);
-        setRedirectProfile(true);
-      }
-      console.log(result.data.token);
-    } catch (err) {
-      toast({
-        title: "Profil gagal diperbarui",
-        status: "error",
-        duration: 3000,
-        position: "top",
-        isClosable: true,
-      });
+    const data = {
+      username: username,
+      password: password,
+      email: email,
+    };
+    const result = await axios.put(
+      `https://csslearn.ilhamadhim.me/api/user/editprofile`,
+      data
+    );
+    if (result) {
+      localStorage.setItem("token", result.data.token);
+      setRedirectProfile(true);
     }
+    console.log(result.data.token);
   };
 
   return (
     <>
       <Fragment>
-        {redirectProfile && <Navigate to="/siswa/profil" />}
+        {redirectProfile && <Navigate to="/admin/profil" />}
         <Layout>
           <Center py={6}>
             <Box

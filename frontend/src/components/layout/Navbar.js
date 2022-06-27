@@ -106,7 +106,7 @@ export const MobileNav = ({ onOpen, ...rest }) => {
             spacing="1px"
             ml="2"
           >
-            <Text fontSize="sm">Justina Clark</Text>
+            <Text fontSize="sm">Kelompok</Text>
             <Text fontSize="xs" color="gray.400">
               {ucfirst(location?.pathname?.split("/")[1])}
             </Text>
