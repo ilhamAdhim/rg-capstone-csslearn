@@ -31,6 +31,7 @@ import ProfilSiswa from "./pages/siswa/ProfilSiswa";
 import Pertanyaan from "./pages/siswa/latihan/pertanyaan";
 import PengerjaanSoal from "./pages/siswa/latihan/pertanyaan";
 import MateriDetailSiswa from "./pages/siswa/materi/MateriDetail";
+import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -38,70 +39,72 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+        <CookiesProvider>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
 
-          {/* Route Siswa */}
+            {/* Route Siswa */}
 
-          <Route path="siswa/course" element={<Materi />} />
-          <Route path="siswa/materi" element={<Materi />} />
-          <Route
-            path="siswa/materi/:idMateri"
-            element={<MateriDetailSiswa />}
-          />
+            <Route path="siswa/course" element={<Materi />} />
+            <Route path="siswa/materi" element={<Materi />} />
+            <Route
+              path="siswa/materi/:idMateri"
+              element={<MateriDetailSiswa />}
+            />
 
-          <Route path="siswa/pertanyaan" element={<Pertanyaan />} />
+            <Route path="siswa/pertanyaan" element={<Pertanyaan />} />
 
-          <Route path="siswa/latihan" element={<Latihan />} />
-          <Route
-            path="siswa/latihan/:exerciseCourse/:idSoal"
-            element={<PengerjaanSoal />}
-          />
-          <Route path="siswa/profil" element={<ProfilSiswa />} />
+            <Route path="siswa/latihan" element={<Latihan />} />
+            <Route
+              path="siswa/latihan/:exerciseCourse/:idSoal"
+              element={<PengerjaanSoal />}
+            />
+            <Route path="siswa/profil" element={<ProfilSiswa />} />
 
-          <Route path="siswa/logout" element={<Logout />} />
-          <Route path="siswa/*" element={<Navigate replace to="course" />} />
+            <Route path="siswa/logout" element={<Logout />} />
+            <Route path="siswa/*" element={<Navigate replace to="course" />} />
 
-          {/* End Route Siswa */}
+            {/* End Route Siswa */}
 
-          {/* Route Admin */}
+            {/* Route Admin */}
 
-          <Route path="admin/latihan" element={<LatihanAdminPage />} />
-          <Route path="admin/materi" element={<MateriAdminPage />} />
-          <Route
-            path="admin/materi/:idMateri"
-            element={<MateriDetailAdminPage />}
-          />
+            <Route path="admin/latihan" element={<LatihanAdminPage />} />
+            <Route path="admin/materi" element={<MateriAdminPage />} />
+            <Route
+              path="admin/materi/edit/:idMateri"
+              element={<MateriDetailAdminPage />}
+            />
 
-          <Route
-            path="admin/materi/tambah"
-            element={<MateriTambahAdminPage />}
-          />
+            <Route
+              path="admin/materi/tambah/:idCourse"
+              element={<MateriTambahAdminPage />}
+            />
 
-          <Route path="admin/course" element={<CourseAdminPage />} />
-          <Route path="admin/profil" element={<ProfileAdminPage />} />
+            <Route path="admin/course" element={<CourseAdminPage />} />
+            <Route path="admin/profil" element={<ProfileAdminPage />} />
 
-          <Route path="admin/latihan" element={<LatihanAdminPage />} />
-          <Route
-            path="admin/latihan/:idLatihan"
-            element={<LatihanAdminPage />}
-          />
+            <Route path="admin/latihan" element={<LatihanAdminPage />} />
+            <Route
+              path="admin/latihan/:idLatihan"
+              element={<LatihanAdminPage />}
+            />
 
-          <Route path="admin/siswa" element={<DaftarSiswa />} />
-          {/* // TODO: Element komponennya diganti */}
-          <Route path="admin/siswa/:idMateri" element={<DaftarSiswa />} />
+            <Route path="admin/siswa" element={<DaftarSiswa />} />
+            {/* // TODO: Element komponennya diganti */}
+            <Route path="admin/siswa/:idMateri" element={<DaftarSiswa />} />
 
-          <Route path="admin/logout" element={<Logout />} />
+            <Route path="admin/logout" element={<Logout />} />
 
-          <Route path="admin/*" element={<Navigate replace to="course" />} />
+            <Route path="admin/*" element={<Navigate replace to="course" />} />
 
-          {/* End Route Admin */}
+            {/* End Route Admin */}
 
-          {/* Not found page */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* Not found page */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </CookiesProvider>
       </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>

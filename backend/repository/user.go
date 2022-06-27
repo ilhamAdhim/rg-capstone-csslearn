@@ -5,14 +5,6 @@ import (
 	"fmt"
 )
 
-// type userRepository interface {
-// 	FetchUserByID(id int64) (User, error)
-// 	Login(username string, password string) (*string, error)
-// 	// GetUserRole(username string) (string, error)
-// 	Register(username string, password string, email string) (*string, error)
-// 	GetAllUserData(User, error)
-// }
-
 type UserRepository struct {
 	db *sql.DB
 }
@@ -31,16 +23,6 @@ func (u *UserRepository) FetchUserByID(id int64) (User, error) {
 
 	return user, nil
 }
-
-// func (u *userRepository) GetUserRole(username string) (string, error) {
-// 	var role string
-// 	err := u.db.QueryRow("SELECT role from tb_siswa WHERE username = ?", username).Scan(&role)
-// 	if err != nil {
-// 		return "", err
-// 	}
-
-// 	return role, nil
-// }
 
 func (u *UserRepository) Register(username string, email string, password string) (*string, error) {
 	var user User
@@ -87,10 +69,8 @@ func (u *UserRepository) GetAllUserData() ([]User, error) {
 }
 
 func (c *UserRepository) UpdateProfile(id int64, username string, email string, password string) (*string, error) {
-	// var course CourseCategory
-	// materi = ""
-	// title = ""
-	SqlStatement := `Update tb_siswa SET username = ?, email = ?, password = ? WHERE id_siswa = ?`
+
+	SqlStatement := `Update tb_siswa SET username = ?, email = ?, password = ? WHERE id_siswa= ?`
 	_, err := c.db.Exec(SqlStatement, username, email, password, id)
 	if err != nil {
 		return nil, err
@@ -101,16 +81,7 @@ func (c *UserRepository) UpdateProfile(id int64, username string, email string, 
 }
 
 func (u *UserRepository) Login(username string, password string) (*string, error) {
-	// var user User
 
-	// sqlStatement := `SELECT username, email FROM tb_siswa WHERE username = ? AND password = ?`
-	// err := u.db.QueryRow(sqlStatement, username, password).Scan(&user.Username, &user.Email)
-
-	// if err != nil {
-	// 	return nil, errors.New("Login Failed")
-	// }
-
-	// return &user.Username, nil
 	users, err := u.GetAllUserData()
 
 	if err != nil {
@@ -136,4 +107,4 @@ func (u *UserRepository) Login(username string, password string) (*string, error
 // 	return nil
 // }
 
-//sisa edit codingan perlu di cek kembali dan di register perlu menambahkan email dan jenis kelamin
+//sisa edit codingan perlu di cek kembali

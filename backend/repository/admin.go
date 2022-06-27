@@ -5,14 +5,6 @@ import (
 	"fmt"
 )
 
-// type adminRepository interface {
-// 	FetchAdminByID(id int64) (Admin, error)
-// 	Loginadmin(username string, password string) (*string, error)
-// 	// GetAdminRole(username string) (string, error)
-// 	Registeradmin(username string, password string) (*string, error)
-// 	GetAllAdminData(Admin, error)
-// }
-
 type AdminRepository struct {
 	db *sql.DB
 }
@@ -76,16 +68,6 @@ func (u *AdminRepository) LoginAdmin(username string, password string) (*string,
 	}
 	return nil, fmt.Errorf("Login Failed")
 }
-
-// func (u *adminRepository) GetAdminRole(username string) (string, error) {
-// 	var role string
-// 	err := u.db.QueryRow("SELECT role from tb_admin WHERE username = ?", username).Scan(&role)
-// 	if err != nil {
-// 		return "", err
-// 	}
-
-// 	return role, nil
-// }
 
 func (u *AdminRepository) RegisterAdmin(username string, password string) (*string, error) {
 	var admins Admin

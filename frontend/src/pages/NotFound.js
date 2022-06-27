@@ -1,6 +1,8 @@
 import { Button, Center, chakra, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as ReactLogo } from "../assets/page_not_found.svg";
+import React, { useEffect, useState } from "react";
+
 
 function NotFound() {
   const navigate = useNavigate();

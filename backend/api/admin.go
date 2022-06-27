@@ -44,7 +44,6 @@ var jwtKey = []byte("key_admin")
 // jwt.StandardClaims sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
 type ClaimsAdmin struct {
 	Username string `json:"username"`
-	// Role     string
 	jwt.StandardClaims
 }
 
@@ -67,9 +66,6 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// adminRoles, err := api.adminsRepo.GetAdminRole(*res)
-
-	// Deklarasi expiry time untuk token jwt (time millisecond)
 	// claim menggunakan variable yang sudah didefinisikan diatas
 	expirationTime := time.Now().Add(24 * time.Hour)
 

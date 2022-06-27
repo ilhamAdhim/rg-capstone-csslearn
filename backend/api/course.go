@@ -3,6 +3,9 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/schema"
 )
 
 type CourseErrorRespone struct {
@@ -10,31 +13,49 @@ type CourseErrorRespone struct {
 }
 
 type Course struct {
-	Title   string `json:"nama_course"`
-	Content string `json:"content"`
+	ID          int64  `json:"id_course"`
+	Nama_Course string `json:"nama_course"`
+	Content     string `json:"content"`
+}
+
+type GetCourse struct {
+	ID          int64  `schema:"id_course"`
+	Nama_Course string `schema:"nama_course"`
+	Content     string `schema:"content"`
+}
+
+type Coursedel struct {
+	ID          int64  `schema:"id_course"`
+	Nama_Course string `schema:"nama_course"`
+	Content     string `schema:"content"`
 }
 
 type CourseInsert struct {
-	Nama_course	string `json:"nama_course"`
-	Content		string `json:"content"`
+	Nama_course string `json:"nama_course"`
+	Content     string `json:"content"`
 }
 
 type CourseUpdate struct {
-	ID			int64  `json:"id_course"`
-	Nama_course	string `json:"nama_course"`
-	content		string `json:"content"`
+	ID          int64  `json:"id_course"`
+	Nama_course string `json:"nama_course"`
+	Content     string `json:"content"`
 }
 
 type CourseSuccesRespone struct {
-	Course []Course `json:"course"`
+	Courses []Course `json:"course"`
 }
 
-func (api *API) getcourse(w http.ResponseWriter, req *http.Request) {
+type GetSuccesResponse struct {
+	Nama_course string `json:"nama_course"`
+	Content     string `json:"content"`
+}
+
+func (api *API) getcourses(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 	encoder := json.NewEncoder(w)
 
 	respone := CourseSuccesRespone{}
-	respone.Course = make([]Course, 0)
+	respone.Courses = make([]Course, 0)
 
 	course, err := api.courseRepo.FecthCourse()
 	defer func() {
@@ -49,10 +70,11 @@ func (api *API) getcourse(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	for _, course := range course {
-		respone.Course = append(respone.Course, Course{
-			Title:  course.Nama_Course,
-			Content: course.Content,
+	for _, courses := range course {
+		respone.Courses = append(respone.Courses, Course{
+			ID:          courses.ID,
+			Nama_Course: courses.Nama_Course,
+			Content:     courses.Content,
 		})
 	}
 
@@ -61,33 +83,19 @@ func (api *API) getcourse(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) getcoursebyid(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	encoder := json.NewEncoder(w)
-	var course Course
 
-	respone := CourseSuccesRespone{}
-	respone.Course = make([]Course, 0)
+	idCourse := req.URL.Query().Get("id")
+	id, _ := strconv.Atoi(idCourse)
 
-	_, err := api.courseRepo.FecthCourseByID(course.ID)
-	defer func() {
-		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			encoder.Encode(CourseErrorRespone{Error: err.Error()})
-			return
-		}
-	}()
+	course, err := api.courseRepo.FecthCourseByID(int64(id))
 
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	var courses []Course
-	for _, course := range courses {
-		respone.Course = append(respone.Course, Course{
-			Title:  course.Nama_Course,
-			Content: course.Content,
-		})
-	}
 
-	encoder.Encode(respone)
+	json.NewEncoder(w).Encode(GetSuccesResponse{course.Nama_Course, course.Content})
+
 }
 
 func (api *API) insertCourse(w http.ResponseWriter, req *http.Request) {
@@ -99,52 +107,58 @@ func (api *API) insertCourse(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	_, err = api.courseRepo.CreateCourse(course.Nama_Course, course.Content)
-	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Insert course Failed"))
-		return
-	}
+	_, err = api.courseRepo.CreateCourse(course.Nama_course, course.Content)
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}()
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("Insert course successful"))
 
 }
 
-func (api *API) updateCourse(w http.ResponseWriter, req *http.Request) {
+func (api *API) updatecourse(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var course CourseUpdate
-	err := json.NewDecoder(req.Body).Decode(&course)
+	var courses CourseUpdate
+	err := json.NewDecoder(req.Body).Decode(&courses)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	// user harus ngirim data apa yang mau di update
-	// title dan materi
+	_, err = api.courseRepo.UpdateCourse(courses.ID, courses.Nama_course, courses.Content)
 
-	_, err = api.courseRepo.updateCourse(course.ID, course.Nama_Course, course.Content)
-	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Update course Failed"))
-		return
-	}
-
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("Update course successful"))
-
-}
-
-func (api *API) DeleteCourse(w http.ResponseWriter, req *http.Request) {
-	api.AllowOrigin(w, req)
-	var course Course
-	err := api.courseRepo.DeleteCourseByID(course.ID)
-	encoder := json.NewEncoder(w)
 	defer func() {
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
-			encoder.Encode(CourseErrorRespone{Error: err.Error()})
+			return
+		}
+	}()
+
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Update course Succes"))
+
+}
+
+func (api *API) deletecourse(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
+	var coursedel Coursedel
+
+	decoder := schema.NewDecoder()
+	err := decoder.Decode(&coursedel, req.URL.Query())
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+	err = api.courseRepo.DeleteCourseByID(coursedel.ID)
+	defer func() {
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 	}()
 
 	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Delete course category successful"))
 }

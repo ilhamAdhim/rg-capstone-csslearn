@@ -13,17 +13,10 @@ type User struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
-	Token    string `json:"token"`
+	// Token    string `json:"token"`
 }
 
 type UserRegister struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-type UserEdit struct {
-	ID       int64  `json:"id_siswa"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -55,7 +48,8 @@ type AuthErrorRespone struct {
 var jwtkey = []byte("Key_testing")
 
 // Struct claim sebagai object yang akan diencode oleh jwt
-// jwt.StandardClaims sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
+// jwt.StandardClaims sebagai embedded type untuk provide standart claim JWT
+
 type Claims struct {
 	Username string `json:"username"`
 	jwt.StandardClaims
@@ -80,9 +74,6 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// _, err := api.usersRepo.GetAllUserData(*res)
-
-	// Deklarasi expiry time untuk token jwt (time millisecond)
 	// claim menggunakan variable yang sudah didefinisikan diatas
 	expirationTime := time.Now().Add(24 * time.Hour)
 
@@ -93,10 +84,9 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		},
 	}
 
-	//token encoded claim dengan salah satu algoritma yang dipakai
+	//token encoded claim dengan salah satu algoritma
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	//jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
 	//return internal error ketika ada kesalahan ketika pembuatan JWT string
 	tokenStr, err := token.SignedString(jwtkey)
 	if err != nil {
@@ -106,7 +96,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 	}
 
 	//Set token string kedalam cookie response
-	//Return response berupa username dan token JWT yang sudah login
+	//Return response berupa username dan token JWT
 
 	http.SetCookie(w, &http.Cookie{
 		Name:    "token",
@@ -120,24 +110,21 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 func (api *API) editProfile(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
-	var user UserEdit
+	var user User
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	// user harus ngirim data apa yang mau di update
-	// title dan materi
-
 	_, err = api.usersRepo.UpdateProfile(user.ID, user.Username, user.Email, user.Password)
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Update profile failed"))
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Update profile Failed"))
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Update profile successful"))
 
 }
@@ -222,19 +209,3 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Logout succes"))
 }
-
-// func (api *API) deleteUser(w http.ResponseWriter, req *http.Request) {
-// 	api.AllowOrigin(w, req)
-// 	var user User
-// 	err := api.categorycourseRepo.DeleteCourseCategoryByID(user.ID)
-// 	encoder := json.NewEncoder(w)
-// 	defer func() {
-// 		if err != nil {
-// 			w.WriteHeader(http.StatusBadRequest)
-// 			encoder.Encode(CourseCategoryErrorRespone{Error: err.Error()})
-// 		}
-// 	}()
-
-// 	w.WriteHeader(http.StatusCreated)
-// 	w.Write([]byte("Delete course category successful"))
-// }
