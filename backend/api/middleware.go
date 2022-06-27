@@ -16,7 +16,7 @@ func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
 
 	//semua header siperbolehkan untuk disisipkan
-	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
 
 	//allow cookie
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
