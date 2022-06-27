@@ -8,6 +8,7 @@ import {
   Stack,
   Image,
   Text,
+  useToast,
   // Select,
 } from "@chakra-ui/react";
 import { Link, Navigate } from "react-router-dom";
@@ -22,6 +23,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [redirectAdmin, setRedirectAdmin] = useState(false);
   const [redirectUser, setRedirectUser] = useState(false);
+  const toast = useToast();
 
   const loginAdmin = () => {
     const data = {
@@ -130,7 +132,7 @@ export default function Login() {
                 Not registered yet?
               </Text>
               <Link to="/register">
-                <Button colorScheme={"blue"} variant={"solid"}>
+                <Button colorScheme={"blue"} variant={"solid"} width={445}>
                   Sign Up
                 </Button>
               </Link>

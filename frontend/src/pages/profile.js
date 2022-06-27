@@ -1,197 +1,159 @@
-import {
-  Heading,
-  Avatar,
-  Box,
-  Center,
-  Stack,
-  Button,
-  Flex,
-  FormControl,
-  Input,
-  FormLabel,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { Link, Navigate } from "react-router-dom";
-import { Fragment, useState } from "react";
-import axios from "axios";
+// import Layout from "components/layout";
+// import useDocumentTitle from "hooks/useDocumentTitle";
+// import {
+//   chakra,
+//   Avatar,
+//   Box,
+//   Center,
+//   Text,
+//   Button,
+//   useColorModeValue,
+//   Flex,
+//   useToast,
+//   FormControl,
+//   FormLabel,
+//   Input,
+//   InputGroup,
+//   InputLeftElement,
+// } from "@chakra-ui/react";
+// import { FaEnvelope, FaLock } from "react-icons/fa";
+// import React, { Fragment, useState } from "react";
+// import { Link, Navigate } from "react-router-dom";
+// import axios from "axios";
 
-export default function profile() {
-  const [id_siswa, setId_siswa] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [redirectProfile, setRedirectProfile] = useState(false);
+// function ProfileUserPage() {
+//   const [redirectProfile, setRedirectProfile] = useState(false);
+//   const [id_siswa, setId_siswa] = useState("");
+//   const [username, setUsername] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   useDocumentTitle("Profil User");
+//   const toast = useToast();
 
-  const Profile = () => {
-    const data = {
-      id_siswa: id_siswa,
-      username: username,
-      password: password,
-      email: email,
-    };
-    axios
-      .put("https://csslearn.ilhamadhim.me/api/user/editprofile", data)
-      .then((result) => {
-        if (result) {
-          localStorage.setItem("token", result.data.token);
-          setRedirectProfile(true);
-        }
-        console.log(result.data.token);
-      });
-  };
-  return (
-    <Fragment>
-      {redirectProfile && <Navigate to="/siswa/profile" />}
-      <Center py={6}>
-        <Box
-          maxW={"872px"}
-          w={"full"}
-          bg={useColorModeValue("#FFE0CB")}
-          boxShadow={"2xl"}
-          rounded={"lg"}
-          p={6}
-          textAlign={"center"}
-        >
-          <Flex>
-            <Avatar
-              alt={"Avatar Alt"}
-              mb={5}
-              pos={"relative"}
-              left={36}
-              top={16}
-              size={"2xl"}
-              src={
-                "https://www.linkpicture.com/q/Avatars-Default-with-Backdrop-1.png"
-              }
-            />
-          </Flex>
-          <Stack
-            flex={1}
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            p={2}
-            pt={-20}
-          >
-            <Heading
-              fontSize={"2xl"}
-              fontFamily={"body"}
-              fontWeight={600}
-              size="sm"
-              mb={4}
-              mt={-20}
-              mr={-60}
-            >
-              Hai, Kelompok 70
-            </Heading>
-          </Stack>
+//   const handleUpdateProfile = async () => {
+//     // TODO : connect endpoint UpdateProfile
+//     // ....
 
-          <Stack mt={8} direction={"row"} spacing={6}>
-            <Button
-              fontSize={"md"}
-              rounded={"md"}
-              bg={"#33A9DC"}
-              color={"white"}
-              right={-80}
-              flex={0.5}
-              mt={-27}
-              mb={10}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "blue.500",
-              }}
-              _focus={{
-                bg: "blue.500",
-              }}
-            >
-              Change Avatar
-            </Button>
-          </Stack>
-          <FormControl color={"#205375"} id="username">
-            <FormLabel ml={20}>Username</FormLabel>
-            <Input
-              onChange={(e) => setUsername(e.target.value)}
-              borderColor={"#205375"}
-              variant="outline"
-              color="teal"
-              placeholder="username"
-              _placeholder={{ color: "inherit" }}
-              mb={6}
-              width={670}
-            />
-          </FormControl>
-          <FormControl color={"#205375"} id="email">
-            <FormLabel ml={20}>Email</FormLabel>
-            <Input
-              onChange={(e) => setEmail(e.target.value)}
-              borderColor={"#205375"}
-              variant="outline"
-              color="teal"
-              placeholder="email"
-              _placeholder={{ color: "inherit" }}
-              mb={6}
-              width={670}
-            />
-          </FormControl>
-          <FormControl color={"#205375"} id="password">
-            <FormLabel ml={20}>Password</FormLabel>
-            <Input
-              onChange={(e) => setPassword(e.target.value)}
-              borderColor={"#205375"}
-              variant="outline"
-              color="teal"
-              placeholder="password"
-              _placeholder={{ color: "inherit" }}
-              mb={6}
-              width={670}
-            />
-          </FormControl>
-          <Button
-            fontSize={"md"}
-            rounded={"md"}
-            bg={"#FF0505"}
-            color={"white"}
-            width={300}
-            mr={8}
-            mb={20}
-            mt={6}
-            boxShadow={
-              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-            }
-            _hover={{
-              bg: "red.500",
-            }}
-            _focus={{
-              bg: "red.500",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            fontSize={"md"}
-            rounded={"md"}
-            bg={"#33A9DC"}
-            color={"white"}
-            width={300}
-            ml={8}
-            mb={20}
-            mt={6}
-            boxShadow={
-              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-            }
-            _hover={{
-              bg: "blue.500",
-            }}
-            _focus={{
-              bg: "blue.500",
-            }}
-          >
-            Submit
-          </Button>
-        </Box>
-      </Center>
-    </Fragment>
-  );
-}
+//     const data = {
+//       id_siswa: id_siswa,
+//       username: username,
+//       password: password,
+//       email: email,
+//     };
+//     const result = await axios.put(
+//       `https://csslearn.ilhamadhim.me/api/user/editprofile${id_siswa}`,
+//       data
+//     );
+//     if (result) {
+//       localStorage.setItem("token", result.data.token);
+//       setRedirectProfile(true);
+//     }
+//     console.log(result.data.token);
+//   };
+
+//   return (
+//     <>
+//       <Fragment>
+//         {redirectProfile && <Navigate to="/siswa/profil" />}
+//         <Layout>
+//           <Center py={6}>
+//             <Box
+//               maxW={"900px"}
+//               w={"full"}
+//               bg={useColorModeValue("#FFE0CB")}
+//               boxShadow={"2xl"}
+//               rounded={"lg"}
+//               p={6}
+//               textAlign={"center"}
+//             >
+//               <Flex gap="1em" justifyContent="space-around" my="1em">
+//                 <Avatar
+//                   size={"2xl"}
+//                   src={
+//                     "https://www.linkpicture.com/q/Avatars-Default-with-Backdrop-1.png"
+//                   }
+//                   alt={"Avatar Alt"}
+//                 />
+//                 <chakra.div>
+//                   <Text fontSize={"2xl"} fontFamily={"body"}>
+//                     Hai <b> user </b>
+//                   </Text>
+//                   <Button display="block" w="100%" mt="4">
+//                     Ubah Avatar
+//                   </Button>
+//                 </chakra.div>
+//               </Flex>
+
+//               <Flex m="1em 2em" gap="1em" flexDir="column">
+//                 <FormControl>
+//                   <FormLabel htmlFor="username">Username</FormLabel>
+//                   <InputGroup border="1px solid teal" borderRadius="8px">
+//                     <InputLeftElement pointerEvents="none" children="@" />
+//                     <Input
+//                       onChange={(e) => setUsername(e.target.value)}
+//                       id="username"
+//                       type="text"
+//                     />
+//                   </InputGroup>
+//                   {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
+//                 </FormControl>
+//                 <FormControl>
+//                   <FormLabel htmlFor="email">Email address</FormLabel>
+//                   <InputGroup border="1px solid teal" borderRadius="8px">
+//                     <InputLeftElement
+//                       pointerEvents="none"
+//                       children={<FaEnvelope />}
+//                     />
+//                     <Input
+//                       onChange={(e) => setEmail(e.target.value)}
+//                       id="email"
+//                       type="email"
+//                     />
+//                   </InputGroup>
+//                   {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
+//                 </FormControl>
+//                 <FormControl>
+//                   <FormLabel htmlFor="password">Password</FormLabel>
+//                   <InputGroup border="1px solid teal" borderRadius="8px">
+//                     <InputLeftElement
+//                       pointerEvents="none"
+//                       children={<FaLock />}
+//                     />
+//                     <Input
+//                       onChange={(e) => setPassword(e.target.value)}
+//                       id="password"
+//                       type="password"
+//                     />
+//                   </InputGroup>
+//                   {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
+//                 </FormControl>
+//               </Flex>
+
+//               <Flex justifyContent="center">
+//                 <Button
+//                   fontSize={"md"}
+//                   rounded={"md"}
+//                   bg={"#33A9DC"}
+//                   color={"white"}
+//                   width={300}
+//                   ml={7}
+//                   _hover={{
+//                     bg: "blue.500",
+//                   }}
+//                   _focus={{
+//                     bg: "blue.500",
+//                   }}
+//                   onClick={handleUpdateProfile}
+//                 >
+//                   Update Profile
+//                 </Button>
+//               </Flex>
+//             </Box>
+//           </Center>
+//         </Layout>
+//       </Fragment>
+//     </>
+//   );
+// }
+
+// export default ProfileUserPage;

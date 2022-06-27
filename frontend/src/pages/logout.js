@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Layout from "components/layout";
 import { Fragment, useState, React } from "react";
 
@@ -21,7 +21,11 @@ export default function Logout() {
   };
 
   axios
-    .post("https://csslearn.ilhamadhim.me/api/user/logout")
+    .post(
+      `https://csslearn.ilhamadhim.me/api/user/logout${localStorage.getItem(
+        "token"
+      )}`
+    )
     .then((result) => {
       if (result) {
         localStorage.removeItem("token");
