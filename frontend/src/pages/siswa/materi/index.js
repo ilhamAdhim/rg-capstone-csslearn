@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from "react";
 import { Box, Heading, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import CourseListFilter from "components/CourseListFilter";
 import Layout from "components/layout";
 import TimelineSection from "components/TimelineSection";
@@ -14,21 +14,7 @@ function Materi() {
   const [materiByCourse, setMateriByCourse] = useState([]);
   const [isMateriLoaded, setIsMateriLoaded] = useState(false);
 
-  useEffect(() => {
-    // TODO : fetch materi by courseId
-    // ...
-    mockGetMateriFromCourse().then((response) => {
-      console.log(response);
-      console.log(selectedCourse);
-
-      setMateriByCourse(
-        response?.filter((item) =>
-          item.course.includes(selectedCourse.judul_course)
-        )
-      );
-      setIsMateriLoaded(true);
-    });
-  }, [selectedCourse]);
+  useEffect(() => {}, [selectedCourse]);
 
   useEffect(() => {
     console.log(materiByCourse);
@@ -50,7 +36,7 @@ function Materi() {
           >
             {" "}
             {isCourseSelected
-              ? `${selectedCourse.judul_course}`
+              ? `${selectedCourse.nama_course}`
               : "Harap pilih topik diatas terlebih dahulu"}{" "}
           </Text>
           {/* // TODO : Timeline / roadmap nya masih berupa design saja   */}

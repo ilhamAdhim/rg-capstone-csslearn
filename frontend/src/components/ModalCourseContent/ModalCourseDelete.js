@@ -9,7 +9,7 @@ export default function ModalCourseDelete({ currentCourse }) {
         Yakin ingin menghapus
         <chakra.span fontWeight="bold" textDecor="underline">
           {" "}
-          {currentCourse.judul_course}{" "}
+          {currentCourse.nama_course}{" "}
         </chakra.span>
         ?
       </Text>

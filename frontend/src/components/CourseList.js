@@ -7,9 +7,9 @@ import {
   Image,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
+function CourseList({ dataCourse, handleOpenModal, ...props }) {
   const colorModeStack = useColorModeValue("#D4EDF8", "gray.900");
   const titleColorMode = useColorModeValue("gray.700", "gray.400");
 
@@ -54,11 +54,11 @@ export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
             pt={2}
           >
             <Heading fontSize={"2xl"} fontFamily={"body"}>
-              {course.judul_course || course || "Ini title"}
+              {course.nama_course || "Ini title"}
             </Heading>
 
             <Text color={titleColorMode} px={3}>
-              {course.deskripsi_course ||
+              {course.content ||
                 `Lorem Ipsum is simply dummy text of the printing and typesetting
             industry`}
             </Text>
@@ -123,3 +123,5 @@ export default function CourseList({ dataCourse, handleOpenModal, ...props }) {
     </>
   );
 }
+
+export default CourseList;

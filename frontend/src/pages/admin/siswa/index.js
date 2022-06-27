@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "components/layout";
 import useDocumentTitle from "hooks/useDocumentTitle";
 import DaftarSiswa from "./DaftarSiswa";
@@ -12,7 +12,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import ModalCustom from "components/ModalCustom";
-// import { mockGetDaftarSiswa } from "data/admin/PertanyaanCRUD";
 import ModalSiswaPreview from "components/ModalSiswaContent/ModalSiswaPreview";
 
 function DaftarSiswaAdminPage() {
