@@ -4,7 +4,10 @@ import CourseListFilter from "components/CourseListFilter";
 import Layout from "components/layout";
 import TimelineSection from "components/TimelineSection";
 import useDocumentTitle from "hooks/useDocumentTitle";
-import { mockGetMateriFromCourse } from "data/admin/MateriCRUD";
+import {
+  getMateriByCourseID,
+  mockGetMateriFromCourse,
+} from "data/admin/MateriCRUD";
 
 function Materi() {
   useDocumentTitle(`Materi`);
@@ -14,11 +17,17 @@ function Materi() {
   const [materiByCourse, setMateriByCourse] = useState([]);
   const [isMateriLoaded, setIsMateriLoaded] = useState(false);
 
-  useEffect(() => {}, [selectedCourse]);
-
   useEffect(() => {
-    console.log(materiByCourse);
-  }, [materiByCourse]);
+    console.log(selectedCourse);
+    getMateriByCourseID(selectedCourse.id_course)
+      .then((res) => {
+        setMateriByCourse(res.gettopic);
+        setIsMateriLoaded(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [selectedCourse]);
 
   return (
     <>

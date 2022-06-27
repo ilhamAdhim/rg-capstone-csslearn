@@ -16,23 +16,21 @@ export default function Logout() {
   const [redirect, setRedirect] = useState(false);
 
   const logout = () => {
-    localStorage.removeItem("token");
     setRedirect(true);
-  };
 
-  axios
-    .post(
-      `https://csslearn.ilhamadhim.me/api/user/logout${localStorage.getItem(
-        "token"
-      )}`
-    )
-    .then((result) => {
-      if (result) {
-        localStorage.removeItem("token");
-        setRedirect(true);
-      }
-      console.log(result.data.token);
-    });
+    axios
+      .post(
+        `https://csslearn.ilhamadhim.me/api/user/logout${localStorage.getItem(
+          "token"
+        )}`
+      )
+      .then((result) => {
+        if (result) {
+          localStorage.removeItem("token");
+        }
+        console.log(result.data.token);
+      });
+  };
 
   return (
     <Fragment>

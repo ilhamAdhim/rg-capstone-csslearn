@@ -14,28 +14,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 // Here we have used react-icons package for the icons
-import { FaRegNewspaper } from "react-icons/fa";
-import { BsGithub } from "react-icons/bs";
 import { Link } from "react-router-dom";
-
-// const milestones = [
-//   {
-//     id: 1,
-//     categories: ["Article"],
-//     title: "Wrote first article on Medium",
-//     icon: FaRegNewspaper,
-//     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. `,
-//     date: "MARCH 30, 2022",
-//   },
-//   {
-//     id: 2,
-//     categories: ["Web Dev", "OSS"],
-//     title: "First open source contribution",
-//     icon: BsGithub,
-//     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-//     date: "July 30, 2022",
-//   },
-// ];
 
 const TimelineSection = ({ dataSource, isDataLoaded }) => {
   return (
@@ -60,7 +39,7 @@ const TimelineSection = ({ dataSource, isDataLoaded }) => {
   );
 };
 
-const Card = ({ category_course, title, description, icon, date, id }) => {
+const Card = ({ title, materi, icon, date, id_course }) => {
   return (
     <HStack
       p={{ base: 3, sm: 6 }}
@@ -86,11 +65,8 @@ const Card = ({ category_course, title, description, icon, date, id }) => {
       }}
     >
       <Icon as={icon} w={12} h={12} color="teal.400" />
-      <Link to={`/${localStorage.getItem("current_role")}/materi/${id}`}>
+      <Link to={`/${localStorage.getItem("current_role")}/materi/${id_course}`}>
         <Box>
-          <HStack spacing={2} mb={1}>
-            <Text fontSize="sm"> {title}</Text>
-          </HStack>
           <VStack spacing={2} mb={3} textAlign="left">
             <chakra.h1
               as={LinkChakra}
@@ -100,11 +76,11 @@ const Card = ({ category_course, title, description, icon, date, id }) => {
               fontWeight="bold"
               w="100%"
             >
-              {category_course}
+              {title}
             </chakra.h1>
 
             <Text fontSize="md" noOfLines={2}>
-              {description}
+              {materi}
             </Text>
           </VStack>
           <Text fontSize="sm">{date}</Text>

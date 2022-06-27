@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  Heading,
   Skeleton,
   Stack,
   Text,
@@ -14,9 +15,12 @@ import useDocumentTitle from "hooks/useDocumentTitle";
 import React, { useEffect, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
+import { getDetailMateri } from "data/admin/MateriCRUD";
+import { toastProps } from "common";
 
 function MateriDetailAdminPage() {
   // ? Ini untuk preview materi dan edit materi
+
   useDocumentTitle("Materi Detail Admin");
   const toast = useToast();
   const currentMode = useColorMode();
@@ -32,8 +36,6 @@ function MateriDetailAdminPage() {
 
   const { idMateri } = useParams();
 
-  const [tokenJWT, setTokenJWT] = useState("");
-
   // Ini untuk create dan update
   const [formObj, setFormObj] = useState({
     nama_course: "",
@@ -41,33 +43,37 @@ function MateriDetailAdminPage() {
   });
 
   useEffect(() => {
-    // TODO : fetch detail materi by ID
-    // ...
-    // ? Disini mestinya tempat setValueMarkdownEditor. Menunggu dataMateri
-    // ...
-  }, []);
+    getDetailMateri(idMateri)
+      .then((res) => {
+        setDataMateri(res);
+        setIsMateriLoaded(true);
+
+        setFormObj({
+          nama_course: res.title,
+          content: res.materi,
+        });
+
+        setValueMarkdownEditor(res.materi);
+      })
+      .catch((err) => console.log(err));
+  }, [idMateri]);
+
+  useEffect(() => {
+    setFormObj((prev) => {
+      return {
+        ...prev,
+        content: valueMarkdownEditor,
+      };
+    });
+  }, [valueMarkdownEditor]);
 
   const handleUpdateMateri = () => {
     // TODO : connect endpoint UpdateMateri
-    // ? Ini bisa dipindah di folder data/admin/MateriCRUD.js
-    // If success :
+    console.log("Akan dikirim ke BE", formObj);
     toast({
       title: "Materi berhasil diupdate",
-      variant: "solid",
-      status: "success",
-      isClosable: true,
-      duration: 3000,
-      position: "top",
+      ...toastProps,
     });
-
-    // If failed :
-    // toast({
-    //   title: "Materi gagal diupdate",
-    //   status: "error",
-    //   isClosable: true,
-    //   duration: 3000,
-    //   position: "top",
-    // });
   };
 
   return (
@@ -76,13 +82,12 @@ function MateriDetailAdminPage() {
         {isMateriLoaded ? (
           <>
             <Flex justifyContent="space-between">
-              <Text>Halo ini Edit materi ya</Text>
+              <Heading color={"#FF6905"}> {dataMateri?.title} </Heading>
               <Button
                 colorScheme="cyan"
                 onClick={() => {
-                  setIsEditingMateri((prev) => !prev);
-
                   setIsMateriEdited(true);
+                  setIsEditingMateri((prev) => !prev);
                 }}
                 variant={isEditingMateri ? "outline" : "solid"}
               >

@@ -52,11 +52,18 @@ function CourseListFilter({
               flex="1"
               boxShadow={boxShadowColorCourse}
             >
-              <Flex gap="4" p="4" justifyContent="space-around">
+              <Flex
+                gap="4"
+                p="4"
+                justifyContent="space-around"
+                flexDir="column"
+              >
                 <Box flex="1">
                   <Image
+                    margin="auto"
                     alt={"Login Image"}
                     objectFit={"cover"}
+                    height={100}
                     src={
                       "https://i.ibb.co/jGk9x4j/3d-flame-business-woman-using-a-phone-with-fingerprint-scanner.png"
                     }

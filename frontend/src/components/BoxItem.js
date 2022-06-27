@@ -64,8 +64,6 @@ function BoxItem({
               {hasPreview && (
                 <Box>
                   <Tooltip hasArrow placement="top" label={`Preview ${entity}`}>
-                    {/* // ! Masih mock lho ya */}
-
                     {isPreviewOpenNewPage ? (
                       <Link to={`${item.user + 1}`}>
                         <Button
@@ -149,10 +147,8 @@ function BoxItem({
             {hasPreview && (
               <Box>
                 <Tooltip hasArrow placement="top" label={`Preview ${entity}`}>
-                  {/* // ! Masih mock lho ya */}
-
                   {isPreviewOpenNewPage ? (
-                    <Link to={`edit/${item.id + 1}`}>
+                    <Link to={`edit/${item.id_course}`}>
                       <Button
                         flex={1}
                         colorScheme="blue"

@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 function KomponenSoal() {
   const { exerciseCourse, idSoal } = useParams();
   const buttonSize = useBreakpointValue(["sm", "lg"]);
+
   useEffect(() => {
     // TODO : Setiap ada perubahan page, fetch data dari detail pertanyaan /api/latihan/:id
     // ...
@@ -27,24 +28,6 @@ function KomponenSoal() {
       minH={"100vh"}
       direction={{ base: "column", md: "row" }}
     >
-      <Flex justifyContent={"flex-end"} mr={-4}>
-        <Button mr={4} ml={4} rounded={"full"} colorScheme="blue">
-          1
-        </Button>
-        <Button mr={4} ml={4} rounded={"full"} colorScheme="blue">
-          2
-        </Button>
-        <Button mr={4} ml={4} rounded={"full"} colorScheme="blue">
-          3
-        </Button>
-        <Button mr={4} ml={4} rounded={"full"} colorScheme="blue">
-          4
-        </Button>
-        <Button mr={4} ml={4} rounded={"full"} colorScheme="blue">
-          5
-        </Button>
-      </Flex>
-
       <Heading mt={8} color={"#FF6905"} fontSize={"2xl"} fontFamily={"body"}>
         Question
       </Heading>
@@ -69,7 +52,7 @@ function KomponenSoal() {
           pt={2}
         >
           <Text color={useColorModeValue("gray.700", "gray.400")}>
-            <Heading>No.1</Heading>
+            <Heading>No.{idSoal}</Heading>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry
             {/* {dataPertanyaan?.teksSoal} */}

@@ -31,9 +31,6 @@ const getMateri = async (bearerToken) => {
   return response.data;
 };
 
-// TODO : tambah lagi getMateriByCourseID ya
-// ...
-
 const getMateriByCourseID = async (id, bearerToken) => {
   const response = await axiosWithBearer(bearerToken).get(
     `${API_URL_TOPIC}/getbyidCourse?id=${id}`
@@ -48,7 +45,7 @@ const mockGetMateriFromCourse = async () => {
 
 const getDetailMateri = async (id, bearerToken) => {
   const response = await axiosWithBearer(bearerToken).get(
-    `${API_URL_TOPIC}/getcoursebyid?id=${id}`
+    `${API_URL_TOPIC}/getbyid?id=${id}`
   );
   return response.data;
 };

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { API_URL_COURSE, axiosWithBearer, MOCK_API_URL_COURSE } from "data/api";
 
+axios.defaults.withCredentials = true;
+
 const createCourse = async (values, bearerToken) => {
   const response = axiosWithBearer(bearerToken).post(
     `${API_URL_COURSE}/create`,
