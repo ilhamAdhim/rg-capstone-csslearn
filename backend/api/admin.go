@@ -103,26 +103,6 @@ func (api *API) loginadmin(w http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(w).Encode(LoginSuccesResponseAdmin{Username: *res, Token: tokenStr})
 }
 
-// func (api *API) registeradmin(w http.ResponseWriter, req *http.Request) {
-// 	api.AllowOrigin(w, req)
-// 	var admins AdminRegister
-// 	err := json.NewDecoder(req.Body).Decode(&admins)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		return
-// 	}
-
-// 	_, err = api.adminsRepo.RegisterAdmin(admins.Username, admins.Password)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusUnauthorized)
-// 		w.Write([]byte("Registration Admin Failed"))
-// 		return
-// 	}
-// 	w.WriteHeader(http.StatusCreated)
-// 	w.Write([]byte("Registration Admin successful"))
-
-// }
-
 func (api *API) getadmins(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 	encoder := json.NewEncoder(w)
