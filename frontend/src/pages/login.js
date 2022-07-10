@@ -73,19 +73,7 @@ export default function Login() {
             <Heading color={"#205375"} fontSize={"2xl"}>
               Get Started
             </Heading>
-            {/* <Select
-              size="md"
-              width={40}
-              color="gray.400"
-              variant="outline"
-              borderColor={"#33A9DC"}
-              placeholder="Pilih Role ..."
-            >
-              <option value="admin">Admin</option>
-              <option value="user">Siswa</option>
-            </Select> */}
-
-            <Text></Text>
+      
             <FormControl color={"#205375"} id="username">
               <FormLabel>Username</FormLabel>
               <Input
@@ -100,6 +88,7 @@ export default function Login() {
             <FormControl color={"#205375"} id="password">
               <FormLabel>Password</FormLabel>
               <Input
+                type="password"
                 borderColor={"#205375"}
                 variant="outline"
                 color="teal"

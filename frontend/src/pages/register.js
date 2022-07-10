@@ -73,6 +73,7 @@ export default function Register() {
             <FormControl color={"#205375"} id="password">
               <FormLabel>Password</FormLabel>
               <Input
+                type="password"
                 borderColor={"#205375"}
                 variant="outline"
                 color="teal"
