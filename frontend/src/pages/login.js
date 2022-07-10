@@ -9,12 +9,15 @@ import {
   Image,
   Text,
   useToast,
+  InputRightElement,
+  InputGroup,
   // Select,
 } from "@chakra-ui/react";
 import { Link, Navigate } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
   const [cookies, setCookie] = useCookies();
@@ -24,6 +27,8 @@ export default function Login() {
   const [redirectAdmin, setRedirectAdmin] = useState(false);
   const [redirectUser, setRedirectUser] = useState(false);
   const toast = useToast();
+
+  const [previewPassword, setPreviewPassword] = useState(false);
 
   const loginAdmin = () => {
     const data = {
@@ -69,11 +74,11 @@ export default function Login() {
         direction={{ base: "column", md: "row" }}
       >
         <Flex p={8} flex={1} align={"center"} justify={"center"}>
-          <Stack spacing={4} w={"full"} maxW={"md"}>
+          <Stack spacing={4} maxW={"md"}>
             <Heading color={"#205375"} fontSize={"2xl"}>
               Get Started
             </Heading>
-      
+
             <FormControl color={"#205375"} id="username">
               <FormLabel>Username</FormLabel>
               <Input
@@ -87,22 +92,31 @@ export default function Login() {
             </FormControl>
             <FormControl color={"#205375"} id="password">
               <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                borderColor={"#205375"}
-                variant="outline"
-                color="teal"
-                placeholder="password"
-                _placeholder={{ color: "inherit" }}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <InputGroup>
+                <Input
+                  type={previewPassword ? "text" : "password"}
+                  borderColor={"#205375"}
+                  variant="outline"
+                  color="teal"
+                  placeholder="password"
+                  _placeholder={{ color: "inherit" }}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <InputRightElement width="5em">
+                  <Button
+                    size="md"
+                    onClick={() => setPreviewPassword((prev) => !prev)}
+                  >
+                    {previewPassword ? (
+                      <FaEyeSlash w="32" h="32" fontSize={"lg"} />
+                    ) : (
+                      <FaEye />
+                    )}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
             <Stack spacing={6}>
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-              ></Stack>
               <Button
                 onClick={loginAdmin}
                 colorScheme={"blue"}
@@ -120,11 +134,13 @@ export default function Login() {
               <Text color={"#205375"} flex={"1"} align={"center"}>
                 Not registered yet?
               </Text>
-              <Link to="/register">
-                <Button colorScheme={"blue"} variant={"solid"} width={445}>
-                  Sign Up
-                </Button>
-              </Link>
+              <Flex justifyContent="center">
+                <Link to="/register">
+                  <Button colorScheme={"blue"} variant={"solid"}>
+                    Sign Up
+                  </Button>
+                </Link>
+              </Flex>
             </Stack>
           </Stack>
         </Flex>

@@ -8,16 +8,21 @@ import {
   Stack,
   Image,
   Text,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { Link, Navigate } from "react-router-dom";
 import { useState, Fragment } from "react";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+
+  const [previewPassword, setPreviewPassword] = useState(false);
 
   const register = () => {
     const data = {
@@ -72,23 +77,32 @@ export default function Register() {
             </FormControl>
             <FormControl color={"#205375"} id="password">
               <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                borderColor={"#205375"}
-                variant="outline"
-                color="teal"
-                placeholder="password"
-                _placeholder={{ color: "inherit" }}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <InputGroup>
+                <Input
+                  type={previewPassword ? "text" : "password"}
+                  borderColor={"#205375"}
+                  variant="outline"
+                  color="teal"
+                  placeholder="password"
+                  _placeholder={{ color: "inherit" }}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <InputRightElement width="5em">
+                  <Button
+                    size="md"
+                    onClick={() => setPreviewPassword((prev) => !prev)}
+                  >
+                    {previewPassword ? (
+                      <FaEyeSlash w="32" h="32" fontSize={"lg"} />
+                    ) : (
+                      <FaEye />
+                    )}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
 
             <Stack spacing={6}>
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-              ></Stack>
               <Button onClick={register} colorScheme={"blue"} variant={"solid"}>
                 Sign Up
               </Button>
@@ -96,7 +110,7 @@ export default function Register() {
                 Already have an account?
               </Text>
               <Link to="/login">
-                <Button colorScheme={"blue"} variant={"solid"} width={445}>
+                <Button colorScheme={"blue"} variant={"solid"} w={"100%"}>
                   Sign In
                 </Button>
               </Link>
